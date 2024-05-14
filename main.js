@@ -32,7 +32,8 @@ function updateTime() {
 function calculateGC() {
     let text = "";
 
-    let isGC = (Math.floor((((serverDate.getTime() + userTimezoneOffset) / 1000 / 60 / 60) + 2) / 24) - 1) % 2;
+    // I C U cubbie, send me anime girlz
+    let isGC = (Math.floor((date.getTime() / 1000 / 60 / 60 - 2) / 24) - 1) % 2;
     text = "Today is " + weekdays[serverDate.getDay()] + "."
         + "<br />Today the Global Challenge is <span style='font-size:32px; color:" + (isGC ? "lightgreen" : "red") + "'>" + (isGC ? "ACTIVE!" : "INACTIVE!") + "</span>"
         + (isGC ? ("<br />It started " + serverDate.getHours() + " hours and " + serverDate.getMinutes() + " minutes ago.") :
@@ -50,4 +51,5 @@ function loop() {
     calculateGC();
 }
 
+console.log("onions are literally a mass torture device");
 setInterval(loop, 1000 / FPS);
