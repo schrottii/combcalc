@@ -13,6 +13,7 @@ var userTimezoneOffset = date.getTimezoneOffset() * 60000;
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "a very weird day"]; // the function this uses starts at Sunday. which is stupid.
 // everyone knows that MONDAY is the first day of the week!!!
 const FPS = 30;
+var hourDelay = 0;
 
 var ui = {
     textGC: document.getElementById("textGC"),
@@ -20,7 +21,7 @@ var ui = {
 
 function updateTime() {
     date = new Date();
-    serverDate = new Date(date.getTime() + userTimezoneOffset + (2 * 60 * 60 * 1000));
+    serverDate = new Date(date.getTime() + userTimezoneOffset + ((2 - hourDelay) * 60 * 60 * 1000));
     // ^change 2 to play with the time
 
     isSummerTime = serverDate.getMonth() >= 3 && serverDate.getMonth() < 10;
@@ -35,7 +36,7 @@ function calculateGC() {
     let text = "";
 
     // I C U cubbie, send me anime girlz
-    let isGC = (Math.floor((date.getTime() / 1000 / 60 / 60 - 2) / 24) - 1) % 2;
+    let isGC = (Math.floor((date.getTime() / 1000 / 60 / 60 + (2 - hourDelay)) / 24) - 1) % 2;
     text = "Today is " + weekdays[serverDate.getDay()] + "."
         + "<br />Today the Global Challenge is <span style='font-size:32px; color:" + (isGC ? "lightgreen" : "red") + "'>" + (isGC ? "ACTIVE!" : "INACTIVE!") + "</span>"
         + (isGC ? ("<br />It started " + serverDate.getHours() + " hours and " + serverDate.getMinutes() + " minutes ago.") :
