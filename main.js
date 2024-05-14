@@ -1,6 +1,7 @@
 // copyright don't steal blablabla
 
 // Reset is at 24:00 (summer, +2) / / 23:00 (winter, +1)
+// consider our zone
 
 var date = new Date();
 var serverDate;
@@ -9,7 +10,8 @@ var serverTimeOffset = 2;
 
 var userTimezoneOffset = date.getTimezoneOffset() * 60000;
 
-const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "a very weird day"];
+const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "a very weird day"]; // the function this uses starts at Sunday. which is stupid.
+// everyone knows that MONDAY is the first day of the week!!!
 const FPS = 30;
 
 var ui = {
