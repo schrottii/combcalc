@@ -38,7 +38,7 @@ function calculateGC() {
         + (isGC ? ("<br />It started " + serverDate.getHours() + " hours and " + serverDate.getMinutes() + " minutes ago.") :
         ("<br />It will start in " + (23 - serverDate.getHours()) + " hours and " + (59 - serverDate.getMinutes()) + " minutes."))
         + "<br /><br /><br />The server time is " + serverDate.toString().split(" GMT")[0] + " (GMT+" + serverTimeOffset + ")."
-        + "<br />Reset is always at 22:00 GMT + 0. (Currently " + (isSummerTime ? "midnight" : "11 P.M.") + " for Germany/the server)";
+        + "<br />Reset is always at 22:00 GMT+0. (Currently " + (isSummerTime ? "midnight" : "11 P.M.") + " for Germany/the server)";
 
     ui.textGC.innerHTML = text;
 }
