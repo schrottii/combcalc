@@ -78,7 +78,7 @@ function calculateCGC() {
 
     combinesEarned *= combineMulti;
 
-    ui.textCGC.innerHTML = "You will earn <big>" + Math.round(combinesEarned) + " <img src='combineToken.png' style='width: 32px' />!</big>";
+    ui.textCGC.innerHTML = "You will earn <big>" + Math.floor(combinesEarned) + " <img src='combineToken.png' style='width: 32px' />!</big>";
 
     let sidesSize = 120;
 
