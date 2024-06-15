@@ -34,9 +34,9 @@ a {
 }
 
 .boxSize {
-    margin-left: 10%;
-    margin-right: 10%;
-    max-width: 80%;
+    margin-left: 8%;
+    margin-right: 8%;
+    max-width: 84%;
 }
 
 @media only screen and (min-width: 768px) {

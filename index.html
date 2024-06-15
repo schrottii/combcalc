@@ -8,36 +8,63 @@
 </head>
 <body>
     <div style="text-align: center">
-        <h3>Schrottii's</h3><h1>CombCalc</h1> <br /> <br />
+        <h3>Schrottii's</h3><h1>CombCalc v1.1</h1> <br /> <br />
         <!-- This work is copyrighted. Copying, cloning or stealing is prohibited. -->
 
         <div class="box boxSize">
+            <img src="globeIcon.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>Global Challenge Status</h3>
             <span id="textGC"></span>
+        </div>
+
+        <div class="box boxSize">
+            <img src="combineToken.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
+            <h3>Combine Gain Calc</h3>
+            Calculate how many Combine Tokens you earn from a Global Challenge!
+            <hr style="clear: both" />
+            <div style="width: 50%; float: left; background-color: darkseagreen;" id="combinesLeft">
+                Combine Boosts: <br />
+                More Tokens (Mastery Upgrade level) <input id="moreTokensLevel" value="10" type="number" /> <br />
+                OR: Stars <input id="moreTokensLevel2" type="number" /> <br />
+                More Tokens is unlocked at x500 Stars, below x500 you can leave these empty
+            </div>
+            <div style="width: 50%; float: right; background-color: darkslategray;" id="combinesRight">
+                Global Challenge progress: <br />
+                Global Progress (1 - 5) <input id="progressGlobal" min="0" max="5" value="5" type="range" /> <span id="progressGlobalText">x5</span> <br />
+                Your Progress (1 - 5) <input id="progressYours" min="0" max="5" value="5" type="range" /> <span id="progressYoursText">x5</span> <br />
+            </div>
+            <hr style="clear: both" />
+            <span id="textCGC"></span>
         </div>
 
         <div class="theContainer">
             <div class="box miniBox">
                 <h3>Info</h3>
                 CombCalc (tool for Global Challenge & Combine Tokens) made by Schrottii <br />
-                v1.0 / released 2024-05-13
+                First released on 2024-05-13 <br />
+                Current version: v1.1 / released 2024-06-15 <br />
+                <a href="terms-of-service.html">Terms of Service</a>
             </div>
             <div class="box miniBox">
                 <h3>Contact</h3>
                 <a href="https://schrottii.github.io/">My website & other games</a> <br />
                 Discord username: schrottii <br />
-                <a href="https://discord.gg/CbBeJXKUrk">Games server</a> <br />
-                <a href="https://discord.gg/HPDxES9">Main scrap server</a>
+                <a href="https://discord.gg/CbBeJXKUrk">Server for my games and apps</a> <br />
+                <a href="https://discord.gg/HPDxES9">Main Scrap server</a>
             </div>
             <div class="box miniBox">
-                <h3>Other Scrap content</h3>
-                <a href="https://schrottii.github.io/barrelnames/">Barrel Name Mixer</a> <br /> <br />
-                <a href="https://schrottii.github.io/sc2fmfr/">SC2FMFR</a>
+                <h3>Other Scrap content / wiki</h3>
+                <a href="https://schrottii.github.io/barrelnames/">Play Barrel Name Mixer</a> <br /> <br />
+                <a href="https://schrottii.github.io/sc2fmfr/">Play SC2FMFR</a> <br /> <br />
+                <a href="https://official-scrap-2.fandom.com/wiki/Global_Challenges">Wiki: Global Challenges</a> <br /> <br />
+                <a href="https://official-scrap-2.fandom.com/wiki/Combine_Tokens">Wiki: Combine Tokens</a>
             </div>
             <div class="box miniBox">
-                <h3>Wiki</h3>
-                <a href="https://official-scrap-2.fandom.com/wiki/Global_Challenges">Global Challenges</a> <br /> <br />
-                <a href="https://official-scrap-2.fandom.com/wiki/Combine_Tokens">Combine Tokens</a>
+                <h3>v1.1 patch notes</h3>
+                - New feature: Combine Gain Calc (the first actual calc here, lol) <br />
+                - Added images to the top left of features <br />
+                - Added Terms of Service <br />
+                - Re-organized the info boxes a bit, merged scrap content and wiki, to make space for the patch notes
             </div>
         </div>
     </div>
