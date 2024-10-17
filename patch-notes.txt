@@ -1,0 +1,16 @@
+format: yyyy-mm-dd
+
+v1.0 2024-05-13
+Release
+
+v1.1 2024-06-15
+- New feature: Combine Gain Calc (the first actual calc here, lol)
+- Added images to the top left of features
+- Added Terms of Service
+- Re-organized the info boxes a bit, merged scrap content and wiki, to make space for the patch notes
+
+v1.2 2024-10-17
+- Added More Scrap Calc (for the book upgrade)
+- Formula and research made by K. whale.
+- Added Donate link
+- Minor improvements 

@@ -8,7 +8,7 @@
 </head>
 <body>
     <div style="text-align: center">
-        <h3>Schrottii's</h3><h1>CombCalc v1.1</h1> <br /> <br />
+        <h3>Schrottii's</h3><h1>CombCalc v1.2</h1> <br />
         <!-- This work is copyrighted. Copying, cloning or stealing is prohibited. -->
 
         <div class="box boxSize">
@@ -37,12 +37,33 @@
             <span id="textCGC"></span>
         </div>
 
+        <div class="box boxSize">
+            <img src="bookScrap.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
+            <h3>More Scrap Calc</h3>
+            Calculate what level your More Scrap Book upgrade should be! Formula and research made by K. whale. <br /> <br />
+
+            More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" value="0" type="number" /> <br />
+            Highest Scrap Ever (in scientific/log, ex.: type 100 if it's 1e100): <input id="highestScrapEver" value="0" type="number" /> <br />
+            <span id="textMSC"></span>
+
+            <br />
+            <hr style="clear: both" />
+            <br />
+            <img src="moreScrapFormula.png" style="width: 30%" /> <br />
+
+            <i>
+                Formulas: <br />
+                a = log(1.4) / log(highest scrap ever) <br />
+                more scrap level = - 1 / 2a + root(x² + x / 0.03 + 1 / 4a²) where x is the more gs level
+            </i>
+        </div>
+
         <div class="theContainer">
             <div class="box miniBox">
                 <h3>Info</h3>
-                CombCalc (tool for Global Challenge & Combine Tokens) made by Schrottii <br />
+                CombCalc (tool for Global Challenge/Combine Tokens and more) made by Schrottii <br />
                 First released on 2024-05-13 <br />
-                Current version: v1.1 / released 2024-06-15 <br />
+                Current version: v1.2 / released 2024-10-17 <br />
                 <a href="terms-of-service.html">Terms of Service</a>
             </div>
             <div class="box miniBox">
@@ -50,7 +71,8 @@
                 <a href="https://schrottii.github.io/">My website & other games</a> <br />
                 Discord username: schrottii <br />
                 <a href="https://discord.gg/CbBeJXKUrk">Server for my games and apps</a> <br />
-                <a href="https://discord.gg/HPDxES9">Main Scrap server</a>
+                <a href="https://discord.gg/HPDxES9">Main Scrap server</a> <br /> <br />
+                <a href="https://ko-fi.com/schrottii">Donate</a>
             </div>
             <div class="box miniBox">
                 <h3>Other Scrap content / wiki</h3>
@@ -60,11 +82,11 @@
                 <a href="https://official-scrap-2.fandom.com/wiki/Combine_Tokens">Wiki: Combine Tokens</a>
             </div>
             <div class="box miniBox">
-                <h3>v1.1 patch notes</h3>
-                - New feature: Combine Gain Calc (the first actual calc here, lol) <br />
-                - Added images to the top left of features <br />
-                - Added Terms of Service <br />
-                - Re-organized the info boxes a bit, merged scrap content and wiki, to make space for the patch notes
+                <h3>v1.2 patch notes</h3>
+                - Added More Scrap Calc (for the book upgrade) <br />
+                - Formula and research made by K. whale. <br />
+                - Added Donate link <br />
+                - Minor improvements
             </div>
         </div>
     </div>

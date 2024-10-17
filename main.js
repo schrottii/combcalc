@@ -16,8 +16,9 @@ const FPS = 30;
 var hourDelay = 0;
 
 var ui = {
-    textGC: document.getElementById("textGC"),
-    textCGC: document.getElementById("textCGC"),
+    textStatusGlobalChallenge: document.getElementById("textGC"),
+    textCalcGlobalChallenge: document.getElementById("textCGC"),
+    textCalcMoreScrap: document.getElementById("textMSC"),
 
     combinesLeft: document.getElementById("combinesLeft"),
     combinesRight: document.getElementById("combinesRight"),
@@ -28,6 +29,9 @@ var ui = {
     progressYours: document.getElementById("progressYours"),
     progressGlobalText: document.getElementById("progressGlobalText"),
     progressYoursText: document.getElementById("progressYoursText"),
+
+    moreGSLevel: document.getElementById("moreGSLevel"),
+    highestScrapEver: document.getElementById("highestScrapEver"),
 }
 
 ui.moreTokensLevel.oninput = () => { ui.moreTokensLevel2.value = "" }
@@ -40,7 +44,7 @@ ui.progressYours.value = "5";
 function updateTime() {
     date = new Date();
     serverDate = new Date(date.getTime() + userTimezoneOffset + ((2 - hourDelay) * 60 * 60 * 1000));
-    // ^change 2 to play with the time
+    // ^change 2 to play with the timezone, +2 is server timezone
 
     isSummerTime = serverDate.getMonth() >= 3 && serverDate.getMonth() < 10;
     serverTimeOffset = isSummerTime ? 2 : 1;
@@ -50,7 +54,9 @@ function updateTime() {
     // this instead of new date to account for +2 time zone
 }
 
-function calculateGC() {
+function updateGlobalChallengeTime() {
+    // Status: Is Global Challenge running / when / how long
+
     let text = "";
 
     let isGC = (Math.floor((date.getTime() / 1000 / 60 / 60 + (2 - hourDelay)) / 24) - 1) % 2;
@@ -61,10 +67,12 @@ function calculateGC() {
         + "<br /><br /><br />The server time is " + serverDate.toString().split(" GMT")[0] + " (GMT+" + serverTimeOffset + ")."
         + "<br />Reset is always at 22:00 GMT+0. (Currently " + (isSummerTime ? "midnight" : "11 P.M.") + " for Germany/the server)";
 
-    ui.textGC.innerHTML = text;
+    ui.textStatusGlobalChallenge.innerHTML = text;
 }
 
-function calculateCGC() {
+function calculateGlobalChallenge() {
+    // Calculator: How many Combine Tokens will I earn
+
     let combinesEarned = ui.progressGlobal.value * ui.progressYours.value;
     let combineMulti = 1;
 
@@ -78,7 +86,7 @@ function calculateCGC() {
 
     combinesEarned *= combineMulti;
 
-    ui.textCGC.innerHTML = "You will earn <big>" + Math.floor(combinesEarned) + " <img src='combineToken.png' style='width: 32px' />!</big>";
+    ui.textCalcGlobalChallenge.innerHTML = "You will earn <big>" + Math.floor(combinesEarned) + " <img src='combineToken.png' style='width: 32px' />!</big>";
 
     let sidesSize = 120;
 
@@ -91,12 +99,25 @@ function calculateCGC() {
     ui.combinesRight.style.height = sidesSize + "px";
 }
 
+function calculateMoreScrap() {
+    // Calculator: What should my More Scrap level be
+
+    let highestScrapEver = ui.highestScrapEver.value != "" ? ui.highestScrapEver.value : 1;
+    let moreGSLevel = ui.moreGSLevel.value != "" ? ui.moreGSLevel.value : 1;
+
+    let a = Math.log10(1.4) / highestScrapEver;
+    let result = ((1 / (2 * a)) * -1) + Math.sqrt(Math.pow(moreGSLevel, 2) + (moreGSLevel / 0.03) + (1 / (4 * Math.pow(a, 2))));
+
+    ui.textCalcMoreScrap.innerHTML = "a: " + a.toFixed(6) + ". <b>Your More Scrap (Book upgrade) should be level " + Math.floor(result) + "!</b>";
+}
+
 function loop() {
     updateTime();
 
     // UI update
-    calculateGC();
-    calculateCGC();
+    updateGlobalChallengeTime();
+    calculateGlobalChallenge();
+    calculateMoreScrap();
 }
 
 console.log("onions are literally a mass torture device");
