@@ -5,6 +5,7 @@
 
 var date = new Date();
 var serverDate;
+var serverMidnight;
 var isSummerTime = true;
 var serverTimeOffset = 2;
 
@@ -43,15 +44,30 @@ ui.progressYours.value = "5";
 
 function updateTime() {
     date = new Date();
-    serverDate = new Date(date.getTime() + userTimezoneOffset + ((2 - hourDelay) * 60 * 60 * 1000));
-    // ^change 2 to play with the timezone, +2 is server timezone
+    serverDate = new Date(date.getTime() + userTimezoneOffset + ((serverTimeOffset - hourDelay) * 60 * 60 * 1000));
+    serverMidnight = new Date(date.getTime() + userTimezoneOffset + ((2 - hourDelay) * 60 * 60 * 1000)); // for GC display
 
-    isSummerTime = serverDate.getMonth() >= 3 && serverDate.getMonth() < 10;
+    // Germany has two timezones, Summer Time (+2) and Winter Time (+1)
+    // Summer Time starts on the last Sunday in March and ends on the last Sunday in October
+    // summer time if: (march and last sunday over) OR april+        AND      (october and not last sunday yet) OR november+
+    isSummerTime = ((serverDate.getMonth() == 2 && serverDate.getDate() >= determineLastSundayOfMonth(2)) || serverDate.getMonth() > 2) && ((serverDate.getMonth() == 9 && serverDate.getDate() < determineLastSundayOfMonth(9)) || serverDate.getMonth() > 9);
     serverTimeOffset = isSummerTime ? 2 : 1;
+}
 
-    // ignore this:
-    //now = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours() + 2, date.getUTCMinutes(), date.getUTCSeconds()));
-    // this instead of new date to account for +2 time zone
+function determineLastSundayOfMonth(monthToCheck) {
+    // monthToCheck: 0 is January, 1 is February, ...
+    // .getDay(): 0 is Sunday (for some stupid reason)
+
+    let monthLength = new Date(serverDate.getYear() + 1900, monthToCheck + 1, 0).getDate(); // returns 29 in February, so counting from 1 to 29/30/31
+    let dayCheck;
+
+    for (let someDay = monthLength; someDay > 0; someDay--) {
+        dayCheck = new Date(serverDate.getYear() + 1900, monthToCheck, someDay);
+        if (dayCheck.getDay() == 0) return someDay;
+    }
+
+    // this piece of code should never be executed because generally there are no months without sundays but who knows
+    return 0;
 }
 
 function updateGlobalChallengeTime() {
@@ -62,10 +78,10 @@ function updateGlobalChallengeTime() {
     let isGC = (Math.floor((date.getTime() / 1000 / 60 / 60 + (2 - hourDelay)) / 24) - 1) % 2;
     text = "Today is " + weekdays[serverDate.getDay()] + "."
         + "<br />Today the Global Challenge is <span style='font-size:32px; color:" + (isGC ? "lightgreen" : "red") + "'>" + (isGC ? "ACTIVE!" : "INACTIVE!") + "</span>"
-        + (isGC ? ("<br />It started " + serverDate.getHours() + " hours and " + serverDate.getMinutes() + " minutes ago.") :
-        ("<br />It will start in " + (23 - serverDate.getHours()) + " hours and " + (59 - serverDate.getMinutes()) + " minutes."))
+        + (isGC ? ("<br />It started " + serverMidnight.getHours() + " hours and " + serverMidnight.getMinutes() + " minutes ago.") :
+        ("<br />It will start in " + (23 - serverMidnight.getHours()) + " hours and " + (59 - serverMidnight.getMinutes()) + " minutes."))
         + "<br /><br /><br />The server time is " + serverDate.toString().split(" GMT")[0] + " (GMT+" + serverTimeOffset + ")."
-        + "<br />Reset is always at 22:00 GMT+0. (Currently " + (isSummerTime ? "midnight" : "11 P.M.") + " for Germany/the server)";
+        + "<br />Reset is always at 22:00 GMT+0. (Currently " + (isSummerTime ? "0:00" : "23:00") + " for Germany/the server)";
 
     ui.textStatusGlobalChallenge.innerHTML = text;
 }
