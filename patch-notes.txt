@@ -14,3 +14,9 @@ v1.2 2024-10-17
 - Formula and research made by K. whale.
 - Added Donate link
 - Minor improvements 
+
+v1.3 2024-12-03
+- New calc: Token Cost Calc (how many tokens for x combinations, or how many combinations with x tokens)
+- Input fields are now yellow if optional, red if required
+- Donate button prettier
+- Fixed an issue with deciding if it's sumer time

@@ -21,7 +21,16 @@ h3 {
 }
 
 a {
-    color: lightblue;
+    color: yellow;
+}
+
+input {
+    border-color: red;
+    border-width: 4px;
+}
+
+.inputOptional {
+    border-color: yellow;
 }
 
 .box {

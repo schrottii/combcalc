@@ -25,7 +25,7 @@
             <div style="width: 50%; float: left; background-color: darkseagreen;" id="combinesLeft">
                 Combine Boosts: <br />
                 More Tokens (Mastery Upgrade level) <input id="moreTokensLevel" value="10" type="number" /> <br />
-                OR: Stars <input id="moreTokensLevel2" type="number" /> <br />
+                OR: Stars <input id="moreTokensLevel2" type="number" class="inputOptional" /> <br />
                 More Tokens is unlocked at x500 Stars, below x500 you can leave these empty
             </div>
             <div style="width: 50%; float: right; background-color: darkslategray;" id="combinesRight">
@@ -40,7 +40,7 @@
         <div class="box boxSize">
             <img src="bookScrap.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>More Scrap Calc</h3>
-            Calculate what level your More Scrap Book upgrade should be! Formula and research made by K. whale. <br /> <br />
+            Calculate what level your More Scrap Book upgrade should be! <br /> Formula and research made by K. whale. <br /> <br />
 
             More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" value="0" type="number" /> <br />
             Highest Scrap Ever (in scientific/log, ex.: type 100 if it's 1e100): <input id="highestScrapEver" value="0" type="number" /> <br />
@@ -53,9 +53,50 @@
 
             <i>
                 Formulas: <br />
-                a = log(1.4) / log(highest scrap ever) <br />
-                more scrap level = - 1 / 2a + root(x² + x / 0.03 + 1 / 4a²) where x is the more gs level
+                <b>a =</b> log(1.4) / log(highest scrap ever) <br />
+                <b>more scrap level =</b> - 1 / 2a + root(x² + x / 0.03 + 1 / 4a²) where x is the more gs level
             </i>
+        </div>
+
+        <div class="box boxSize">
+            <img src="combineToken.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
+            <h3>Token Cost Calc</h3>
+            Calculate how many tokens you need to do the desired combination x times, or how many times you can do it with x tokens! The order of the two ads makes no difference. <br /> <br />
+
+            <!-- This bit could be not-repeated if generated via code... but do you think I am gonna bother with that at 11 pm -->
+            Select ads:
+            <select name="combination1" id="combination1-select">
+                <option value="none">Select ad 1</option>
+                <option value="automerge">Auto Merge</option>
+                <option value="bricks">x100 Bricks</option>
+                <option value="moremagnets">More Magnets</option>
+                <option value="morescrap">More Scrap</option>
+                <option value="fasterbarrels">Faster Barrels</option>
+                <option value="flu">Faster Level Up</option>
+                <option value="morefragments">More Fragments</option>
+            </select> x 
+            <select name="combination2" id="combination2-select">
+                <option value="none">Select ad 2</option>
+                <option value="automerge">Auto Merge</option>
+                <option value="bricks">x100 Bricks</option>
+                <option value="moremagnets">More Magnets</option>
+                <option value="morescrap">More Scrap</option>
+                <option value="fasterbarrels">Faster Barrels</option>
+                <option value="flu">Faster Level Up</option>
+                <option value="morefragments">More Fragments</option>
+            </select>
+
+            <br />
+            How many times to combine: <input id="tokenCostAmountOfAds" value="1" min="0" type="number" oninput="ui.tokenCostAmountOfTokens.value = 0;" /><br />
+            OR: how many tokens you want to spend <input id="tokenCostAmountOfTokens" value="0" min="0" type="number" class="inputOptional" oninput="ui.tokenCostAmountOfAds.value = 0;" /><br />
+            <br />
+
+            <span id="textTCC"></span>
+
+            <br />
+            <hr style="clear: both" />
+            <br />
+            <img src="Tokentable.png" style="width: 30%; min-width: 256px" /> <br />
         </div>
 
         <div class="theContainer">
@@ -63,7 +104,7 @@
                 <h3>Info</h3>
                 CombCalc (tool for Global Challenge/Combine Tokens and more) made by Schrottii <br />
                 First released on 2024-05-13 <br />
-                Current version: v1.2 / released 2024-10-17 <br />
+                Current version: v1.3 / updated on 2024-12-03 <br />
                 <a href="terms-of-service.html">Terms of Service</a>
             </div>
             <div class="box miniBox">
@@ -71,8 +112,9 @@
                 <a href="https://schrottii.github.io/">My website & other games</a> <br />
                 Discord username: schrottii <br />
                 <a href="https://discord.gg/CbBeJXKUrk">Server for my games and apps</a> <br />
-                <a href="https://discord.gg/HPDxES9">Main Scrap server</a> <br /> <br />
-                <a href="https://ko-fi.com/schrottii">Donate</a>
+                <a href="https://discord.gg/HPDxES9">Main Scrap server</a> <br />
+                <br />
+                <a href='https://ko-fi.com/Y8Y2XMZX1' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
             </div>
             <div class="box miniBox">
                 <h3>Other Scrap content / wiki</h3>
@@ -82,11 +124,11 @@
                 <a href="https://official-scrap-2.fandom.com/wiki/Combine_Tokens">Wiki: Combine Tokens</a>
             </div>
             <div class="box miniBox">
-                <h3>v1.2 patch notes</h3>
-                - Added More Scrap Calc (for the book upgrade) <br />
-                - Formula and research made by K. whale. <br />
-                - Added Donate link <br />
-                - Minor improvements
+                <h3>v1.3 patch notes</h3>
+                - New calc: Token Cost Calc (how many tokens for x combinations, or how many combinations with x tokens) <br />
+                - Input fields are now yellow if optional, red if required <br />
+                - Donate button prettier <br />
+                - Fixed an issue with deciding if it's sumer time <br />
             </div>
         </div>
     </div>

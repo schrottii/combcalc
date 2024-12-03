@@ -20,6 +20,7 @@ var ui = {
     textStatusGlobalChallenge: document.getElementById("textGC"),
     textCalcGlobalChallenge: document.getElementById("textCGC"),
     textCalcMoreScrap: document.getElementById("textMSC"),
+    textCalcTokenCosts: document.getElementById("textTCC"),
 
     combinesLeft: document.getElementById("combinesLeft"),
     combinesRight: document.getElementById("combinesRight"),
@@ -33,6 +34,11 @@ var ui = {
 
     moreGSLevel: document.getElementById("moreGSLevel"),
     highestScrapEver: document.getElementById("highestScrapEver"),
+
+    selectedAd1: document.getElementById("combination1-select"),
+    selectedAd2: document.getElementById("combination2-select"),
+    tokenCostAmountOfAds: document.getElementById("tokenCostAmountOfAds"),
+    tokenCostAmountOfTokens: document.getElementById("tokenCostAmountOfTokens"),
 }
 
 ui.moreTokensLevel.oninput = () => { ui.moreTokensLevel2.value = "" }
@@ -50,7 +56,7 @@ function updateTime() {
     // Germany has two timezones, Summer Time (+2) and Winter Time (+1)
     // Summer Time starts on the last Sunday in March and ends on the last Sunday in October
     // summer time if: (march and last sunday over) OR april+        AND      (october and not last sunday yet) OR november+
-    isSummerTime = ((serverDate.getMonth() == 2 && serverDate.getDate() >= determineLastSundayOfMonth(2)) || serverDate.getMonth() > 2) && ((serverDate.getMonth() == 9 && serverDate.getDate() < determineLastSundayOfMonth(9)) || serverDate.getMonth() > 9);
+    isSummerTime = ((serverDate.getMonth() == 2 && serverDate.getDate() >= determineLastSundayOfMonth(2)) || serverDate.getMonth() > 2) && ((serverDate.getMonth() == 9 && serverDate.getDate() < determineLastSundayOfMonth(9)) && serverDate.getMonth() < 10);
     serverTimeOffset = isSummerTime ? 2 : 1;
 }
 
@@ -127,6 +133,46 @@ function calculateMoreScrap() {
     ui.textCalcMoreScrap.innerHTML = "a: " + a.toFixed(6) + ". <b>Your More Scrap (Book upgrade) should be level " + Math.floor(result) + "!</b>";
 }
 
+var adNames = ["automerge", "bricks", "moremagnets", "morescrap", "fasterbarrels", "flu", "morefragments"];
+const adCosts = {
+    "automerge": [0, 1, 5, 1, 12, 8, 1],
+    "bricks": [1, 0, 1, 1, 1, 1, 1],
+    "moremagnets": [5, 1, 0, 1, 8, 5, 1],
+    "morescrap": [1, 1, 1, 0, 1, 1, 1],
+    "fasterbarrels": [12, 1, 8, 1, 0, 8, 5],
+    "flu": [8, 1, 5, 1, 8, 0, 1],
+    "morefragments": [1, 1, 1, 1, 5, 1, 0]
+}
+
+function calculateTokenCosts() {
+    let costs = 0;
+    let ad1 = ui.selectedAd1.value;
+    let ad2 = ui.selectedAd2.value;
+
+    if (ad1 == ad2) {
+        // you want x100 barrels huh?!
+        ui.textCalcTokenCosts.innerHTML = "(Don't select the same boost twice)";
+    }
+    else if (ad1 == "none" || ad2 == "none") {
+        // one of the two ads is not selected
+        ui.textCalcTokenCosts.innerHTML = "(Select the two ads you want to combine!)";
+    }
+    else {
+        // both ARE selected
+        costs = adCosts[ad1][adNames.indexOf(ad2)];
+
+        if (ui.tokenCostAmountOfTokens.value != 0) {
+            let times = Math.floor(ui.tokenCostAmountOfTokens.value / costs);
+            costs = costs * times;
+            ui.textCalcTokenCosts.innerHTML = times + " Times (" + costs + " Tokens)";
+        }
+        else {
+            costs *= ui.tokenCostAmountOfAds.value;
+            ui.textCalcTokenCosts.innerHTML = costs + " Tokens";
+        }
+    }
+}
+
 function loop() {
     updateTime();
 
@@ -134,6 +180,7 @@ function loop() {
     updateGlobalChallengeTime();
     calculateGlobalChallenge();
     calculateMoreScrap();
+    calculateTokenCosts();
 }
 
 console.log("onions are literally a mass torture device");
