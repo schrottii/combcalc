@@ -1,7 +1,18 @@
 format: yyyy-mm-dd
 
+2024
+1.0
+1.1
+1.2
+1.3
+1.4
+
+
+
 v1.0 2024-05-13
-Release
+- Release
+
+
 
 v1.1 2024-06-15
 - New feature: Combine Gain Calc (the first actual calc here, lol)
@@ -9,14 +20,26 @@ v1.1 2024-06-15
 - Added Terms of Service
 - Re-organized the info boxes a bit, merged scrap content and wiki, to make space for the patch notes
 
+
+
 v1.2 2024-10-17
 - Added More Scrap Calc (for the book upgrade)
 - Formula and research made by K. whale.
 - Added Donate link
 - Minor improvements 
 
+
+
 v1.3 2024-12-03
 - New calc: Token Cost Calc (how many tokens for x combinations, or how many combinations with x tokens)
 - Input fields are now yellow if optional, red if required
 - Donate button prettier
 - Fixed an issue with deciding if it's sumer time
+
+
+
+v1.4 2024-12-28
+- New calc: Barrel Production Calc (calculate production of a barrel based on your barrel 1)
+- Implemented breakinfinity
+- Added favicon
+- Re-organized some files

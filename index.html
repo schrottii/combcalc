@@ -4,21 +4,27 @@
     <title>CombCalc</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
     <link href="styles.css" rel="stylesheet" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
 </head>
 <body>
     <div style="text-align: center">
-        <h3>Schrottii's</h3><h1>CombCalc v1.3</h1> <br />
+        <h3>Schrottii's</h3><h1>CombCalc v1.4</h1> <br />
         <!-- This work is copyrighted. Copying, cloning or stealing is prohibited. -->
-
+        <!-- GLOBAL CHALLENGE STATUS -->
         <div class="box boxSize">
-            <img src="globeIcon.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
+            <img src="images/globeIcon.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>Global Challenge Status</h3>
             <span id="textGC"></span>
         </div>
 
+        <!-- COMBINE GAIN CALC -->
         <div class="box boxSize">
-            <img src="combineToken.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
+            <img src="images/combineToken.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>Combine Gain Calc</h3>
             Calculate how many Combine Tokens you earn from a Global Challenge!
             <hr style="clear: both" />
@@ -37,8 +43,9 @@
             <span id="textCGC"></span>
         </div>
 
+        <!-- MORE SCRAP CALC -->
         <div class="box boxSize">
-            <img src="bookScrap.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
+            <img src="images/bookScrap.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>More Scrap Calc</h3>
             Calculate what level your More Scrap Book upgrade should be! <br /> Formula and research made by K. whale. <br /> <br />
 
@@ -49,7 +56,7 @@
             <br />
             <hr style="clear: both" />
             <br />
-            <img src="moreScrapFormula.png" style="width: 30%" /> <br />
+            <img src="images/moreScrapFormula.png" style="width: 30%" /> <br />
 
             <i>
                 Formulas: <br />
@@ -58,8 +65,9 @@
             </i>
         </div>
 
+        <!-- TOKEN COST CALC -->
         <div class="box boxSize">
-            <img src="combineToken.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
+            <img src="images/combineToken.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>Token Cost Calc</h3>
             Calculate how many tokens you need to do the desired combination x times, or how many times you can do it with x tokens! The order of the two ads makes no difference. <br /> <br />
 
@@ -74,7 +82,7 @@
                 <option value="fasterbarrels">Faster Barrels</option>
                 <option value="flu">Faster Level Up</option>
                 <option value="morefragments">More Fragments</option>
-            </select> x 
+            </select> x
             <select name="combination2" id="combination2-select">
                 <option value="none">Select ad 2</option>
                 <option value="automerge">Auto Merge</option>
@@ -87,8 +95,8 @@
             </select>
 
             <br />
-            How many times to combine: <input id="tokenCostAmountOfAds" value="1" min="0" type="number" oninput="ui.tokenCostAmountOfTokens.value = 0;" /><br />
-            OR: how many tokens you want to spend <input id="tokenCostAmountOfTokens" value="0" min="0" type="number" class="inputOptional" oninput="ui.tokenCostAmountOfAds.value = 0;" /><br />
+            How many times to combine: <input id="tokenCostAmountOfAds" value="1" min="0" type="number" oninput="ui.tokenCostCalc.tokenCostAmountOfTokens.value = 0;" /><br />
+            OR: how many tokens you want to spend <input id="tokenCostAmountOfTokens" value="0" min="0" type="number" class="inputOptional" oninput="ui.tokenCostCalc.tokenCostAmountOfAds.value = 0;" /><br />
             <br />
 
             <span id="textTCC"></span>
@@ -96,15 +104,29 @@
             <br />
             <hr style="clear: both" />
             <br />
-            <img src="Tokentable.png" style="width: 30%; min-width: 256px" /> <br />
+            <img src="images/Tokentable.png" style="width: 30%; min-width: 256px" /> <br />
         </div>
 
+        <!-- BARREL PRODUCTION CALC -->
+        <div class="box boxSize">
+            <img src="images/barrel_1.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
+            <h3>Barrel Production Calc</h3>
+            Calculate how much scrap you get from a barrel based on your Circle Blue production. <br />
+
+            Circle Blue production in scientific (e. g. 1.561e102): <input id="bpcFirstProd" value="1" type="text" /> <br />
+            Barrel to calculate: <input id="bpcBarrelNr" value="661" type="number" /> <br />
+
+            <br />
+            <span id="textBPC"></span>
+        </div>
+
+        <!-- INFO / CONTACT / LINKS / PATCH NOTES -->
         <div class="theContainer">
             <div class="box miniBox">
                 <h3>Info</h3>
                 CombCalc (tool for Global Challenge/Combine Tokens and more) made by Schrottii <br />
                 First released on 2024-05-13 <br />
-                Current version: v1.3 / updated on 2024-12-03 <br />
+                Current version: v1.4 (2024-12-28) <br />
                 <a href="terms-of-service.html">Terms of Service</a>
             </div>
             <div class="box miniBox">
@@ -124,15 +146,17 @@
                 <a href="https://official-scrap-2.fandom.com/wiki/Combine_Tokens">Wiki: Combine Tokens</a>
             </div>
             <div class="box miniBox">
-                <h3>v1.3 patch notes</h3>
-                - New calc: Token Cost Calc (how many tokens for x combinations, or how many combinations with x tokens) <br />
-                - Input fields are now yellow if optional, red if required <br />
-                - Donate button prettier <br />
-                - Fixed an issue with deciding if it's sumer time <br />
+                <h3>v1.4 patch notes</h3>
+                - New calc: Barrel Production Calc (calculate production of a barrel based on your barrel 1) <br />
+                - Implemented breakinfinity <br />
+                - Added favicon <br />
+                - Re-organized some files
             </div>
         </div>
     </div>
 
-    <script src="main.js"></script>
+    <!-- LOAD SCRIPTS -->
+    <script src="code/breakinfinity.js"></script>
+    <script src="code/main.js"></script>
 </body>
 </html>
