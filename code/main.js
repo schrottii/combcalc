@@ -15,6 +15,27 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 const FPS = 15;
 
+var currentVersion = "v1.4.1";
+var patchNotes = `
+- Added more invalid input texts (when you enter something illegal)
+- Added some placeholder texts (gray) to indicate what you are meant to enter
+- Fixed Summer time issue
+- Minor improvements
+`;
+
+function updatePatchNotes() {
+    let render = "";
+    let currentPatchNotes = patchNotes.split("\n");
+    currentPatchNotes.shift();
+
+    render = "<h3>" + " Version " + currentVersion + "</h3>";
+    for (let pn in currentPatchNotes) {
+        render = render + currentPatchNotes[pn] + "<br />";
+    }
+
+    ui.bottom.patchNotes.innerHTML = render;
+}
+
 // UI DICT
 var ui = {
     globalChallengeStatus: {
@@ -47,6 +68,10 @@ var ui = {
         statusText: document.getElementById("textBPC"),
         productionBarrelOne: document.getElementById("bpcFirstProd"),
         barrelNumber: document.getElementById("bpcBarrelNr"),
+    },
+    bottom: {
+        header: document.getElementById("header"),
+        patchNotes: document.getElementById("patchNotes"),
     }
 }
 
@@ -66,8 +91,9 @@ function updateTime() {
 
     // Germany has two timezones, Summer Time (+2) and Winter Time (+1)
     // Summer Time starts on the last Sunday in March and ends on the last Sunday in October
-    // summer time if: (march and last sunday over) OR april+        AND      (october and not last sunday yet) OR november+
-    isSummerTime = ((serverDate.getMonth() == 2 && serverDate.getDate() >= determineLastSundayOfMonth(2)) || serverDate.getMonth() > 2) && ((serverDate.getMonth() == 9 && serverDate.getDate() < determineLastSundayOfMonth(9)) && serverDate.getMonth() < 10);
+    // summer time if: (march and last sunday over) OR april+        AND      (october and not last sunday yet) OR pre-October
+    isSummerTime = ((serverDate.getMonth() == 2 && serverDate.getDate() >= determineLastSundayOfMonth(2)) || serverDate.getMonth() > 2)
+                && ((serverDate.getMonth() == 9 && serverDate.getDate() < determineLastSundayOfMonth(9)) || serverDate.getMonth() < 9);
     serverTimeOffset = isSummerTime ? 2 : 1;
 }
 
@@ -137,24 +163,25 @@ function calculateGlobalChallenge() {
 function calculateMoreScrap() {
     // Calculator: What should my More Scrap level be
 
-    let highestScrapEver = ui.moreScrapCalc.highestScrapEver.value != "" ? ui.moreScrapCalc.highestScrapEver.value : 1;
-    let moreGSLevel = ui.moreScrapCalc.moreGSLevel.value != "" ? ui.moreScrapCalc.moreGSLevel.value : 1;
+    let highestScrapEver = ui.moreScrapCalc.highestScrapEver.value != "" ? ui.moreScrapCalc.highestScrapEver.value : -1;
+    let moreGSLevel = ui.moreScrapCalc.moreGSLevel.value != "" ? ui.moreScrapCalc.moreGSLevel.value : -1;
 
     let a = Math.log10(1.4) / highestScrapEver;
     let result = ((1 / (2 * a)) * -1) + Math.sqrt(Math.pow(moreGSLevel, 2) + (moreGSLevel / 0.03) + (1 / (4 * Math.pow(a, 2))));
 
-    ui.moreScrapCalc.statusText.innerHTML = "a: " + a.toFixed(6) + ". <b>Your More Scrap (Book upgrade) should be level " + Math.floor(result) + "!</b>";
+    if (highestScrapEver == -1 || moreGSLevel == -1) ui.moreScrapCalc.statusText.innerHTML = "Please enter your numbers";
+    else ui.moreScrapCalc.statusText.innerHTML = "a: " + a.toFixed(6) + ". <b>Your More Scrap (Book upgrade) should be level " + Math.floor(result) + "!</b>";
 }
 
 // tokenCostCalc
 var adNames = ["automerge", "bricks", "moremagnets", "morescrap", "fasterbarrels", "flu", "morefragments"];
 const adCosts = {
-    "automerge": [0, 1, 5, 1, 12, 8, 1],
-    "bricks": [1, 0, 1, 1, 1, 1, 1],
-    "moremagnets": [5, 1, 0, 1, 8, 5, 1],
-    "morescrap": [1, 1, 1, 0, 1, 1, 1],
+    "automerge":     [0, 1, 5, 1, 12, 8, 1],
+    "bricks":        [1, 0, 1, 1, 1, 1, 1],
+    "moremagnets":   [5, 1, 0, 1, 8, 5, 1],
+    "morescrap":     [1, 1, 1, 0, 1, 1, 1],
     "fasterbarrels": [12, 1, 8, 1, 0, 8, 5],
-    "flu": [8, 1, 5, 1, 8, 0, 1],
+    "flu":           [8, 1, 5, 1, 8, 0, 1],
     "morefragments": [1, 1, 1, 1, 5, 1, 0]
 }
 
@@ -163,13 +190,13 @@ function calculateTokenCosts() {
     let ad1 = ui.tokenCostCalc.selectedAd1.value;
     let ad2 = ui.tokenCostCalc.selectedAd2.value;
 
-    if (ad1 == ad2) {
-        // you want x100 barrels huh?!
-        ui.tokenCostCalc.statusText.innerHTML = "(Don't select the same boost twice)";
-    }
-    else if (ad1 == "none" || ad2 == "none") {
+    if (ad1 == "none" || ad2 == "none") {
         // one of the two ads is not selected
         ui.tokenCostCalc.statusText.innerHTML = "(Select the two ads you want to combine!)";
+    }
+    else if (ad1 == ad2) {
+        // you want x100 barrels huh?!
+        ui.tokenCostCalc.statusText.innerHTML = "(Don't select the same boost twice)";
     }
     else {
         // both ARE selected
@@ -178,11 +205,11 @@ function calculateTokenCosts() {
         if (ui.tokenCostCalc.tokenCostAmountOfTokens.value != 0) {
             let times = Math.floor(ui.tokenCostCalc.tokenCostAmountOfTokens.value / costs);
             costs = costs * times;
-            ui.tokenCostCalc.statusText.innerHTML = times + " Times (" + costs + " Tokens)";
+            ui.tokenCostCalc.statusText.innerHTML = times + " Times (" + costs + " Token" + + (costs > 1 ? "s" : "") + ")";
         }
         else {
             costs *= ui.tokenCostCalc.tokenCostAmountOfAds.value;
-            ui.tokenCostCalc.statusText.innerHTML = costs + " Tokens";
+            ui.tokenCostCalc.statusText.innerHTML = costs + " Token" + (costs > 1 ? "s" : "");
         }
     }
 }
@@ -205,13 +232,16 @@ function calculateBarrelProduction() {
     let result = new Decimal(3).pow(barrelnr - 1).mul(baseProd);
     result = result.mantissa.toString().substr(0, 5) + "e" + result.exponent.toString();
 
-    if (baseProd.eq(1)) ui.barrelProductionCalc.statusText.innerHTML = "Barrel " + barrelnr + "'s base production is " + result + " Scrap/s.";
+    if (barrelnr == "" || barrelnr < 1) ui.barrelProductionCalc.statusText.innerHTML = "That is not a real barrel!";
+    else if (baseProd.eq(1)) ui.barrelProductionCalc.statusText.innerHTML = "Barrel " + barrelnr + "'s base production is " + result + " Scrap/s.";
     else ui.barrelProductionCalc.statusText.innerHTML = "Your barrel " + barrelnr + " should produce " + result + " Scrap/s.";
 }
 
 // LOOP
 function loop() {
     updateTime();
+
+    updatePatchNotes();
 
     // UI update
     updateGlobalChallengeTime();
@@ -221,5 +251,5 @@ function loop() {
     calculateBarrelProduction();
 }
 
-console.log("onions are literally a mass torture device");
+ui.bottom.header.innerHTML = "CombCalc " + currentVersion;
 setInterval(loop, 1000 / FPS);

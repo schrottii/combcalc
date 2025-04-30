@@ -13,7 +13,7 @@
 </head>
 <body>
     <div style="text-align: center">
-        <h3>Schrottii's</h3><h1>CombCalc v1.4</h1> <br />
+        <h3>Schrottii's</h3><h1><span id="header"></span></h1> <br />
         <!-- This work is copyrighted. Copying, cloning or stealing is prohibited. -->
         <!-- GLOBAL CHALLENGE STATUS -->
         <div class="box boxSize">
@@ -31,8 +31,8 @@
             <div style="width: 50%; float: left; background-color: darkseagreen;" id="combinesLeft">
                 Combine Boosts: <br />
                 More Tokens (Mastery Upgrade level) <input id="moreTokensLevel" value="10" type="number" /> <br />
-                OR: Stars <input id="moreTokensLevel2" type="number" class="inputOptional" /> <br />
-                More Tokens is unlocked at x500 Stars, below x500 you can leave these empty
+                OR: Stars <input id="moreTokensLevel2" placeholder="2000" type="number" class="inputOptional" /> <br />
+                *More Tokens is unlocked at x500 Stars, below x500 you can leave these empty
             </div>
             <div style="width: 50%; float: right; background-color: darkslategray;" id="combinesRight">
                 Global Challenge progress: <br />
@@ -49,8 +49,8 @@
             <h3>More Scrap Calc</h3>
             Calculate what level your More Scrap Book upgrade should be! <br /> Formula and research made by K. whale. <br /> <br />
 
-            More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" value="0" type="number" /> <br />
-            Highest Scrap Ever (in scientific/log, ex.: type 100 if it's 1e100): <input id="highestScrapEver" value="0" type="number" /> <br />
+            More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" placeholder="0" type="number" /> <br />
+            Highest Scrap Ever (in scientific/log, ex.: type 100 if it's 1e100): <input id="highestScrapEver" placeholder="100 (not 1e100)" type="number" /> <br />
             <span id="textMSC"></span>
 
             <br />
@@ -96,7 +96,7 @@
 
             <br />
             How many times to combine: <input id="tokenCostAmountOfAds" value="1" min="0" type="number" oninput="ui.tokenCostCalc.tokenCostAmountOfTokens.value = 0;" /><br />
-            OR: how many tokens you want to spend <input id="tokenCostAmountOfTokens" value="0" min="0" type="number" class="inputOptional" oninput="ui.tokenCostCalc.tokenCostAmountOfAds.value = 0;" /><br />
+            OR: how many tokens you want to spend <input id="tokenCostAmountOfTokens" placeholder="0" min="0" type="number" class="inputOptional" oninput="ui.tokenCostCalc.tokenCostAmountOfAds.value = 0;" /><br />
             <br />
 
             <span id="textTCC"></span>
@@ -114,7 +114,7 @@
             Calculate how much scrap you get from a barrel based on your Circle Blue production. <br />
 
             Circle Blue production in scientific (e. g. 1.561e102): <input id="bpcFirstProd" value="1" type="text" /> <br />
-            Barrel to calculate: <input id="bpcBarrelNr" value="661" type="number" /> <br />
+            Barrel to calculate: <input id="bpcBarrelNr" placeholder="661" type="number" /> <br />
 
             <br />
             <span id="textBPC"></span>
@@ -126,7 +126,7 @@
                 <h3>Info</h3>
                 CombCalc (tool for Global Challenge/Combine Tokens and more) made by Schrottii <br />
                 First released on 2024-05-13 <br />
-                Current version: v1.4 (2024-12-28) <br />
+                Current version: v1.5 (2025-04-30) <br />
                 <a href="terms-of-service.html">Terms of Service</a>
             </div>
             <div class="box miniBox">
@@ -146,11 +146,7 @@
                 <a href="https://official-scrap-2.fandom.com/wiki/Combine_Tokens">Wiki: Combine Tokens</a>
             </div>
             <div class="box miniBox">
-                <h3>v1.4 patch notes</h3>
-                - New calc: Barrel Production Calc (calculate production of a barrel based on your barrel 1) <br />
-                - Implemented breakinfinity <br />
-                - Added favicon <br />
-                - Re-organized some files
+                <span id="patchNotes"></span>
             </div>
         </div>
     </div>

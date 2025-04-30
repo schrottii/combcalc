@@ -43,3 +43,11 @@ v1.4 2024-12-28
 - Implemented breakinfinity
 - Added favicon
 - Re-organized some files
+
+
+
+v1.4.1 2025-04-30
+- Added more invalid input texts (when you enter something illegal)
+- Added some placeholder texts (gray) to indicate what you are meant to enter
+- Fixed Summer time issue
+- Minor improvements
