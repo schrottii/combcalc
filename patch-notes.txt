@@ -6,6 +6,9 @@ format: yyyy-mm-dd
 1.2
 1.3
 1.4
+2025
+1.4.1
+1.5
 
 
 
@@ -51,3 +54,29 @@ v1.4.1 2025-04-30
 - Added some placeholder texts (gray) to indicate what you are meant to enter
 - Fixed Summer time issue
 - Minor improvements
+
+
+
+v1.5 2025-09-07
+-> New calc: Achievement Boost Calc
+- Calculates how many Crystals upgrading costs
+- Insert start level and goal level
+
+-> Design:
+- Boxes get ligher and wider when hovered over
+- Changed box border
+- Changed some colors (less flashy whites)
+- Changed design of the left-right green thing (and on mobile it's below now)
+- Smaller title (Schrottii's CombCalc)
+- Patch notes aligned to the left to be easier to read
+
+-> Images:
+- Added background image
+- New image for Barrel Production Calc
+- Moved calc images more to the left and made them a bit bigger
+
+-> Other:
+- More Scrap Calc: highest scrap ever is now inserted without log (ie 1e100 instead of 100)
+- Slightly changed some texts to be easier to understand
+- Slightly improved performance
+- Code improvements & re-organizing

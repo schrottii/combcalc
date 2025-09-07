@@ -13,50 +13,51 @@
 </head>
 <body>
     <div style="text-align: center">
-        <h3>Schrottii's</h3><h1><span id="header"></span></h1> <br />
+        <h3>Schrottii's <span id="header"></span></h3>
         <!-- This work is copyrighted. Copying, cloning or stealing is prohibited. -->
         <!-- GLOBAL CHALLENGE STATUS -->
+        <img src="images/globeIcon.png" class="boxImg" />
         <div class="box boxSize">
-            <img src="images/globeIcon.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>Global Challenge Status</h3>
             <span id="textGC"></span>
         </div>
 
         <!-- COMBINE GAIN CALC -->
+        <img src="images/combineToken.png" class="boxImg" />
         <div class="box boxSize">
-            <img src="images/combineToken.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>Combine Gain Calc</h3>
             Calculate how many Combine Tokens you earn from a Global Challenge!
             <hr style="clear: both" />
-            <div style="width: 50%; float: left; background-color: darkseagreen;" id="combinesLeft">
-                Combine Boosts: <br />
-                More Tokens (Mastery Upgrade level) <input id="moreTokensLevel" value="10" type="number" /> <br />
-                OR: Stars <input id="moreTokensLevel2" placeholder="2000" type="number" class="inputOptional" /> <br />
+
+            <div class="leftArea" id="combinesLeft">
+                Combine gain boosts: <br />
+                More Tokens (Mastery Upgrade) level: <input id="moreTokensLevel" value="10" type="number" /> <br />
+                OR Stars: <input id="moreTokensLevel2" placeholder="2000" type="number" class="inputOptional" /> <br />
                 *More Tokens is unlocked at x500 Stars, below x500 you can leave these empty
             </div>
-            <div style="width: 50%; float: right; background-color: darkslategray;" id="combinesRight">
+            <div class="rightArea" id="combinesRight">
                 Global Challenge progress: <br />
-                Global Progress (1 - 5) <input id="progressGlobal" min="0" max="5" value="5" type="range" /> <span id="progressGlobalText">x5</span> <br />
-                Your Progress (1 - 5) <input id="progressYours" min="0" max="5" value="5" type="range" /> <span id="progressYoursText">x5</span> <br />
+                Global Progress (x1 - x5) <input id="progressGlobal" min="0" max="5" value="5" type="range" /> <span id="progressGlobalText">x5</span> <br />
+                Your Progress (x1 - x5) <input id="progressYours" min="0" max="5" value="5" type="range" /> <span id="progressYoursText">x5</span>
             </div>
+
             <hr style="clear: both" />
             <span id="textCGC"></span>
         </div>
 
         <!-- MORE SCRAP CALC -->
+        <img src="images/bookScrap.png" class="boxImg" />
         <div class="box boxSize">
-            <img src="images/bookScrap.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>More Scrap Calc</h3>
             Calculate what level your More Scrap Book upgrade should be! <br /> Formula and research made by K. whale. <br /> <br />
 
             More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" placeholder="0" type="number" /> <br />
-            Highest Scrap Ever (in scientific/log, ex.: type 100 if it's 1e100): <input id="highestScrapEver" placeholder="100 (not 1e100)" type="number" /> <br />
+            Highest Scrap Ever (in scientific, ie 1e100): <input id="highestScrapEver" placeholder="100 (not 1e100)" type="text" /> <br />
             <span id="textMSC"></span>
 
             <br />
             <hr style="clear: both" />
-            <br />
-            <img src="images/moreScrapFormula.png" style="width: 30%" /> <br />
+            <img src="images/moreScrapFormula.png" style="width: 50%" /> <br />
 
             <i>
                 Formulas: <br />
@@ -66,8 +67,8 @@
         </div>
 
         <!-- TOKEN COST CALC -->
+        <img src="images/combineToken.png" class="boxImg" />
         <div class="box boxSize">
-            <img src="images/combineToken.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>Token Cost Calc</h3>
             Calculate how many tokens you need to do the desired combination x times, or how many times you can do it with x tokens! The order of the two ads makes no difference. <br /> <br />
 
@@ -108,16 +109,30 @@
         </div>
 
         <!-- BARREL PRODUCTION CALC -->
+        <img src="images/barrelProduction.png" class="boxImg" />
         <div class="box boxSize">
-            <img src="images/barrel_1.png" style="position: absolute; transform: translateY(-16px); left: 5%; min-width: 32px; max-width: 10%" />
             <h3>Barrel Production Calc</h3>
             Calculate how much scrap you get from a barrel based on your Circle Blue production. <br />
 
-            Circle Blue production in scientific (e. g. 1.561e102): <input id="bpcFirstProd" value="1" type="text" /> <br />
-            Barrel to calculate: <input id="bpcBarrelNr" placeholder="661" type="number" /> <br />
+            Circle Blue production in scientific (ie 1.561e102): <input id="bpcFirstProd" value="1" type="text" /> <br />
+            Barrel to calculate: #<input id="bpcBarrelNr" placeholder="661" type="number" /> <br />
 
             <br />
             <span id="textBPC"></span>
+        </div>
+
+        <!-- Achievement Boost CALC -->
+        <img src="images/achievementBoost.png" class="boxImg" />
+        <div class="box boxSize">
+            <h3>Achievement Boost Calc</h3>
+            Calculate how many Crystals it costs to upgrade an Achievement Boost <br />
+
+            Start level: <input id="abcStart" value="50" type="number" /> <br />
+            Goal level:  <input id="abcGoal" placeholder="100" type="number" /> <br />
+            <!-- Achievements:  <input id="abcAchievements" placeholder="348" type="number" /> <br /> -->
+
+            <br />
+            <span id="textABC"></span>
         </div>
 
         <!-- INFO / CONTACT / LINKS / PATCH NOTES -->
@@ -126,7 +141,7 @@
                 <h3>Info</h3>
                 CombCalc (tool for Global Challenge/Combine Tokens and more) made by Schrottii <br />
                 First released on 2024-05-13 <br />
-                Current version: v1.5 (2025-04-30) <br />
+                Current version: <span id="currentVersion"></span> <br />
                 <a href="terms-of-service.html">Terms of Service</a>
             </div>
             <div class="box miniBox">
@@ -145,14 +160,18 @@
                 <a href="https://official-scrap-2.fandom.com/wiki/Global_Challenges">Wiki: Global Challenges</a> <br /> <br />
                 <a href="https://official-scrap-2.fandom.com/wiki/Combine_Tokens">Wiki: Combine Tokens</a>
             </div>
-            <div class="box miniBox">
+            <div class="box miniBox" style="text-align: left">
                 <span id="patchNotes"></span>
             </div>
+
+            <br />
+
         </div>
     </div>
 
     <!-- LOAD SCRIPTS -->
     <script src="code/breakinfinity.js"></script>
+    <script src="code/calcs.js"></script>
     <script src="code/main.js"></script>
 </body>
 </html>
