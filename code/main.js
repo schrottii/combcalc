@@ -15,31 +15,15 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 const FPS = 15;
 
-var currentVersion = "v1.5";
-var currentVersionDate = "(2025-09-07)";
+var currentVersion = "v1.5.1";
+var currentVersionDate = "(2025-12-03)";
 var patchNotes = `
--> New calc: Achievement Boost Calc
-- Calculates how many Crystals upgrading costs
-- Insert start level and goal level
-
--> Design:
-- Boxes get ligher and wider when hovered over
-- Changed box border
-- Changed some colors (less flashy whites)
-- Changed design of the left-right green thing (and on mobile it's below now)
-- Smaller title (Schrottii's CombCalc)
-- Patch notes aligned to the left to be easier to read
-
--> Images:
-- Added background image
-- New image for Barrel Production Calc
-- Moved calc images more to the left and made them a bit bigger
+-> New calc: Abstract Calc
+- Convert between abstract and scientific notation
+- Based on the python original by K. Whale, requested by some 
 
 -> Other:
-- More Scrap Calc: highest scrap ever is now inserted without log (ie 1e100 instead of 100)
-- Slightly changed some texts to be easier to understand
-- Slightly improved performance
-- Code improvements & re-organizing
+- More Scrap Calc: both 1e100 and 100 format are now supported
 `;
 
 function updatePatchNotes() {
@@ -94,6 +78,10 @@ var ui = {
         start: document.getElementById("abcStart"),
         goal: document.getElementById("abcGoal"),
         //achievements: document.getElementById("abcAchievements")
+    },
+    abstractCalc: {
+        statusText: document.getElementById("textAbstract"),
+        input: document.getElementById("inputAbstract"),
     },
     bottom: {
         header: document.getElementById("header"),

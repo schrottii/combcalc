@@ -52,7 +52,7 @@
             Calculate what level your More Scrap Book upgrade should be! <br /> Formula and research made by K. whale. <br /> <br />
 
             More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" placeholder="0" type="number" /> <br />
-            Highest Scrap Ever (in scientific, ie 1e100): <input id="highestScrapEver" placeholder="100 (not 1e100)" type="text" /> <br />
+            Highest Scrap Ever (in scientific): <input id="highestScrapEver" placeholder="100 or 1e100" type="text" /> <br />
             <span id="textMSC"></span>
 
             <br />
@@ -133,6 +133,18 @@
 
             <br />
             <span id="textABC"></span>
+        </div>
+
+        <!-- Abstract CALC -->
+        <img src="images/abstractCalc.png" class="boxImg" />
+        <div class="box boxSize">
+            <h3>Abstract &lt;-&gt; Calc</h3>
+            Convert between numbers in abstract and scientific notation <br />
+            Especially useful for tires and screenshots, python original by K. Whale <br />
+
+            <input id="inputAbstract" placeholder="ex.: big or 4782 or 1e4782" type="text" onkeyup="calculateAbstract();" style="min-width: 33%;" /> <br />
+
+            <span id="textAbstract"></span>
         </div>
 
         <!-- INFO / CONTACT / LINKS / PATCH NOTES -->

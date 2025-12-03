@@ -60,6 +60,8 @@ function calculateMoreScrap() {
         ui.moreScrapCalc.statusText.innerHTML = "Please enter your numbers";
         return false;
     }
+    if (highestScrapEver.toString().includes("e")) highestScrapEver = new Decimal(highestScrapEver);
+    else highestScrapEver = new Decimal("1e" + highestScrapEver);
 
     let a = Math.log10(1.4) / highestScrapEver.log(10);
     let result = ((1 / (2 * a)) * -1) + Math.sqrt(Math.pow(moreGSLevel, 2) + (moreGSLevel / 0.03) + (1 / (4 * Math.pow(a, 2))));
@@ -157,4 +159,55 @@ function calculateAchievementBoost() {
     else {
         ui.achievementBoostCalc.statusText.innerHTML = "Invalid levels!";
     }
+}
+
+/* --------------------------------
+ *   ABSTRACT CALC
+ * ----------------------------- */
+
+var letters = "abcdefghijklmnopqrstuvwxyz";
+var lettersBase = letters.length;
+function calculateAbstract() {
+    let x = ui.abstractCalc.input.value;
+    let digits = [];
+    if (x.includes("1e")) x = x.substr(2);
+
+    if (isNaN(parseInt(x))) {
+        // abstract to scientific
+        let y = x.split("").reverse();
+        let value;
+        let place = 0;
+        let digitsSum = 0;
+
+        for (let character in y) {
+            value = parseInt(letters.indexOf(y[character])) + 1;
+            digits.push(value * Math.pow(lettersBase, place));
+            digitsSum += value * Math.pow(lettersBase, place);
+            place += 1;
+        }
+        ui.abstractCalc.statusText.innerHTML = "1 " + x + " in abstract notation is 1e" + (3 * digitsSum + 3) + " in scientific notation";
+    }
+    else if (typeof (parseInt(x)) == "number") {
+        // scientific to abstract
+        x = parseInt(x);
+        let y = Math.floor((x - 3) / 3);
+        let digitsResult = "";
+
+        while (y > 0) {
+            digits.push(letters[y % lettersBase - 1] != undefined ? letters[y % lettersBase - 1] : "z");
+            if (y % lettersBase == 0) {
+                y = Math.floor(y / lettersBase) - 1;
+            }
+            else {
+                y = Math.floor(y / lettersBase);
+            }
+        }
+        digits = digits.reverse();
+        for (let d in digits) {
+            digitsResult += digits[d];
+        }
+        ui.abstractCalc.statusText.innerHTML = "1e" + x + " in scientific notation is " + (Math.pow(10, (x % 3))) + " " + digitsResult + " in abstract notation";
+    }
+
+    return "what dis xd";
 }
