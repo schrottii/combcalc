@@ -56,6 +56,8 @@ function calculateMoreScrap() {
 
     let highestScrapEver = ui.moreScrapCalc.highestScrapEver.value != "" ? new Decimal(ui.moreScrapCalc.highestScrapEver.value) : -1;
     let moreGSLevel = ui.moreScrapCalc.moreGSLevel.value != "" ? ui.moreScrapCalc.moreGSLevel.value : -1;
+    let moreScrapLevel = ui.moreScrapCalc.moreScrapLevel.value != "" ? ui.moreScrapCalc.moreScrapLevel.value : -1;
+
     if (highestScrapEver == -1 || moreGSLevel == -1) {
         ui.moreScrapCalc.statusText.innerHTML = "Please enter your numbers";
         return false;
@@ -63,7 +65,13 @@ function calculateMoreScrap() {
     if (highestScrapEver.toString().includes("e")) highestScrapEver = new Decimal(highestScrapEver);
     else highestScrapEver = new Decimal("1e" + highestScrapEver);
 
-    let a = Math.log10(1.4) / highestScrapEver.log(10);
+    let a;
+    if (moreScrapLevel != -1) {
+        a = Math.log10(1.4) / (highestScrapEver.log(10) - moreScrapLevel * Math.log10(1.4));
+    }
+    else {
+        a = Math.log10(1.4) / highestScrapEver.log(10);
+    }
     let result = ((1 / (2 * a)) * -1) + Math.sqrt(Math.pow(moreGSLevel, 2) + (moreGSLevel / 0.03) + (1 / (4 * Math.pow(a, 2))));
 
     ui.moreScrapCalc.statusText.innerHTML = "a: " + a.toFixed(6) + ". <b>Your More Scrap (Book upgrade) should be level " + Math.floor(result) + "!</b>";

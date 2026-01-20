@@ -10,6 +10,8 @@ format: yyyy-mm-dd
 1.4.1
 1.5
 1.5.1
+2026
+1.5.1
 
 
 
@@ -91,3 +93,10 @@ v1.5.1 2025-12-03
 
 -> Other:
 - More Scrap Calc: both 1e100 and 100 format are now supported
+
+
+
+v1.5.2 2026-01-20
+- More Scrap Calc: implemented new (complex) formula for a, requiring More Scrap upgrade level
+- Updated Info and Contact sections at the bottom, including easier-to-read formatting and Balnoom brand name
+- Changed purpose from "tool for Global Challenge/Combine Tokens and more" to "collection of various Scrap calcs and tools"

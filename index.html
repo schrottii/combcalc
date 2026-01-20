@@ -49,19 +49,22 @@
         <img src="images/bookScrap.png" class="boxImg" />
         <div class="box boxSize">
             <h3>More Scrap Calc</h3>
-            Calculate what level your More Scrap Book upgrade should be! <br /> Formula and research made by K. whale. <br /> <br />
+            Calculate what level your More Scrap Book upgrade should be! <br />  <br />
 
             More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" placeholder="0" type="number" /> <br />
-            Highest Scrap Ever (in scientific): <input id="highestScrapEver" placeholder="100 or 1e100" type="text" /> <br />
+            Highest Scrap Ever: <input id="highestScrapEver" placeholder="100 or 1e100" type="text" /> <br />
+            (Optional, for more precise calculation): More Scrap (Book upgrade) level: <input id="moreScrapLevel" placeholder="0" type="text" /> <br />
             <span id="textMSC"></span>
 
             <br />
             <hr style="clear: both" />
+            Formulas and research made by K. whale. <br />
             <img src="images/moreScrapFormula.png" style="width: 50%" /> <br />
 
             <i>
                 Formulas: <br />
-                <b>a =</b> log(1.4) / log(highest scrap ever) <br />
+                <b>(simple) a =</b> log(1.4) / log(highest scrap ever) <br />
+                <b>(complex) a =</b> log(1.4) / (log(highest scrap ever) - more scrap level * log(1.4)) <br />
                 <b>more scrap level =</b> - 1 / 2a + root(x² + x / 0.03 + 1 / 4a²) where x is the more gs level
             </i>
         </div>
@@ -151,18 +154,24 @@
         <div class="theContainer">
             <div class="box miniBox">
                 <h3>Info</h3>
-                CombCalc (tool for Global Challenge/Combine Tokens and more) made by Schrottii <br />
+                CombCalc (collection of various Scrap calcs and tools) made by Schrottii / Balnoom <br />
+                &copy; 2024 - 2026
+                <br /> <br />
                 First released on 2024-05-13 <br />
-                Current version: <span id="currentVersion"></span> <br />
+                Current version: <span id="currentVersion"></span>
+                <br /> <br />
                 <a href="terms-of-service.html">Terms of Service</a>
             </div>
             <div class="box miniBox">
                 <h3>Contact</h3>
-                <a href="https://schrottii.github.io/">My website & other games</a> <br />
-                Discord username: schrottii <br />
-                <a href="https://discord.gg/CbBeJXKUrk">Server for my games and apps</a> <br />
+                <a href="https://schrottii.github.io/">My website & other games</a>
+                <br /> <br />
+                Discord: <br />
+                username: schrottii <br />
+                <a href="https://discord.gg/CbBeJXKUrk">Server for my games and other projects</a> <br />
                 <a href="https://discord.gg/HPDxES9">Main Scrap server</a> <br />
                 <br />
+                Donate: <br />
                 <a href='https://ko-fi.com/Y8Y2XMZX1' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
             </div>
             <div class="box miniBox">

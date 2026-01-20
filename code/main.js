@@ -15,15 +15,12 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 const FPS = 15;
 
-var currentVersion = "v1.5.1";
-var currentVersionDate = "(2025-12-03)";
+var currentVersion = "v1.5.2";
+var currentVersionDate = "(2026-01-20)";
 var patchNotes = `
--> New calc: Abstract Calc
-- Convert between abstract and scientific notation
-- Based on the python original by K. Whale, requested by some 
-
--> Other:
-- More Scrap Calc: both 1e100 and 100 format are now supported
+- More Scrap Calc: implemented new (complex) formula for a, requiring More Scrap upgrade level
+- Updated Info and Contact sections at the bottom, including easier-to-read formatting and Balnoom brand name
+- Changed purpose from "tool for Global Challenge/Combine Tokens and more" to "collection of various Scrap calcs and tools"
 `;
 
 function updatePatchNotes() {
@@ -59,6 +56,7 @@ var ui = {
     moreScrapCalc: {
         statusText: document.getElementById("textMSC"),
         moreGSLevel: document.getElementById("moreGSLevel"),
+        moreScrapLevel: document.getElementById("moreScrapLevel"),
         highestScrapEver: document.getElementById("highestScrapEver")
     },
     tokenCostCalc: {
