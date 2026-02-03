@@ -453,7 +453,7 @@ const tools = {
 
     sco_SYCalc: new Tool(
         `
-        <img src="images/tools/sco_ScrapyardCalc.png" class="boxImg" />
+        <img src="images/tools/sco_scrapyardCalc.png" class="boxImg" />
         <div class="box boxSize">
             <h3>Scrapyard Calc</h3>
             Get the cost and effect for Scrapyard at a level <br />
@@ -489,7 +489,7 @@ const tools = {
 
     sco_ScrapBoostCalc: new Tool(
         `
-        <img src="images/tools/sco_ScrapBoostCalc.png" class="boxImg" />
+        <img src="images/tools/sco_scrapBoostCalc.png" class="boxImg" />
         <div class="box boxSize">
             <h3>Scrap Boost Calc</h3>
             Similar to Scrap 2's (Million) Merge Boost, you get a boost on your Scrap production. It can be found ingame at the stats. <br />
