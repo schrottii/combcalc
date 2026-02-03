@@ -15,140 +15,20 @@
     <div style="text-align: center">
         <h3>Schrottii's <span id="header"></span></h3>
         <!-- This work is copyrighted. Copying, cloning or stealing is prohibited. -->
-        <!-- GLOBAL CHALLENGE STATUS -->
-        <img src="images/globeIcon.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Global Challenge Status</h3>
-            <span id="textGC"></span>
+
+        <div>
+            <span id="gamesSelection"></span>
         </div>
 
-        <!-- COMBINE GAIN CALC -->
-        <img src="images/combineToken.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Combine Gain Calc</h3>
-            Calculate how many Combine Tokens you earn from a Global Challenge!
-            <hr style="clear: both" />
-
-            <div class="leftArea" id="combinesLeft">
-                Combine gain boosts: <br />
-                More Tokens (Mastery Upgrade) level: <input id="moreTokensLevel" value="10" type="number" /> <br />
-                OR Stars: <input id="moreTokensLevel2" placeholder="2000" type="number" class="inputOptional" /> <br />
-                *More Tokens is unlocked at x500 Stars, below x500 you can leave these empty
-            </div>
-            <div class="rightArea" id="combinesRight">
-                Global Challenge progress: <br />
-                Global Progress (x1 - x5) <input id="progressGlobal" min="0" max="5" value="5" type="range" /> <span id="progressGlobalText">x5</span> <br />
-                Your Progress (x1 - x5) <input id="progressYours" min="0" max="5" value="5" type="range" /> <span id="progressYoursText">x5</span>
-            </div>
-
-            <hr style="clear: both" />
-            <span id="textCGC"></span>
+        <div>
+            <span id="categoriesSelection"></span>
         </div>
 
-        <!-- MORE SCRAP CALC -->
-        <img src="images/bookScrap.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>More Scrap Calc</h3>
-            Calculate what level your More Scrap Book upgrade should be! <br />  <br />
+        <hr />
 
-            More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" placeholder="0" type="number" /> <br />
-            Highest Scrap Ever: <input id="highestScrapEver" placeholder="100 or 1e100" type="text" /> <br />
-            (Optional, for more precise calculation): More Scrap (Book upgrade) level: <input id="moreScrapLevel" placeholder="0" type="text" /> <br />
-            <span id="textMSC"></span>
-
-            <br />
-            <hr style="clear: both" />
-            Formulas and research made by K. whale. <br />
-            <img src="images/moreScrapFormula.png" style="width: 50%" /> <br />
-
-            <i>
-                Formulas: <br />
-                <b>(simple) a =</b> log(1.4) / log(highest scrap ever) <br />
-                <b>(complex) a =</b> log(1.4) / (log(highest scrap ever) - more scrap level * log(1.4)) <br />
-                <b>more scrap level =</b> - 1 / 2a + root(x² + x / 0.03 + 1 / 4a²) where x is the more gs level
-            </i>
-        </div>
-
-        <!-- TOKEN COST CALC -->
-        <img src="images/combineToken.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Token Cost Calc</h3>
-            Calculate how many tokens you need to do the desired combination x times, or how many times you can do it with x tokens! The order of the two ads makes no difference. <br /> <br />
-
-            <!-- This bit could be not-repeated if generated via code... but do you think I am gonna bother with that at 11 pm -->
-            Select ads:
-            <select name="combination1" id="combination1-select">
-                <option value="none">Select ad 1</option>
-                <option value="automerge">Auto Merge</option>
-                <option value="bricks">x100 Bricks</option>
-                <option value="moremagnets">More Magnets</option>
-                <option value="morescrap">More Scrap</option>
-                <option value="fasterbarrels">Faster Barrels</option>
-                <option value="flu">Faster Level Up</option>
-                <option value="morefragments">More Fragments</option>
-            </select> x
-            <select name="combination2" id="combination2-select">
-                <option value="none">Select ad 2</option>
-                <option value="automerge">Auto Merge</option>
-                <option value="bricks">x100 Bricks</option>
-                <option value="moremagnets">More Magnets</option>
-                <option value="morescrap">More Scrap</option>
-                <option value="fasterbarrels">Faster Barrels</option>
-                <option value="flu">Faster Level Up</option>
-                <option value="morefragments">More Fragments</option>
-            </select>
-
-            <br />
-            How many times to combine: <input id="tokenCostAmountOfAds" value="1" min="0" type="number" oninput="ui.tokenCostCalc.tokenCostAmountOfTokens.value = 0;" /><br />
-            OR: how many tokens you want to spend <input id="tokenCostAmountOfTokens" placeholder="0" min="0" type="number" class="inputOptional" oninput="ui.tokenCostCalc.tokenCostAmountOfAds.value = 0;" /><br />
-            <br />
-
-            <span id="textTCC"></span>
-
-            <br />
-            <hr style="clear: both" />
-            <br />
-            <img src="images/Tokentable.png" style="width: 30%; min-width: 256px" /> <br />
-        </div>
-
-        <!-- BARREL PRODUCTION CALC -->
-        <img src="images/barrelProduction.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Barrel Production Calc</h3>
-            Calculate how much scrap you get from a barrel based on your Circle Blue production. <br />
-
-            Circle Blue production in scientific (ie 1.561e102): <input id="bpcFirstProd" value="1" type="text" /> <br />
-            Barrel to calculate: #<input id="bpcBarrelNr" placeholder="661" type="number" /> <br />
-
-            <br />
-            <span id="textBPC"></span>
-        </div>
-
-        <!-- Achievement Boost CALC -->
-        <img src="images/achievementBoost.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Achievement Boost Calc</h3>
-            Calculate how many Crystals it costs to upgrade an Achievement Boost <br />
-
-            Start level: <input id="abcStart" value="50" type="number" /> <br />
-            Goal level:  <input id="abcGoal" placeholder="100" type="number" /> <br />
-            <!-- Achievements:  <input id="abcAchievements" placeholder="348" type="number" /> <br /> -->
-
-            <br />
-            <span id="textABC"></span>
-        </div>
-
-        <!-- Abstract CALC -->
-        <img src="images/abstractCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Abstract &lt;-&gt; Scientific Calc</h3>
-            Convert between numbers in abstract and scientific notation <br />
-            Especially useful for tires and screenshots, python original by K. Whale <br />
-
-            <input id="inputAbstract" placeholder="ex.: big or 4782 or 1e4782" type="text" onkeyup="calculateAbstract();" style="min-width: 33%;" /> <br />
-
-            <span id="textAbstract"></span>
-        </div>
+        <span id="abcd"></span>
+        
+        <br /><hr /><br />
 
         <!-- INFO / CONTACT / LINKS / PATCH NOTES -->
         <div class="theContainer">
@@ -192,7 +72,11 @@
 
     <!-- LOAD SCRIPTS -->
     <script src="code/breakinfinity.js"></script>
+
+    <script src="code/calcClass.js"></script>
+    <script src="code/categoryClass.js"></script>
     <script src="code/calcs.js"></script>
+
     <script src="code/main.js"></script>
 </body>
 </html>

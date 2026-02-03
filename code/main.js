@@ -15,13 +15,35 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 const FPS = 15;
 
-var currentVersion = "v1.5.2";
-var currentVersionDate = "(2026-01-20)";
+var currentVersion = "v1.6";
+var currentVersionDate = "(2026-)";
 var patchNotes = `
-- More Scrap Calc: implemented new (complex) formula for a, requiring More Scrap upgrade level
-- Updated Info and Contact sections at the bottom, including easier-to-read formatting and Balnoom brand name
-- Changed purpose from "tool for Global Challenge/Combine Tokens and more" to "collection of various Scrap calcs and tools"
+-> Games and subcategories:
+- Added support and UI for multiple games and subcategories
+- Added Scrap Collector and SC2FMFR (and the already existing Scrap 2)
+- Scrap 2 has these subcategories: GC/Combines, Scrap prod, Other, All
+- Added images for all games and subcategories
+- Overhauled structure and code to enable these, make it easier to add new tools, and optimize performance
+
+-> New calcs and tools:
+- SC2: Merge Pace Calc: get estimates for 1 hour, 6 hours, 12 hours, 1 day and 7 days based on merges in an FB and rest time, along with FB/h and hours per day info
+- SCO: Prestige GS Calc: calculates GS on a prestige using the four relevant values
+- SCO: Star Calc: calculates cost for a Star or multiple, including discount and the breakeven point
+- SCO: Scrapyard Calc: calculates cost and effect at a given Scrapyard level
+- SCO: Scrap Boost Calc: calculates the Scrap Boost at a number of collects, or how many are needed to get a certain boost
+- FMFR: Second Dimension Calc: find out how many merges it takes for an optimal second dim run
+- FMFR: Fairy Dust Calc: calculate current or theoretical gains by inserting all relevant numbers
+- FMFR: Alien Dust Calc
+- FMFR: Star Dust Calc
+- FMFR: Import: paste your SC2FMFR save and the numbers are automatically extracted into the other calcs/tools, making it even easier
+
+-> Other:
+- Renamed Abstract <-> Scientific Calc to Abstract <-> Scientific Converter
+- Barrel Production Calc appears for SC2FMFR too
+- Changed color of squares at the bottom
 `;
+
+// PLANNED: fmfr calcs for 2nd dim, the three dusts, sc2 calc for pace, sc2 tool for barrels?
 
 function updatePatchNotes() {
     let render = "";
@@ -37,50 +59,8 @@ function updatePatchNotes() {
     ui.bottom.currentVersion.innerHTML = currentVersion + " " + currentVersionDate;
 }
 
-// UI DICT
+// UI DICT, most of it is auto generated when needed
 var ui = {
-    globalChallengeStatus: {
-        statusText: document.getElementById("textGC"),
-    },
-    combineGainCalc: {
-        statusText: document.getElementById("textCGC"),
-        combinesLeft: document.getElementById("combinesLeft"),
-        combinesRight: document.getElementById("combinesRight"),
-        moreTokensLevel: document.getElementById("moreTokensLevel"),
-        moreTokensLevel2: document.getElementById("moreTokensLevel2"),
-        progressGlobal: document.getElementById("progressGlobal"),
-        progressYours: document.getElementById("progressYours"),
-        progressGlobalText: document.getElementById("progressGlobalText"),
-        progressYoursText: document.getElementById("progressYoursText")
-    },
-    moreScrapCalc: {
-        statusText: document.getElementById("textMSC"),
-        moreGSLevel: document.getElementById("moreGSLevel"),
-        moreScrapLevel: document.getElementById("moreScrapLevel"),
-        highestScrapEver: document.getElementById("highestScrapEver")
-    },
-    tokenCostCalc: {
-        statusText: document.getElementById("textTCC"),
-        selectedAd1: document.getElementById("combination1-select"),
-        selectedAd2: document.getElementById("combination2-select"),
-        tokenCostAmountOfAds: document.getElementById("tokenCostAmountOfAds"),
-        tokenCostAmountOfTokens: document.getElementById("tokenCostAmountOfTokens")
-    },
-    barrelProductionCalc: {
-        statusText: document.getElementById("textBPC"),
-        productionBarrelOne: document.getElementById("bpcFirstProd"),
-        barrelNumber: document.getElementById("bpcBarrelNr")
-    },
-    achievementBoostCalc: {
-        statusText: document.getElementById("textABC"),
-        start: document.getElementById("abcStart"),
-        goal: document.getElementById("abcGoal"),
-        //achievements: document.getElementById("abcAchievements")
-    },
-    abstractCalc: {
-        statusText: document.getElementById("textAbstract"),
-        input: document.getElementById("inputAbstract"),
-    },
     bottom: {
         header: document.getElementById("header"),
         patchNotes: document.getElementById("patchNotes"),
@@ -88,13 +68,10 @@ var ui = {
     }
 }
 
-// Set some inputs
-ui.combineGainCalc.moreTokensLevel.oninput = () => { ui.combineGainCalc.moreTokensLevel2.value = "" }
-ui.combineGainCalc.moreTokensLevel2.oninput = () => { ui.combineGainCalc.moreTokensLevel.value = "" }
-ui.combineGainCalc.progressGlobal.oninput = () => { ui.combineGainCalc.progressGlobalText.innerHTML = "x" + ui.combineGainCalc.progressGlobal.value }
-ui.combineGainCalc.progressYours.oninput = () => { ui.combineGainCalc.progressYoursText.innerHTML = "x" + ui.combineGainCalc.progressYours.value }
-ui.combineGainCalc.progressGlobal.value = "5";
-ui.combineGainCalc.progressYours.value = "5";
+function normalizeScientific(mynum) {
+    if (mynum.toString().includes("e")) return new Decimal(mynum);
+    else return new Decimal("1e" + mynum);
+}
 
 // globalChallengeStatus: Time functions
 function updateTime() {
@@ -130,18 +107,15 @@ function determineLastSundayOfMonth(monthToCheck) {
 function loop() {
     updateTime();
 
-    // UI update
-    calculateGlobalChallengeTime();
-    calculateGlobalChallenge();
-    calculateMoreScrap();
-    calculateTokenCosts();
-    calculateBarrelProduction();
-    calculateAchievementBoost();
+    updateTools();
 }
 
 function init() {
     ui.bottom.header.innerHTML = "CombCalc " + currentVersion;
     updatePatchNotes();
+
+    renderGames();
+    renderCategories();
 
     setInterval(loop, 1000 / FPS);
 }

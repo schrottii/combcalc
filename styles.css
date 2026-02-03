@@ -109,6 +109,7 @@ input {
 
 /* bottom */
 .miniBox {
+    background-color: rgb(20, 20, 80);
     margin-left: 10%;
     margin-right: 10%;
     max-width: 80%;
@@ -131,3 +132,57 @@ input {
         display: flex;
     }
 }
+
+
+.navButton {
+    display: inline-block;
+    background-image: url('images/button.png');
+    background-size: cover;
+    border: 3px solid lightblue;
+    border-radius: 6px;
+    min-width: 32%;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.5s;
+}
+
+    .navButton:hover {
+        filter: brightness(120%) contrast(150%);
+    }
+
+@media only screen and (min-width: 1280px) {
+    .navButton {
+        min-width: 30%;
+        max-width: 128px;
+        font-size: 24px;
+    }
+
+        .navButton:hover {
+            min-width: 35%;
+            max-width: 160px;
+            filter: brightness(120%) contrast(150%);
+        }
+}
+
+.navButtonMini {
+    display: inline-block;
+    background-image: url('images/button.png');
+    background-size: cover;
+    border: 2px solid lightblue;
+    border-radius: 4px;
+    padding: 0px -4px 0px -4px;
+    width: 128px;
+    height: 32px;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden auto;
+    overflow-y: hidden;
+    transition: 0.5s;
+}
+
+    .navButtonMini:hover {
+        filter: brightness(120%) contrast(150%);
+    }
