@@ -314,7 +314,7 @@ const tools = {
             let scrap = ui.sco_prestigeGSCalc.SCOPGS_Scrap.value;
             if (scrap == "") return false;
             scrap = normalizeScientific(scrap);
-            scrap = Math.log10(scrap);
+            scrap = scrap.log10();
 
             let GS = 25 * Math.max(0, scrap - 9)
                 * Math.max(1, Math.max(0, scrap - 30) / 8)
@@ -324,7 +324,7 @@ const tools = {
                 GS *= (1 + (ui.sco_prestigeGSCalc.SCOPGS_CollectedBarrels.value / 1000) * 0.0125);
             }
 
-            ui.sco_prestigeGSCalc.statusText.innerHTML = "You should get +" + Math.floor(GS) + " GS";
+            ui.sco_prestigeGSCalc.statusText.innerHTML = "You should get +" + Math.floor(GS).toLocaleString() + " GS";
         }
     ),
 
@@ -475,9 +475,10 @@ const tools = {
             let cheaperScrapyard = ui.sco_SYCalc.SCOSY_CheaperScrapyardLvl.value;
             if (cheaperScrapyard == "" || cheaperScrapyard < 1) cheaperScrapyard = 0;
 
-            let syPrice = 1e12 * Math.pow(10, syLevel) * Math.pow(0.01, cheaperScrapyard);
+            let syPrice = new Decimal(10).pow(syLevel).mul(1e12).mul(new Decimal(0.01).pow(cheaperScrapyard));
+            if (syPrice.lt(1)) syPrice = 10;
             syPrice = syPrice.toString();
-            syPrice = Math.round(syPrice.split("e+")[0]) + "e" + syPrice.split("e+")[1];
+            if (syPrice.includes("e+")) syPrice = Math.round(syPrice.split("e+")[0]) + "e" + syPrice.split("e+")[1];
 
             ui.sco_SYCalc.statusText.innerHTML = "Level " + syLevel + " to " + (syLevel + 1) + " costs: " + syPrice + " (for 10 taps)"
                 + "<br />Effect at level " + syLevel + ": " + calcSCOScrapyard(syLevel).toFixed(3) + "%"
@@ -512,13 +513,15 @@ const tools = {
 
             if (collectedBarrels != "") {
                 // get boost based on barrels
-                let boost = Math.pow(1.05, Math.floor(collectedBarrels / 100000));
-                ui.sco_ScrapBoostCalc.statusText.innerHTML = "Boost: x" + Math.floor(boost) + " Scrap";
+                let boost = new Decimal(1.05).pow(new Decimal(collectedBarrels).div(100000).floor()); //Math.pow(1.05, Math.floor(collectedBarrels / 100000));
+                if (boost.toString().includes("e+")) boost = parseInt(boost.toString().split("e+")[0]).toFixed(1) + "e" + boost.toString().split("e+")[1];
+                else boost = boost.toFixed(1);
+                ui.sco_ScrapBoostCalc.statusText.innerHTML = "Boost: x" + boost + " Scrap";
             }
             else if (desiredBoost != "") {
                 // get needed barrels based on boost
-                collectedBarrels = Math.floor(new Decimal(desiredBoost).log(1.05) + 1) * 1e5;
-                ui.sco_ScrapBoostCalc.statusText.innerHTML = "Needed collects: " + collectedBarrels.toLocaleString();
+                collectedBarrels = new Decimal(new Decimal(desiredBoost).log(1.05)).add(1).floor().mul(1e5);
+                ui.sco_ScrapBoostCalc.statusText.innerHTML = "Needed collects: " + Math.floor(collectedBarrels).toLocaleString();
             }
             else {
                 // nothing
