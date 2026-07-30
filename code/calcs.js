@@ -248,10 +248,15 @@ const tools = {
             5s/puzzle ads?: <input id="mpcFastAds" type="checkbox" /> <br />
             <br />
 
+            Ratio: <input id="mpcRatio" type="text" /> (format: 3:1)
+            Alt. merges: <input id="mpcMerges2" value="600" type="number" /> <br />
+            <br />
+
+            <br />
             <span id="textMPC"></span>
         </div>
 `,
-        ["textMPC", "mpcBreakTime", "mpcMerges", "mpcAdTrick", "mpcAdTokens", "mpcFastAds"],
+        ["textMPC", "mpcBreakTime", "mpcMerges", "mpcAdTrick", "mpcAdTokens", "mpcFastAds", "mpcRatio", "mpcMerges2"],
         () => { },
         () => {
             let merges = ui.mergePaceCalc.mpcMerges.value;
@@ -260,21 +265,57 @@ const tools = {
             let adTokens = ui.mergePaceCalc.mpcAdTokens.checked;
             let fastAds = ui.mergePaceCalc.mpcFastAds.checked;
 
+            let merges2 = ui.mergePaceCalc.mpcMerges2.value;
+            let ratioString = ui.mergePaceCalc.mpcRatio.value;
+            let isRatio = true;
+            let ratioA = 1;
+            let ratioB = 0;
+
+            // validate existence of a ratio
+            if (ratioString == "" || !ratioString.includes(":")) isRatio = false;
+            else {
+                // exists to an extent, grab the two parts
+                let ratioSplit = ratioString.split(":");
+                if (isNaN(ratioSplit[0]) || ratioSplit[0] == "") isRatio = false;
+                else ratioA = parseInt(ratioSplit[0]);
+                if (isNaN(ratioSplit[1]) || ratioSplit[1] == "") isRatio = false;
+                else ratioB = parseInt(ratioSplit[1]);
+            }
+            if (isRatio == false) {
+                // no ratio = 1:0 (always normal)
+                ratioA = 1;
+                ratioB = 0;
+            }
+
+            // let that ratio sink in
+            let ratioedmerges = merges;
+            if (isRatio == true) {
+                let combinedUnits = ratioA + ratioB;
+                let rmerges = (merges * ratioA) / combinedUnits;
+                let rmerges2 = (merges2 * ratioB) / combinedUnits;
+                ratioedmerges = rmerges + rmerges2;
+                //console.log(merges, merges2, ratioedmerges, rmerges, rmerges2);
+            }
+
             // time between ads is 15s, used to be 25s
             let fbDuration = 600 + (adTrick == true ? 0 : 15) + (adTokens == true ? 0 : (fastAds ? 5 : 30));
             let fbsPerHour = (3600 / fbDuration).toFixed(2);
 
             let breakRatio = Math.max(0, (breakTime != "" && breakTime > 0) ? 1 - (breakTime / 100) : 1);
-            let hoursPerDay = 24 * breakRatio;
+            let hoursPerDay = 24 * breakRatio; // for text
 
-            ui.mergePaceCalc.statusText.innerHTML = "At " + merges + "/fb (" + fbsPerHour + "FB/h, " + fbDuration + "s/FB),"
+            let MPS = ratioedmerges * breakRatio; // merges per second
+            //console.log(fbDuration, merges, breakRatio);
+
+            ui.mergePaceCalc.statusText.innerHTML = "At " + Math.floor(ratioedmerges) + "/fb (" + fbsPerHour + "FB/h, " + fbDuration + "s/FB),"
                 + (breakRatio > 0 ? " " + hoursPerDay.toFixed(1) + " hours per day," : "")
                 + "<table align='center'>"
-                + "<tr><td>Per hour: </td><td>" + Math.floor(3600 / fbDuration * merges * breakRatio).toLocaleString() + "</td></tr>"
-                + "<tr><td>Per 6 hours: </td><td>" + Math.floor(6 * 3600 / fbDuration * merges * breakRatio).toLocaleString() + "</td></tr>"
-                + "<tr><td>Per 12 hours: </td><td>" + Math.floor(12 * 3600 / fbDuration * merges * breakRatio).toLocaleString() + "</td></tr>"
-                + "<tr><td>Per day: </td><td>" + Math.floor(24 * 3600 / fbDuration * merges * breakRatio).toLocaleString() + "</td></tr>"
-                + "<tr><td>Per week: </td><td>" + Math.floor(7 * 24 * 3600 / fbDuration * merges * breakRatio).toLocaleString() + "</td></tr>"
+                + "<tr><td>Per second: </td><td>" + (1 / fbDuration * MPS).toFixed(2) + "</td></tr>"
+                + "<tr><td>Per hour: </td><td>" + Math.floor(3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
+                + "<tr><td>Per 6 hours: </td><td>" + Math.floor(6 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
+                + "<tr><td>Per 12 hours: </td><td>" + Math.floor(12 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
+                + "<tr><td>Per day: </td><td>" + Math.floor(24 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
+                + "<tr><td>Per week: </td><td>" + Math.floor(7 * 24 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
                 + "</table>";
         }
     ),

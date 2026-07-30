@@ -16,7 +16,7 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 const FPS = 15;
 
 var currentVersion = "v1.6";
-var currentVersionDate = "(2026-)";
+var currentVersionDate = "(2026-02-03)";
 var patchNotes = `
 -> Games and subcategories:
 - Added support and UI for multiple games and subcategories
