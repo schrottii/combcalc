@@ -1,27 +1,30 @@
 format: yyyy-mm-dd
 
-2024
-1.0
-1.1
-1.2
-1.3
-1.4
-2025
-1.4.1
-1.5
-1.5.1
-2026
-1.5.1
-1.6
+# List of Updates
+## 2024
+- v1.0
+- v1.1
+- v1.2
+- v1.3
+- v1.4
+## 2025
+- v1.4.1
+- v1.5
+- v1.5.1
+## 2026
+- v1.5.1
+- v1.6
+- v1.7
 
 
 
-v1.0 2024-05-13
+# Patch notes
+## v1.0 2024-05-13
 - Release
 
 
 
-v1.1 2024-06-15
+## v1.1 2024-06-15
 - New feature: Combine Gain Calc (the first actual calc here, lol)
 - Added images to the top left of features
 - Added Terms of Service
@@ -29,7 +32,7 @@ v1.1 2024-06-15
 
 
 
-v1.2 2024-10-17
+## v1.2 2024-10-17
 - Added More Scrap Calc (for the book upgrade)
 - Formula and research made by K. whale.
 - Added Donate link
@@ -37,7 +40,7 @@ v1.2 2024-10-17
 
 
 
-v1.3 2024-12-03
+## v1.3 2024-12-03
 - New calc: Token Cost Calc (how many tokens for x combinations, or how many combinations with x tokens)
 - Input fields are now yellow if optional, red if required
 - Donate button prettier
@@ -45,7 +48,7 @@ v1.3 2024-12-03
 
 
 
-v1.4 2024-12-28
+## v1.4 2024-12-28
 - New calc: Barrel Production Calc (calculate production of a barrel based on your barrel 1)
 - Implemented breakinfinity
 - Added favicon
@@ -53,7 +56,7 @@ v1.4 2024-12-28
 
 
 
-v1.4.1 2025-04-30
+### v1.4.1 2025-04-30
 - Added more invalid input texts (when you enter something illegal)
 - Added some placeholder texts (gray) to indicate what you are meant to enter
 - Fixed Summer time issue
@@ -61,7 +64,7 @@ v1.4.1 2025-04-30
 
 
 
-v1.5 2025-09-07
+## v1.5 2025-09-07
 -> New calc: Achievement Boost Calc
 - Calculates how many Crystals upgrading costs
 - Insert start level and goal level
@@ -87,7 +90,7 @@ v1.5 2025-09-07
 
 
 
-v1.5.1 2025-12-03
+### v1.5.1 2025-12-03
 -> New calc: Abstract Calc
 - Convert between abstract and scientific notation
 - Based on the python original by K. Whale, requested by some 
@@ -97,14 +100,14 @@ v1.5.1 2025-12-03
 
 
 
-v1.5.2 2026-01-20
+### v1.5.2 2026-01-20
 - More Scrap Calc: implemented new (complex) formula for a, requiring More Scrap upgrade level
 - Updated Info and Contact sections at the bottom, including easier-to-read formatting and Balnoom brand name
 - Changed purpose from "tool for Global Challenge/Combine Tokens and more" to "collection of various Scrap calcs and tools"
 
 
 
-v1.6 2026-02-03
+## v1.6 2026-02-03
 -> Games and subcategories:
 - Added support and UI for multiple games and subcategories
 - Added Scrap Collector and SC2FMFR (and the already existing Scrap 2)
@@ -128,3 +131,39 @@ v1.6 2026-02-03
 - Renamed Abstract <-> Scientific Calc to Abstract <-> Scientific Converter
 - Barrel Production Calc appears for SC2FMFR too
 - Changed color of squares at the bottom
+
+
+
+## v1.7 2026-07-31
+-> Saving:
+- Inputs into the tools and calcs are now saved (every 3s)
+- They get cached and later loaded directly into the tools when revisiting CombCalc
+- Added buttons to quickly clear the inputs to most tools (top right)
+- Added a button to clear ALL inputs of ALL tools to the Info section
+
+-> Merge Pace Calc:
+- Added ability to set a ratio, and the merges of the alt. speed
+- This can be used for something like: 2:1 - 2 FBs, 1 am+fb
+- Active Speed and Alt. Speed (if using ratio) are now shown (these are for active playing, so not including breaks)
+- Seconds and Minutes are now shown
+- Design and text changes
+
+-> Other tools:
+- SC2FMFR import: improved stability for lategame saves
+- Renamed Abstract <-> Scientific Converter to Abstract-Scientific Converter
+
+-> Design:
+- Slightly changed hover effect for tools
+- Changed positioning of tool images
+- Increased size of checkboxes
+- Increased size for categories and subcategories
+- Limited patch notes height (scrollable)
+- Various mobile improvements
+
+-> Other:
+- Removed old ToS and inserted new ToS, Balnoom License & Privacy Policy (note: not tailored to CombCalc, so it may be called a "game" or discuss contents that do not exist here)
+- Contact: added E-mail (with mailto)
+- Other Scrap content: Added link to SC2 Records
+- Changed patch_notes.txt to PATCH_NOTES.md
+- Added link to all patch notes
+- Fixed very weird auto scrolling bug

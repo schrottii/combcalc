@@ -5,6 +5,8 @@ body {
     color: rgb(200, 200, 255);
     font-size: 20px;
     text-align: center;
+    font-variant-numeric: tabular-nums; 
+    overflow-anchor: none !important;
 }
 
 ul {
@@ -29,6 +31,23 @@ a {
 input {
     border-color: red;
     border-width: 4px;
+}
+
+input[type="checkbox"] {
+    transform: scaleX(200%) scaleY(150%);
+    cursor: pointer;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+table th {
+    text-align: left;
+    background-color: rgb(0, 0, 88);
+}
+
+table td {
+    text-align: left;
+    background-color: rgb(0, 0, 110);
 }
 
 .inputOptional {
@@ -69,11 +88,51 @@ input {
 
 .boxImg {
     position: absolute;
-    transform: translateY(-16px);
-    left: 3%;
+    transform: translateY(16px);
+    left: 1%;
     min-width: 64px;
-    max-width: 10%;
+    max-width: 7%;
     z-index: 3;
+}
+
+button {
+    background-color: #4e3d79;
+    color: white;
+    border: 4px solid black;
+    cursor: pointer;
+}
+
+.boxButton {
+    float: right;
+    min-height: 40px;
+    min-width: 80px;
+}
+
+@media only screen and (max-width: 768px) {
+    .boxSize {
+        margin-left: 1%;
+        margin-right: 1%;
+        max-width: 98%;
+    }
+
+    .boxSize:hover {
+        margin-left: 1%;
+        margin-right: 1%;
+        max-width: 98%;
+    }
+
+    .boxImg {
+        position: absolute;
+        transform: translateY(-16px);
+        left: 3%;
+        min-width: 64px;
+        max-width: 10%;
+        z-index: 3;
+    }
+
+    .boxButton {
+        max-width: 60px;
+    }
 }
 
 .leftArea {
@@ -110,9 +169,9 @@ input {
 /* bottom */
 .miniBox {
     background-color: rgb(20, 20, 80);
-    margin-left: 10%;
-    margin-right: 10%;
-    max-width: 80%;
+    margin-left: 3%;
+    margin-right: 3%;
+    max-width: 94%;
 }
 
 @media only screen and (min-width: 1280px) {
@@ -141,6 +200,7 @@ input {
     border: 3px solid lightblue;
     border-radius: 6px;
     min-width: 32%;
+    height: 48px;
     color: black;
     font-weight: bold;
     font-size: 18px;
@@ -150,20 +210,6 @@ input {
     .navButton:hover {
         filter: brightness(120%) contrast(150%);
     }
-
-@media only screen and (min-width: 1280px) {
-    .navButton {
-        min-width: 30%;
-        max-width: 128px;
-        font-size: 24px;
-    }
-
-        .navButton:hover {
-            min-width: 35%;
-            max-width: 160px;
-            filter: brightness(120%) contrast(150%);
-        }
-}
 
 .navButtonMini {
     display: inline-block;
@@ -186,3 +232,24 @@ input {
     .navButtonMini:hover {
         filter: brightness(120%) contrast(150%);
     }
+
+@media only screen and (min-width: 1280px) {
+    .navButton {
+        min-width: 30%;
+        max-width: 128px;
+        font-size: 24px;
+        margin-right: 6px;
+    }
+
+        .navButton:hover {
+            min-width: 35%;
+            max-width: 160px;
+            filter: brightness(120%) contrast(150%);
+        }
+    
+    .navButtonMini {
+        width: 200px;
+        margin-top: 6px;
+        margin-right: 3px;
+    }
+}

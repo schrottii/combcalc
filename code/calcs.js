@@ -1,5 +1,6 @@
 ﻿// this file has the
 // categories, games, tools, various functions (rendering etc)
+var mergePaceCalcTimes;
 
 const games = [
     new Game("Scrap 2", "games/scrap2.png", ["combines", "scrap", "misc", "sc2_all"]),
@@ -33,12 +34,8 @@ const categories = {
 const tools = {
     globalChallengeStatus: new Tool(
         `
-        <img src="images/tools/globeIcon.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Global Challenge Status</h3>
-            <span id="textGC"></span>
-        </div>
-`,
+        <span id="textGC"></span>
+`, "Global Challenge Status", "tools/globeIcon.png",
         ["textGC"],
         () => { },
         () => { calculateGlobalChallengeTime(); }
@@ -48,9 +45,6 @@ const tools = {
 
     combineGainCalc: new Tool(
         `
-        <img src="images/tools/combineToken.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Combine Gain Calc</h3>
             Calculate how many Combine Tokens you earn from a Global Challenge!
             <hr style="clear: both" />
 
@@ -67,9 +61,8 @@ const tools = {
             </div>
 
             <hr style="clear: both" />
-            <span id="textCGC"></span>
-        </div>
-`,
+            You will earn <big><span id="textCGC"></span><img src='images/assets/combineToken.png' style='width: 32px' />!</big>
+`, "Combine Gain Calc", "tools/combineToken.png",
         ["textCGC", "combinesLeft", "combinesRight", "moreTokensLevel", "moreTokensLevel2",
             "progressGlobal", "progressYours", "progressGlobalText", "progressYoursText"],
         () => {
@@ -87,9 +80,6 @@ const tools = {
 
     moreScrapCalc: new Tool(
         `
-        <img src="images/tools/bookScrap.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>More Scrap Calc</h3>
             Calculate what level your More Scrap Book upgrade should be! <br />  <br />
 
             More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" placeholder="0" type="number" /> <br />
@@ -100,7 +90,7 @@ const tools = {
             <br />
             <hr style="clear: both" />
             Formulas and research made by K. whale. <br />
-            <img src="images/assets/moreScrapFormula.png" style="width: 50%" /> <br />
+            <img src="images/assets/moreScrapFormula.png" style="height: 100px;" /> <br />
 
             <i>
                 Formulas: <br />
@@ -108,8 +98,7 @@ const tools = {
                 <b>(complex) a =</b> log(1.4) / (log(highest scrap ever) - more scrap level * log(1.4)) <br />
                 <b>more scrap level =</b> - 1 / 2a + root(x² + x / 0.03 + 1 / 4a²) where x is the more gs level
             </i>
-        </div>
-`,
+`, "More Scrap Calc", "tools/bookScrap.png",
         ["textMSC", "moreGSLevel", "moreScrapLevel", "highestScrapEver"],
         () => { },
         () => { calculateMoreScrap(); }
@@ -119,9 +108,6 @@ const tools = {
 
     tokenCostCalc: new Tool(
         `
-        <img src="images/tools/combineToken.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Token Cost Calc</h3>
             Calculate how many tokens you need to do the desired combination x times, or how many times you can do it with x tokens! The order of the two ads makes no difference. <br /> <br />
 
             <!-- This bit could be not-repeated if generated via code... but do you think I am gonna bother with that at 11 pm -->
@@ -157,9 +143,8 @@ const tools = {
             <br />
             <hr style="clear: both" />
             <br />
-            <img src="images/assets/Tokentable.png" style="width: 30%; min-width: 256px" /> <br />
-        </div>
-`,
+            <img src="images/assets/Tokentable.png" style="height: 256px;" /> <br />
+`, "Token Cost Calc", "tools/combineToken.png",
         ["textTCC", "selectedAd1", "selectedAd2", "tokenCostAmountOfAds", "tokenCostAmountOfTokens"],
         () => {
             // GO BOTHER WITH IT!
@@ -171,9 +156,6 @@ const tools = {
 
     barrelProductionCalc: new Tool(
         `
-        <img src="images/tools/barrelProduction.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Barrel Production Calc</h3>
             Calculate how much scrap you get from a barrel based on your Circle Blue production. <br />
 
             Circle Blue production in scientific (ie 1.561e102): <input id="bpcFirstProd" value="1" type="text" /> <br />
@@ -181,8 +163,7 @@ const tools = {
 
             <br />
             <span id="textBPC"></span>
-        </div>
-`,
+`, "Barrel Production Calc", "tools/barrelProduction.png",
         ["textBPC", "bpcFirstProd", "bpcBarrelNr"],
         () => { },
         () => { calculateBarrelProduction();  }
@@ -192,9 +173,6 @@ const tools = {
 
     achievementBoostCalc: new Tool(
         `
-        <img src="images/tools/achievementBoost.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Achievement Boost Calc</h3>
             Calculate how many Crystals it costs to upgrade an Achievement Boost <br />
 
             Start level: <input id="abcStart" value="50" type="number" /> <br />
@@ -203,8 +181,7 @@ const tools = {
 
             <br />
             <span id="textABC"></span>
-        </div>
-`,
+`, "Achievement Boost Calc", "tools/achievementBoost.png",
         ["textABC", "abcStart", "abcGoal"],
         () => { },
         () => { calculateAchievementBoost(); }
@@ -214,17 +191,13 @@ const tools = {
 
     abstractScientificConverter: new Tool(
         `
-        <img src="images/tools/abstractCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Abstract &lt;-&gt; Scientific Converter</h3>
             Convert between numbers in abstract and scientific notation <br />
             Especially useful for tires and screenshots, python original by K. Whale <br />
 
             <input id="inputAbstract" placeholder="ex.: big or 4782 or 1e4782" type="text" onkeyup="calculateAbstract();" style="min-width: 33%;" /> <br />
 
             <span id="textAbstract"></span>
-        </div>
-`,
+`, "Abstract-Scientific Converter", "tools/abstractCalc.png",
         ["textAbstract", "inputAbstract"],
         () => { },
         () => { }
@@ -234,9 +207,6 @@ const tools = {
 
     mergePaceCalc: new Tool(
         `
-        <img src="images/tools/mergePaceCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Merge Pace Calc</h3>
             Figure out roughly how fast an average FB speed would be over longer durations. <br />
             Note that breaks, sleep, etc. are not calculated in by default, but you can insert how much of the time you are taking a break, to get a less tryhard estimate.
 
@@ -248,16 +218,26 @@ const tools = {
             5s/puzzle ads?: <input id="mpcFastAds" type="checkbox" /> <br />
             <br />
 
-            Ratio: <input id="mpcRatio" type="text" /> (format: 3:1)
+            (Optional) If you have two different speeds (e.g.: some FB, then am+fb to relax): <br />
+            Ratio: <input id="mpcRatio" type="text" /> (format: 3:1) <br />
             Alt. merges: <input id="mpcMerges2" value="600" type="number" /> <br />
             <br />
 
             <br />
             <span id="textMPC"></span>
-        </div>
-`,
+`, "Merge Pace Calc", "tools/mergePaceCalc.png",
         ["textMPC", "mpcBreakTime", "mpcMerges", "mpcAdTrick", "mpcAdTokens", "mpcFastAds", "mpcRatio", "mpcMerges2"],
-        () => { },
+        () => { 
+            mergePaceCalcTimes = {
+                "Second": 1,
+                "Minute": 60,
+                "Hour": 3600,
+                "6 hours": 6 * 3600,
+                "12 hours": 12 * 3600,
+                "Day": 24 * 3600,
+                "Week": 7 * 24 * 3600,
+            }
+        },
         () => {
             let merges = ui.mergePaceCalc.mpcMerges.value;
             let breakTime = ui.mergePaceCalc.mpcBreakTime.value;
@@ -307,16 +287,36 @@ const tools = {
             let MPS = ratioedmerges * breakRatio; // merges per second
             //console.log(fbDuration, merges, breakRatio);
 
-            ui.mergePaceCalc.statusText.innerHTML = "At " + Math.floor(ratioedmerges) + "/fb (" + fbsPerHour + "FB/h, " + fbDuration + "s/FB),"
+            let render = "At " + Math.floor(ratioedmerges) + "/fb (" + fbsPerHour + "FB/h, " + fbDuration + "s/FB),"
                 + (breakRatio > 0 ? " " + hoursPerDay.toFixed(1) + " hours per day," : "")
-                + "<table align='center'>"
-                + "<tr><td>Per second: </td><td>" + (1 / fbDuration * MPS).toFixed(2) + "</td></tr>"
-                + "<tr><td>Per hour: </td><td>" + Math.floor(3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
-                + "<tr><td>Per 6 hours: </td><td>" + Math.floor(6 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
-                + "<tr><td>Per 12 hours: </td><td>" + Math.floor(12 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
-                + "<tr><td>Per day: </td><td>" + Math.floor(24 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
-                + "<tr><td>Per week: </td><td>" + Math.floor(7 * 24 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
+                + "<table align='center' style='border-spacing: 8px 4px;'>"
+                + "<tr><th>Time</th><th>Average Speed</th>" + (isRatio ? "<th>Active Speed</th><th>Alt. Speed</th>" : "") + "</tr>";
+
+            for (let tim in mergePaceCalcTimes) {
+                render += "<tr><td>" + tim + ": </td>"
+                    + "<td>" + Math.floor(mergePaceCalcTimes[tim] / fbDuration * MPS).toLocaleString() + "</td>"
+                    + (isRatio ?
+                        "<td>" + Math.floor(mergePaceCalcTimes[tim] / fbDuration * merges).toLocaleString() + "</td>"
+                        + "<td>" + Math.floor(mergePaceCalcTimes[tim] / fbDuration * merges2).toLocaleString() + "</td>"
+                        : "")
+                    + "</tr>";
+            }
+
+
+            render += "</table>";
+            //console.log(ui.mergePaceCalc.statusText.innerHTML, render);
+            ui.mergePaceCalc.statusText.innerHTML = render;
+
+            /*
+                + "<tr><td>Second: </td><td>" + (1 / fbDuration * MPS).toFixed(2) + "</td></tr>"
+                + "<tr><td>Minute: </td><td>" + (60 / fbDuration * MPS).toFixed(2) + "</td></tr>"
+                + "<tr><td>Hour: </td><td>" + Math.floor(3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
+                + "<tr><td>6 hours: </td><td>" + Math.floor(6 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
+                + "<tr><td>12 hours: </td><td>" + Math.floor(12 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
+                + "<tr><td>Day: </td><td>" + Math.floor(24 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
+                + "<tr><td>Week: </td><td>" + Math.floor(7 * 24 * 3600 / fbDuration * MPS).toLocaleString() + "</td></tr>"
                 + "</table>";
+                */
         }
     ),
 
@@ -324,9 +324,6 @@ const tools = {
 
     sco_prestigeGSCalc: new Tool(
         `
-        <img src="images/tools/sco_prestigeGSCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Prestige GS Calc</h3>
             Find out how much GS you can get in Scrap Collector <br />
 
             Total Scrap (this prestige): <input id="SCOPGS_Scrap" placeholder="ex.: 100 or 1e100" type="text" style="min-width: 33%;" /> <br />
@@ -335,8 +332,7 @@ const tools = {
             10 Stars or more?: <input id="SCOPGS_Stars" type="checkbox" /> <br />
 
             <span id="textSCOPGS"></span>
-        </div>
-`,
+`, "Prestige GS Calc", "tools/sco_prestigeGSCalc.png",
         ["textSCOPGS", "SCOPGS_Scrap", "SCOPGS_MoreGS", "SCOPGS_CollectedBarrels", "SCOPGS_Stars"],
         () => { },
         () => {
@@ -373,9 +369,6 @@ const tools = {
 
     sco_starCalc: new Tool(
         `
-        <img src="images/tools/sco_starCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Star Calc</h3>
             Get the cost for a Star in Scrap Collector <br />
 
             From: <input id="SCOSC_StarsFrom" placeholder="ex.: 100" type="text" style="min-width: 33%;" /><br />
@@ -387,8 +380,7 @@ const tools = {
             <br />
 
             <span id="textSCOSC"></span>
-        </div>
-`,
+`, "Star Calc", "tools/sco_starCalc.png",
         ["textSCOSC", "SCOSC_StarsFrom", "SCOSC_StarsTo", "SCOSC_Scrapyard", "SCOSC_Better_Discount"/*, "SCOSC_Better_Boost"*/],
         () => { },
         () => {
@@ -494,9 +486,6 @@ const tools = {
 
     sco_SYCalc: new Tool(
         `
-        <img src="images/tools/sco_scrapyardCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Scrapyard Calc</h3>
             Get the cost and effect for Scrapyard at a level <br />
 
             Scrapyard level: <input id="SCOSY_Scrapyard" placeholder="ex.: 1 or 100" type="text" style="min-width: 33%;" /><br />
@@ -504,13 +493,15 @@ const tools = {
             <br />
 
             <span id="textSCOSY"></span>
-        </div>
-`,
+`, "Scrapyard Calc", "tools/sco_scrapyardCalc.png",
         ["textSCOSY", "SCOSY_Scrapyard", "SCOSY_CheaperScrapyardLvl"],
         () => { },
         () => {
             let syLevel = ui.sco_SYCalc.SCOSY_Scrapyard.value;
-            if (syLevel == "" || syLevel < 1) return false;
+            if (syLevel == "" || syLevel < 1) {
+                ui.sco_SYCalc.statusText.innerHTML = "";
+                return false;
+            }
             syLevel = parseInt(syLevel);
 
             let cheaperScrapyard = ui.sco_SYCalc.SCOSY_CheaperScrapyardLvl.value;
@@ -531,9 +522,6 @@ const tools = {
 
     sco_ScrapBoostCalc: new Tool(
         `
-        <img src="images/tools/sco_scrapBoostCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Scrap Boost Calc</h3>
             Similar to Scrap 2's (Million) Merge Boost, you get a boost on your Scrap production. It can be found ingame at the stats. <br />
 
             Collected Barrels: <input id="SCOSBC_Collected" placeholder="ex.: 1 or 1e6" type="text" style="min-width: 33%;" /><br />
@@ -541,8 +529,7 @@ const tools = {
             <br />
 
             <span id="textSCOSBC"></span>
-        </div>
-`,
+`, "Scrap Boost Calc", "tools/sco_scrapBoostCalc.png",
         ["textSCOSBC", "SCOSBC_Collected", "SCOSBC_DesiredBoost"],
         () => {
             ui.sco_ScrapBoostCalc.SCOSBC_Collected.oninput = () => { ui.sco_ScrapBoostCalc.SCOSBC_DesiredBoost.value = "" }
@@ -575,9 +562,6 @@ const tools = {
 
     fmfr_secondDimCalc: new Tool(
         `
-        <img src="images/tools/fmfr_secondDimCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Second Dimension Calc</h3>
             The optimal strategy is to reach the max. of Better Barrels, and then leave the Second Dimension. <br />
             The max. is equal to the highest barrel you reached in the first dimension. <br />
             Every merge gives a Scrap boost for the run, with manual merges giving more. <br />
@@ -589,13 +573,17 @@ const tools = {
             Auto merge?: <input id="SCOPGS_AutoMerge" type="checkbox" /> <br />
 
             <span id="textFMFR2DIM"></span>
-        </div>
-`,
+`, "Second Dimension Calc", "tools/fmfr_secondDimCalc.png",
         ["textFMFR2DIM", "FMFR2DIM_BB", "FMFR2DIM_DarkFrag", "SCOPGS_EmblemUpg", "SCOPGS_AutoMerge"],
         () => { },
         () => {
             let bbMax = ui.fmfr_secondDimCalc.FMFR2DIM_BB.value;
-            if (bbMax == "" || bbMax < 1) return false;
+            if (bbMax == "" || bbMax < 1) {
+                ui.fmfr_secondDimCalc.statusText.innerHTML = "";
+                return false;
+            }
+            if (bbMax.includes("e+")) bbMax = parseInt(bbMax.split("e+")[0] + "e" + bbMax.split("e+")[1]);
+
             let darkFragUpgrade = ui.fmfr_secondDimCalc.FMFR2DIM_DarkFrag.value;
             if (darkFragUpgrade == "" || darkFragUpgrade < 0) darkFragUpgrade = 0;
             let emblemUpgrade = ui.fmfr_secondDimCalc.SCOPGS_EmblemUpg.checked;
@@ -634,14 +622,17 @@ const tools = {
             let mergeIncrease = 10000;
             let scrapProd = new Decimal(0);
 
-            while (scrapProd.lt(bbPrice)) {
+            let iterations = 0;
+            while (scrapProd.lt(bbPrice) && iterations < 1e6) {
                 if (scrapProdFormula(merges + mergeIncrease).lt(bbPrice)) {
                     merges += mergeIncrease;
                     scrapProd = scrapProdFormula(merges);
                 }
                 else if (mergeIncrease > 1) mergeIncrease /= 10;
                 else break;
+                iterations++;
             }
+            if (iterations >= 1e6) console.log("Warning: Second Dimension Calc - over 1e6 iterations, calculation may be inaccurate!");
 
             let scrapProdString = scrapProd.toString();
             scrapProdString = scrapProdString.split(".")[0] + (scrapProdString.split("e+")[1] != undefined ? "e" + scrapProdString.split("e+")[1] : "");
@@ -655,9 +646,6 @@ const tools = {
 
     fmfr_fairyDustCalc: new Tool(
         `
-        <img src="images/tools/fmfr_fairyDustCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Fairy Dust Calc</h3>
             Calculates Fairy Dust gains <br />
             Play around with your values to see how you can efficiently gain more <br />
 
@@ -679,8 +667,7 @@ const tools = {
             More Dust level: <input id="FMFR_FDC_DustLevel" type="text" /> <br />
 
             <span id="textFMFRFDC"></span>
-        </div>
-`,
+`, "Fairy Dust Calc", "tools/fmfr_fairyDustCalc.png",
         ["textFMFRFDC", "FMFR_FDC_Beams", "FMFR_FDC_Aerobeams", "FMFR_FDC_AngelBeams", "FMFR_FDC_ReBeams", "FMFR_FDC_GlitchBeams",
             "FMFR_FDC_Bricks", "FMFR_FDC_PlasticBags", "FMFR_FDC_Screws", "FMFR_FDC_Quests", "FMFR_FDC_MergeTokens",
             "FMFR_FDC_PinLevel", "FMFR_FDC_DustLevel"],
@@ -706,7 +693,7 @@ const tools = {
             amount = amount.mul(new Decimal(1).add(items.PinLevel * 0.05).pow(Math.max(1, items.PinLevel / 24)));
             amount = amount.mul(1 + 0.2 * items.DustLevel);
 
-            ui.fmfr_fairyDustCalc.statusText.innerHTML = "You should get: " + parseInt(amount.toString().split(".")[0]).toLocaleString() + " Fairy Dust";
+            ui.fmfr_fairyDustCalc.statusText.innerHTML = "You should get: " + amount.toLocaleString() + " Fairy Dust";
         }
     ),
 
@@ -714,9 +701,6 @@ const tools = {
 
     fmfr_alienDustCalc: new Tool(
         `
-        <img src="images/tools/fmfr_alienDustCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Alien Dust Calc</h3>
             Calculates Alien Dust gains <br />
             Play around with your values to see how you can efficiently gain more <br />
 
@@ -744,8 +728,7 @@ const tools = {
             More Alien Dust level: <input id="FMFR_ADC_BoostLevel" type="text" /> <br />
 
             <span id="textFMFRADC"></span>
-        </div>
-`,
+`, "Alien Dust Calc", "tools/fmfr_alienDustCalc.png",
         ["textFMFRADC", "FMFR_ADC_LegendaryScrap", "FMFR_ADC_SteelMagnets", "FMFR_ADC_BlueBricks", "FMFR_ADC_Buckets", "FMFR_ADC_FishingNets",
             "FMFR_ADC_AutoUpgraders", "FMFR_ADC_AutoCollectors",
             "FMFR_ADC_Venus", "FMFR_ADC_Neptune", "FMFR_ADC_Uranus", "FMFR_ADC_Posus", "FMFR_ADC_Mythus", "FMFR_ADC_Sun",
@@ -778,7 +761,7 @@ const tools = {
             amount = amount.div(6).mul(1 + 0.2 * items.DustLevel);
             amount = amount.mul(new Decimal(1).add(0.2 * items.BoostLevel));
 
-            ui.fmfr_alienDustCalc.statusText.innerHTML = "You should get: " + parseInt(amount.toString().split(".")[0]).toLocaleString() + " Alien Dust";
+            ui.fmfr_alienDustCalc.statusText.innerHTML = "You should get: " + amount.toLocaleString() + " Alien Dust";
         }
     ),
 
@@ -786,9 +769,6 @@ const tools = {
 
     fmfr_starDustCalc: new Tool(
         `
-        <img src="images/tools/fmfr_starDustCalc.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Star Dust Calc</h3>
             Calculates Star Dust gains <br />
             Play around with your values to see how you can efficiently gain more <br />
 
@@ -804,8 +784,7 @@ const tools = {
             More Dust level: <input id="FMFR_SDC_DustLevel" type="text" /> <br />
 
             <span id="textFMFRSDC"></span>
-        </div>
-`,
+`, "Star Dust Calc", "tools/fmfr_starDustCalc.png",
         ["textFMFRSDC", "FMFR_SDC_GoldenScrap", "FMFR_SDC_Magnitov", "FMFR_SDC_Fragments", "FMFR_SDC_DarkScrap", "FMFR_SDC_MergeMastery", "FMFR_SDC_Tires", 
             "FMFR_SDC_PinLevel", "FMFR_SDC_DustLevel"],
         () => { },
@@ -826,7 +805,7 @@ const tools = {
             amount = amount.mul(new Decimal(1).add(items.PinLevel * 0.05).pow(Math.max(1, items.PinLevel / 24)));
             amount = amount.mul(1 + 0.2 * items.DustLevel);
 
-            ui.fmfr_starDustCalc.statusText.innerHTML = "You should get: " + parseInt(amount.toString().split(".")[0]).toLocaleString() + " Star Dust";
+            ui.fmfr_starDustCalc.statusText.innerHTML = "You should get: " + amount.toLocaleString() + " Star Dust";
         }
     ),
 
@@ -834,16 +813,12 @@ const tools = {
 
     fmfr_import: new Tool(
         `
-        <img src="images/tools/fmfr_import.png" class="boxImg" />
-        <div class="box boxSize">
-            <h3>Import</h3>
             Import your SC2FMFR save to directly load your current relevant data into the calcs <br />
             <textarea id="FMFR_IMPORT" rows="6" cols="80"></textarea>
             <br />
 
             <span id="textFMFRIMPORT"></span>
-        </div>
-`,
+`, "Import", "tools/fmfr_import.png",
         ["textFMFRIMPORT", "FMFR_IMPORT"],
         () => {
             ui.fmfr_import.FMFR_IMPORT.onblur = () => { importFMFRSave(); };
@@ -903,7 +878,9 @@ function combineGainCalc_update() {
 
     combinesEarned *= combineMulti;
 
-    ui.combineGainCalc.statusText.innerHTML = "You will earn <big>" + Math.floor(combinesEarned) + " <img src='images/assets/combineToken.png' style='width: 32px' />!</big>";
+    if (ui.combineGainCalc.statusText.innerHTML != "" + Math.floor(combinesEarned)) {
+        ui.combineGainCalc.statusText.innerHTML = Math.floor(combinesEarned);
+    }
 
     let sidesSize = 120;
 

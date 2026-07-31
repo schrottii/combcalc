@@ -24,7 +24,7 @@ class Game {
         return "<div class='navButton'"
             + (this.isSelected() ? " style='background-image: url(images/button_selected.png);'" : "")
             + " onclick='clickGame(" + nr + ")'"
-            + ">" + (this.image != "" ? "<img style='float: left;' src='images/" + this.image + "' height='32' />" : "")
+            + ">" + (this.image != "" ? "<img style='float: left;' src='images/" + this.image + "' height='48' />" : "")
             + this.name + "</div>";
     }
 }

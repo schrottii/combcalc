@@ -15,35 +15,42 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 const FPS = 15;
 
-var currentVersion = "v1.6";
-var currentVersionDate = "(2026-02-03)";
+var currentVersion = "v1.7";
+var currentVersionDate = "(2026-07-31)";
 var patchNotes = `
--> Games and subcategories:
-- Added support and UI for multiple games and subcategories
-- Added Scrap Collector and SC2FMFR (and the already existing Scrap 2)
-- Scrap 2 has these subcategories: GC/Combines, Scrap prod, Other, All
-- Added images for all games and subcategories
-- Overhauled structure and code to enable these, make it easier to add new tools, and optimize performance
+-> Saving:
+- Inputs into the tools and calcs are now saved (every 3s)
+- They get cached and later loaded directly into the tools when revisiting CombCalc
+- Added buttons to quickly clear the inputs to most tools (top right)
+- Added a button to clear ALL inputs of ALL tools to the Info section
 
--> New calcs and tools:
-- SC2: Merge Pace Calc: get estimates for 1 hour, 6 hours, 12 hours, 1 day and 7 days based on merges in an FB and rest time, along with FB/h and hours per day info
-- SCO: Prestige GS Calc: calculates GS on a prestige using the four relevant values
-- SCO: Star Calc: calculates cost for a Star or multiple, including discount and the breakeven point
-- SCO: Scrapyard Calc: calculates cost and effect at a given Scrapyard level
-- SCO: Scrap Boost Calc: calculates the Scrap Boost at a number of collects, or how many are needed to get a certain boost
-- FMFR: Second Dimension Calc: find out how many merges it takes for an optimal second dim run
-- FMFR: Fairy Dust Calc: calculate current or theoretical gains by inserting all relevant numbers
-- FMFR: Alien Dust Calc
-- FMFR: Star Dust Calc
-- FMFR: Import: paste your SC2FMFR save and the numbers are automatically extracted into the other calcs/tools, making it even easier
+-> Merge Pace Calc:
+- Added ability to set a ratio, and the merges of the alt. speed
+- This can be used for something like: 2:1 - 2 FBs, 1 am+fb
+- Active Speed and Alt. Speed (if using ratio) are now shown (these are for active playing, so not including breaks)
+- Seconds and Minutes are now shown
+- Design and text changes
+
+-> Other tools:
+- SC2FMFR import: improved stability for lategame saves
+- Renamed Abstract <-> Scientific Converter to Abstract-Scientific Converter
+
+-> Design:
+- Slightly changed hover effect for tools
+- Changed positioning of tool images
+- Increased size of checkboxes
+- Increased size for categories and subcategories
+- Limited patch notes height (scrollable)
+- Various mobile improvements
 
 -> Other:
-- Renamed Abstract <-> Scientific Calc to Abstract <-> Scientific Converter
-- Barrel Production Calc appears for SC2FMFR too
-- Changed color of squares at the bottom
+- Removed old ToS and inserted new ToS, Balnoom License & Privacy Policy (note: not tailored to CombCalc, so it may be called a "game" or discuss contents that do not exist here)
+- Contact: added E-mail (with mailto)
+- Other Scrap content: Added link to SC2 Records
+- Changed patch_notes.txt to PATCH_NOTES.md
+- Added link to all patch notes
+- Fixed very weird auto scrolling bug
 `;
-
-// PLANNED: fmfr calcs for 2nd dim, the three dusts, sc2 calc for pace, sc2 tool for barrels?
 
 function updatePatchNotes() {
     let render = "";
@@ -65,6 +72,12 @@ var ui = {
         header: document.getElementById("header"),
         patchNotes: document.getElementById("patchNotes"),
         currentVersion: document.getElementById("currentVersion")
+    }
+}
+
+var saveData = {
+    userInputs: {
+
     }
 }
 
@@ -103,6 +116,36 @@ function determineLastSundayOfMonth(monthToCheck) {
     return 0;
 }
 
+function saveSave() {
+    let ssave = JSON.stringify(saveData);
+    ssave = btoa(ssave);
+
+    return ssave;
+}
+
+function saveLoad(ssave) {
+    ssave = atob(ssave);
+    ssave = JSON.parse(ssave);
+
+    saveData = Object.assign({}, ssave);
+}
+
+function saveBackup() {
+    for (let tool in tools) {
+        tools[tool].saveUI();
+    }
+
+    localStorage.setItem("CombCalc", saveSave());
+}
+
+function saveLoadBackup() {
+    let ssave = localStorage.getItem("CombCalc");
+    if (ssave == null || ssave == undefined || ssave == false) return false;
+
+    saveLoad(ssave);
+}
+
+
 // LOOP
 function loop() {
     updateTime();
@@ -111,6 +154,8 @@ function loop() {
 }
 
 function init() {
+    saveLoadBackup();
+
     ui.bottom.header.innerHTML = "CombCalc " + currentVersion;
     updatePatchNotes();
 
@@ -118,6 +163,7 @@ function init() {
     renderCategories();
 
     setInterval(loop, 1000 / FPS);
+    setInterval(saveBackup, 3000);
 }
 
 init();
