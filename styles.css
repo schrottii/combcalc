@@ -108,6 +108,10 @@ button {
     min-width: 80px;
 }
 
+.boxButton:hover {
+    filter: brightness(120%) contrast(120%);
+}
+
 @media only screen and (max-width: 768px) {
     .boxSize {
         margin-left: 1%;
@@ -135,21 +139,34 @@ button {
     }
 }
 
-.leftArea {
+.leftArea, .leftAreaCol {
     width: 49.5%;
     float: left;
-    background-color: rgb(15, 45, 15);
     border-radius: 4px;
     margin-bottom: 4px;
 }
 
-.rightArea {
+.leftAreaCol {
+    background-color: rgb(28, 28, 85);
+}
+
+.rightArea, .rightAreaCol {
     width: 49.5%;
     float: right;
-    background-color: rgb(15, 25, 15);
     border-radius: 4px;
     margin-bottom: 4px;
 }
+
+.rightAreaCol {
+    background-color: rgb(34, 29, 53);
+}
+
+.dualArea::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
 
 @media only screen and (max-width: 768px) {
     .leftArea {
@@ -217,7 +234,6 @@ button {
     background-size: cover;
     border: 2px solid lightblue;
     border-radius: 4px;
-    padding: 0px -4px 0px -4px;
     width: 128px;
     height: 32px;
     color: black;

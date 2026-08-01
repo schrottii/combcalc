@@ -1,3 +1,6 @@
+var necessaryUIUpdates = 1;
+var unnecessaryUIUpdates = 0;
+
 class Tool {
     constructor(html, displayName, iconImage, ui, init, updater) {
         this.html = html;
@@ -9,6 +12,7 @@ class Tool {
         this.updater = updater;
 
         this.toolname = "";
+        this.UIUpdateCache = {};
     }
 
     generateHTML() {
@@ -96,6 +100,35 @@ class Tool {
         }
         this.updater();
     }
+
+    checkUpdate() {
+        let hasAnythingChanged = false;
+        for (let uie of this.ui) {
+            if (uie.substr(0,4) !== "text") {
+                // compare
+                if (this.UIUpdateCache[uie] != undefined) {
+                    if (this.UIUpdateCache[uie].value != ui[this.toolname][uie].value || this.UIUpdateCache[uie].checked != ui[this.toolname][uie].checked) {
+                        // something did happen
+                        //console.log(this.UIUpdateCache[uie].value, ui[this.toolname][uie].value, this.UIUpdateCache[uie].checked, ui[this.toolname][uie].checked);
+                        hasAnythingChanged = true;
+                        //break; - not allowed due to update below
+                    }
+                    // else ... nothing ever happens
+                }
+                else this.UIUpdateCache[uie] = {}; // we are a newborn, so nothing to compare yet, setup for next step (update - in this case, inserting values for the first time)
+
+                // update
+                this.UIUpdateCache[uie].value = ui[this.toolname][uie].value;
+                this.UIUpdateCache[uie].checked = ui[this.toolname][uie].checked;
+            }
+        }
+
+        if (hasAnythingChanged) {
+            necessaryUIUpdates++;
+            this.updater();
+        }
+        else unnecessaryUIUpdates++;
+    }
 }
 
 function clearTool(displayName) {
@@ -125,7 +158,7 @@ function updateTool(toolname) {
     if (toolname == "all") return false;
     if (tools[toolname] == undefined) console.log(toolname);
 
-    tools[toolname].updater();
+    tools[toolname].checkUpdate();
 }
 
 function renderTools() {
@@ -153,7 +186,9 @@ function updateTools() {
     tools = getAllToolsType(tools);
 
     for (let tool of tools) {
+        //console.time("updating tool" + tool);
         updateTool(tool);
+        //console.timeEnd("updating tool" + tool);
     }
 }
 

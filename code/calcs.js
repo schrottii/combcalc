@@ -48,19 +48,20 @@ const tools = {
             Calculate how many Combine Tokens you earn from a Global Challenge!
             <hr style="clear: both" />
 
-            <div class="leftArea" id="combinesLeft">
+            <div class="dualArea">
+            <div class="leftAreaCol" id="combinesLeft">
                 Combine gain boosts: <br />
                 More Tokens (Mastery Upgrade) level: <input id="moreTokensLevel" value="10" type="number" /> <br />
                 OR Stars: <input id="moreTokensLevel2" placeholder="2000" type="number" class="inputOptional" /> <br />
                 *More Tokens is unlocked at x500 Stars, below x500 you can leave these empty
             </div>
-            <div class="rightArea" id="combinesRight">
+            <div class="rightAreaCol" id="combinesRight">
                 Global Challenge progress: <br />
                 Global Progress (x1 - x5) <input id="progressGlobal" min="0" max="5" value="5" type="range" /> <span id="progressGlobalText">x5</span> <br />
                 Your Progress (x1 - x5) <input id="progressYours" min="0" max="5" value="5" type="range" /> <span id="progressYoursText">x5</span>
             </div>
+            </div>
 
-            <hr style="clear: both" />
             You will earn <big><span id="textCGC"></span><img src='images/assets/combineToken.png' style='width: 32px' />!</big>
 `, "Combine Gain Calc", "tools/combineToken.png",
         ["textCGC", "combinesLeft", "combinesRight", "moreTokensLevel", "moreTokensLevel2",
@@ -88,16 +89,23 @@ const tools = {
             <span id="textMSC"></span>
 
             <br />
-            <hr style="clear: both" />
-            Formulas and research made by K. whale. <br />
-            <img src="images/assets/moreScrapFormula.png" style="height: 100px;" /> <br />
+            <hr />
 
-            <i>
-                Formulas: <br />
-                <b>(simple) a =</b> log(1.4) / log(highest scrap ever) <br />
-                <b>(complex) a =</b> log(1.4) / (log(highest scrap ever) - more scrap level * log(1.4)) <br />
-                <b>more scrap level =</b> - 1 / 2a + root(x² + x / 0.03 + 1 / 4a²) where x is the more gs level
-            </i>
+            <div class="dualArea">
+                <div class="leftArea">
+                    Formulas and research made by K. whale. <br />
+                    <img src="images/assets/moreScrapFormula.png" style="height: 100px;" /> <br />
+                </div>
+
+            <div class="rightArea" style="text-align: left;">
+                <i>
+                    Formulas: <br />
+                    <b>(simple) a =</b> log(1.4) / log(highest scrap ever) <br />
+                    <b>(complex) a =</b> log(1.4) / (log(highest scrap ever) - more scrap level * log(1.4)) <br />
+                    <b>more scrap level =</b> - 1 / 2a + root(x² + x / 0.03 + 1 / 4a²) where x is the more gs level
+                </i>
+                </div>
+            </div>
 `, "More Scrap Calc", "tools/bookScrap.png",
         ["textMSC", "moreGSLevel", "moreScrapLevel", "highestScrapEver"],
         () => { },
@@ -111,6 +119,9 @@ const tools = {
             Calculate how many tokens you need to do the desired combination x times, or how many times you can do it with x tokens! The order of the two ads makes no difference. <br /> <br />
 
             <!-- This bit could be not-repeated if generated via code... but do you think I am gonna bother with that at 11 pm -->
+
+            <div class="dualArea">
+            <div class="leftArea">
             Select ads:
             <select name="combination1" id="selectedAd1">
                 <option value="none">Select ad 1</option>
@@ -139,11 +150,12 @@ const tools = {
             <br />
 
             <span id="textTCC"></span>
+            </div>
 
-            <br />
-            <hr style="clear: both" />
-            <br />
-            <img src="images/assets/Tokentable.png" style="height: 256px;" /> <br />
+            <div class="rightArea" style=height: 256px;">
+            <img src="images/assets/Tokentable.png" style="height: 256px;" />
+            </div>
+            </div>
 `, "Token Cost Calc", "tools/combineToken.png",
         ["textTCC", "selectedAd1", "selectedAd2", "tokenCostAmountOfAds", "tokenCostAmountOfTokens"],
         () => {

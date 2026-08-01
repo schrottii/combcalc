@@ -15,6 +15,7 @@ format: yyyy-mm-dd
 - v1.5.1
 - v1.6
 - v1.7
+- v1.7.1
 
 
 
@@ -167,3 +168,20 @@ format: yyyy-mm-dd
 - Changed patch_notes.txt to PATCH_NOTES.md
 - Added link to all patch notes
 - Fixed very weird auto scrolling bug
+
+
+
+### v1.7.1 2026-08-01
+-> Performance:
+- Optimized the rendering of calc results like crazy
+- This decreases the amount of render updates by >95% (depends on how the user acts, can be above 99%)
+- Amount of performed render updates, omitted updates (that would've usually been performed) and their percentage are shown in the Info section
+- Fixes the issue of random inputs being swallowed
+
+-> Design:
+- Added hover effect for the new Clear buttons
+- Combine Gain Calc: changed colors of the left-right split (from weird greens to dark blues)
+
+-> Other:
+- Token Cost Calc: moved image to the right
+- More Scrap Calc: moved formula explanation to the right

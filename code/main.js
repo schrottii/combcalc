@@ -15,9 +15,25 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 const FPS = 15;
 
-var currentVersion = "v1.7";
-var currentVersionDate = "(2026-07-31)";
+var currentVersion = "v1.7.1";
+var currentVersionDate = "(2026-08-01)";
 var patchNotes = `
+v1.7.1:
+-> Performance:
+- Optimized the rendering of calc results like crazy
+- This decreases the amount of render updates by >95% (depends on how the user acts, can be above 99%)
+- Amount of performed render updates, omitted updates (that would've usually been performed) and their percentage are shown in the Info section
+- Fixes the issue of random inputs being swallowed
+
+-> Design:
+- Added hover effect for the new Clear buttons
+- Combine Gain Calc: changed colors of the left-right split (from weird greens to dark blues)
+
+-> Other:
+- Token Cost Calc: moved image to the right
+- More Scrap Calc: moved formula explanation to the right
+
+v1.7:
 -> Saving:
 - Inputs into the tools and calcs are now saved (every 3s)
 - They get cached and later loaded directly into the tools when revisiting CombCalc
@@ -151,6 +167,8 @@ function loop() {
     updateTime();
 
     updateTools();
+
+    document.getElementById("updatingData").innerHTML = necessaryUIUpdates + ", " + unnecessaryUIUpdates + " (" + (unnecessaryUIUpdates / (necessaryUIUpdates + unnecessaryUIUpdates) * 100).toFixed(1)  + "%)";
 }
 
 function init() {
