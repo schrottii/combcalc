@@ -8,7 +8,6 @@ class Tool {
         this.iconImage = iconImage;
         this.ui = ui;
         this.init = init;
-        //this.updater = () => { try { updater(); } catch (e) { console.trace(e); console.log("error updating " + this.toolname); } };
         this.updater = updater;
 
         this.toolname = "";
@@ -34,8 +33,10 @@ class Tool {
             else ui[this.toolname][ug] = document.getElementById(ug);
         }
 
-        this.init();
-        this.updater();
+        this.init(); // custom function to establish things
+        this.initUI();
+        this.updater(); // custom function called every update
+        necessaryUIUpdates++;
     }
 
     initUI() {
@@ -123,7 +124,7 @@ class Tool {
             }
         }
 
-        if (hasAnythingChanged) {
+        if (hasAnythingChanged || getSetting("unnecessaryUpdates")) {
             necessaryUIUpdates++;
             this.updater();
         }
@@ -150,7 +151,6 @@ function renderTool(toolname) {
     }
 
     tools[toolname].render();
-    tools[toolname].initUI();
 }
 
 function updateTool(toolname) {
@@ -177,6 +177,7 @@ function renderTools() {
     for (let tool of ltools) {
         renderTool(tool);
     }
+    applyFlashyResultText();
 }
 
 function updateTools() {

@@ -3,7 +3,7 @@
 var mergePaceCalcTimes;
 
 const games = [
-    new Game("Scrap 2", "games/scrap2.png", ["combines", "scrap", "misc", "sc2_all"]),
+    new Game("Scrap 2", "games/scrap2.png", ["combines", "scrap", "merging", "misc", "sc2_all"]),
     new Game("Scrap Collector", "games/scrap_collector.png", ["scrap_collector"]),
     new Game("SC2FMFR", "games/sc2fmfr.png", ["sc2fmfr"])
 ];
@@ -15,18 +15,21 @@ const categories = {
     scrap: new Category("scrap", "Scrap prod", "subcategories/sc2_scrapProd.png", [
         "moreScrapCalc", "barrelProductionCalc"
     ]),
+    merging: new Category("merging", "Merging", "subcategories/sc2_merges.png", [
+        "mergePaceCalc", "mergeHeatmap", "mergePatternCalc"
+    ]),
     misc: new Category("misc", "Other", "subcategories/sc2_misc.png", [
-        "achievementBoostCalc", "abstractScientificConverter", "mergePaceCalc"
+        "achievementBoostCalc", "abstractScientificConverter",
     ]),
     sc2_all: new Category("sc2_all", "All", "games/scrap2.png", [
         "all", "Scrap 2"
     ]),
 
-    scrap_collector: new Category("scrap_collector", "Scrap Collector", "games/scrap_collector.png", [
+    scrap_collector: new Category("scrap_collector", "Scrap Collector (All)", "games/scrap_collector.png", [
         "sco_prestigeGSCalc", "sco_starCalc", "sco_SYCalc", "sco_ScrapBoostCalc"
     ]),
 
-    sc2fmfr: new Category("sc2fmfr", "SC2FMFR", "games/sc2fmfr.png", [
+    sc2fmfr: new Category("sc2fmfr", "SC2FMFR (All)", "games/sc2fmfr.png", [
         "barrelProductionCalc", "fmfr_secondDimCalc", "fmfr_fairyDustCalc", "fmfr_alienDustCalc", "fmfr_starDustCalc", "fmfr_import"
     ])
 };
@@ -62,7 +65,7 @@ const tools = {
             </div>
             </div>
 
-            You will earn <big><span id="textCGC"></span><img src='images/assets/combineToken.png' style='width: 32px' />!</big>
+            <span class='toolResult'>Result: You will earn <big><span id="textCGC"></span><img src='images/assets/combineToken.png' style='width: 32px' /></big></span>
 `, "Combine Gain Calc", "tools/combineToken.png",
         ["textCGC", "combinesLeft", "combinesRight", "moreTokensLevel", "moreTokensLevel2",
             "progressGlobal", "progressYours", "progressGlobalText", "progressYoursText"],
@@ -86,7 +89,7 @@ const tools = {
             More Golden Scrap (Book upgrade) level: <input id="moreGSLevel" placeholder="0" type="number" /> <br />
             Highest Scrap Ever: <input id="highestScrapEver" placeholder="100 or 1e100" type="text" /> <br />
             (Optional, for more precise calculation): More Scrap (Book upgrade) level: <input id="moreScrapLevel" placeholder="0" type="text" /> <br />
-            <span id="textMSC"></span>
+            <span class='toolResult'>Result: <span id="textMSC"></span></span>
 
             <br />
             <hr />
@@ -122,44 +125,45 @@ const tools = {
 
             <div class="dualArea">
             <div class="leftArea">
-            Select ads:
-            <select name="combination1" id="selectedAd1">
-                <option value="none">Select ad 1</option>
-                <option value="automerge">Auto Merge</option>
-                <option value="bricks">x100 Bricks</option>
-                <option value="moremagnets">More Magnets</option>
-                <option value="morescrap">More Scrap</option>
-                <option value="fasterbarrels">Faster Barrels</option>
-                <option value="flu">Faster Level Up</option>
-                <option value="morefragments">More Fragments</option>
-            </select> x
-            <select name="combination2" id="selectedAd2">
-                <option value="none">Select ad 2</option>
-                <option value="automerge">Auto Merge</option>
-                <option value="bricks">x100 Bricks</option>
-                <option value="moremagnets">More Magnets</option>
-                <option value="morescrap">More Scrap</option>
-                <option value="fasterbarrels">Faster Barrels</option>
-                <option value="flu">Faster Level Up</option>
-                <option value="morefragments">More Fragments</option>
-            </select>
+                Select ads:
+                <select name="combination1" id="selectedAd1">
+                    <option value="none">Select ad 1</option>
+                    <option value="automerge">Auto Merge</option>
+                    <option value="bricks">x100 Bricks</option>
+                    <option value="moremagnets">More Magnets</option>
+                    <option value="morescrap">More Scrap</option>
+                    <option value="fasterbarrels">Faster Barrels</option>
+                    <option value="flu">Faster Level Up</option>
+                    <option value="morefragments">More Fragments</option>
+                </select> x
+                <select name="combination2" id="selectedAd2">
+                    <option value="none">Select ad 2</option>
+                    <option value="automerge">Auto Merge</option>
+                    <option value="bricks">x100 Bricks</option>
+                    <option value="moremagnets">More Magnets</option>
+                    <option value="morescrap">More Scrap</option>
+                    <option value="fasterbarrels">Faster Barrels</option>
+                    <option value="flu">Faster Level Up</option>
+                    <option value="morefragments">More Fragments</option>
+                </select>
 
-            <br />
-            How many times to combine: <input id="tokenCostAmountOfAds" value="1" min="0" type="number" oninput="ui.tokenCostCalc.tokenCostAmountOfTokens.value = 0;" /><br />
-            OR: how many tokens you want to spend <input id="tokenCostAmountOfTokens" placeholder="0" min="0" type="number" class="inputOptional" oninput="ui.tokenCostCalc.tokenCostAmountOfAds.value = 0;" /><br />
-            <br />
+                <br />
+                How many times to combine: <input id="tokenCostAmountOfAds" value="1" min="0" type="number" oninput="ui.tokenCostCalc.tokenCostAmountOfTokens.value = 0;" /><br />
+                OR: how many tokens you want to spend <input id="tokenCostAmountOfTokens" placeholder="0" min="0" type="number" class="inputOptional" oninput="ui.tokenCostCalc.tokenCostAmountOfAds.value = 0;" /><br />
+                <br />
 
-            <span id="textTCC"></span>
+                <span class='toolResult'>Result: <span id="textTCC"></span></span>
             </div>
 
             <div class="rightArea" style=height: 256px;">
-            <img src="images/assets/Tokentable.png" style="height: 256px;" />
-            </div>
+                <img src="images/assets/Tokentable.png" style="height: 256px;" />
+                </div>
             </div>
 `, "Token Cost Calc", "tools/combineToken.png",
         ["textTCC", "selectedAd1", "selectedAd2", "tokenCostAmountOfAds", "tokenCostAmountOfTokens"],
         () => {
             // GO BOTHER WITH IT!
+            // ^ what?
         },
         () => { calculateTokenCosts(); }
     ),
@@ -172,12 +176,19 @@ const tools = {
 
             Circle Blue production in scientific (ie 1.561e102): <input id="bpcFirstProd" value="1" type="text" /> <br />
             Barrel to calculate: #<input id="bpcBarrelNr" placeholder="661" type="number" /> <br />
+            <span id="bpcStrongerBarrelTiersHide" style="display: none;">
+            Stronger Barrel Tiers level: <input id="bpcStrongerBarrelTiers" placeholder="0 - 200" min="0" max="200" value"0" type="number" /> <br />
+            In Second Dimension?: <input id="bpcSecondDimension" type="checkbox" />
+            <br /></span>
 
             <br />
-            <span id="textBPC"></span>
+            <span class='toolResult'>Result: <span id="textBPC"></span></span>
 `, "Barrel Production Calc", "tools/barrelProduction.png",
-        ["textBPC", "bpcFirstProd", "bpcBarrelNr"],
-        () => { },
+        ["textBPC", "bpcFirstProd", "bpcBarrelNr", "bpcStrongerBarrelTiers", "bpcStrongerBarrelTiersHide", "bpcSecondDimension"],
+        () => {
+            if (selected[1] == "sc2fmfr") ui.barrelProductionCalc.bpcStrongerBarrelTiersHide.style.display = "";
+            else ui.barrelProductionCalc.bpcStrongerBarrelTiersHide.style.display = "none";
+        },
         () => { calculateBarrelProduction();  }
     ),
 
@@ -192,7 +203,7 @@ const tools = {
             <!-- Achievements:  <input id="abcAchievements" placeholder="348" type="number" /> <br /> -->
 
             <br />
-            <span id="textABC"></span>
+            <span class='toolResult'>Result: <span id="textABC"></span></span>
 `, "Achievement Boost Calc", "tools/achievementBoost.png",
         ["textABC", "abcStart", "abcGoal"],
         () => { },
@@ -208,7 +219,7 @@ const tools = {
 
             <input id="inputAbstract" placeholder="ex.: big or 4782 or 1e4782" type="text" onkeyup="calculateAbstract();" style="min-width: 33%;" /> <br />
 
-            <span id="textAbstract"></span>
+            <span class='toolResult'>Result: <span id="textAbstract"></span></span>
 `, "Abstract-Scientific Converter", "tools/abstractCalc.png",
         ["textAbstract", "inputAbstract"],
         () => { },
@@ -233,12 +244,11 @@ const tools = {
             (Optional) If you have two different speeds (e.g.: some FB, then am+fb to relax): <br />
             Ratio: <input id="mpcRatio" type="text" /> (format: 3:1) <br />
             Alt. merges: <input id="mpcMerges2" value="600" type="number" /> <br />
-            <br />
 
-            <br />
-            <span id="textMPC"></span>
+            <span class='toolResult'>Result: <span id="textMPC"></span></span>
+            <span id="mpcTable"></span>
 `, "Merge Pace Calc", "tools/mergePaceCalc.png",
-        ["textMPC", "mpcBreakTime", "mpcMerges", "mpcAdTrick", "mpcAdTokens", "mpcFastAds", "mpcRatio", "mpcMerges2"],
+        ["textMPC", "mpcTable", "mpcBreakTime", "mpcMerges", "mpcAdTrick", "mpcAdTokens", "mpcFastAds", "mpcRatio", "mpcMerges2"],
         () => { 
             mergePaceCalcTimes = {
                 "Second": 1,
@@ -299,9 +309,10 @@ const tools = {
             let MPS = ratioedmerges * breakRatio; // merges per second
             //console.log(fbDuration, merges, breakRatio);
 
-            let render = "At " + Math.floor(ratioedmerges) + "/fb (" + fbsPerHour + "FB/h, " + fbDuration + "s/FB),"
-                + (breakRatio > 0 ? " " + hoursPerDay.toFixed(1) + " hours per day," : "")
-                + "<table align='center' style='border-spacing: 8px 4px;'>"
+            ui.mergePaceCalc.statusText.innerHTML = "At " + Math.floor(ratioedmerges) + "/fb (" + fbsPerHour + "FB/h, " + fbDuration + "s/FB),"
+                + (breakRatio > 0 ? " " + hoursPerDay.toFixed(1) + " hours per day," : "");
+
+            let render = "<table align='center' style='border-spacing: 8px 4px;'>"
                 + "<tr><th>Time</th><th>Average Speed</th>" + (isRatio ? "<th>Active Speed</th><th>Alt. Speed</th>" : "") + "</tr>";
 
             for (let tim in mergePaceCalcTimes) {
@@ -317,7 +328,7 @@ const tools = {
 
             render += "</table>";
             //console.log(ui.mergePaceCalc.statusText.innerHTML, render);
-            ui.mergePaceCalc.statusText.innerHTML = render;
+            ui.mergePaceCalc.mpcTable.innerHTML = render;
 
             /*
                 + "<tr><td>Second: </td><td>" + (1 / fbDuration * MPS).toFixed(2) + "</td></tr>"
@@ -332,6 +343,107 @@ const tools = {
         }
     ),
 
+    mergeHeatmap: new Tool(
+        `
+<p style="max-width: 1200px; text-align: left; margin-left: auto; margin-right: auto;">
+This new complex tool lets you simulate merging and receive data that the game doesn't let you analyze: which positions your merges come from, go to & where the converts happen. This helps you figure out distributions for Position Upgrades. At the top, you can see your merges and converts, to keep track of how many your pattern contains. It comes with multiple tools: resetting the tracking (hard reset), clearing all barrels, undoing the last step (useful for accidental converts or bad merges), and even built-in high speed auto merge. If you are very good at speed merging, you may need to slow down here, as it does not feel exactly the same as in the original game. </p>
+<br />
+
+<button id="mergeHeatmap_startupButton" onclick="startupWGGJ('merging', 'wggjCanvasMergeHeatmap'); document.getElementById('mergeHeatmap_startupButton').style.display = 'none';" style="font-size: 60px;">Load heatmap</button>
+
+<canvas id="wggjCanvasMergeHeatmap" style="display: none;"></canvas>
+
+`, "Merge Heatmap", "tools/mergeHeatmap.png",
+        ["textMPC", "mergeHeatmap_startupButton"],
+        () => {
+            
+        },
+        () => { }
+    ),
+
+    mergePatternCalc: new Tool(
+        `
+Some talk about their merging in this notation: T1 means the final barrel is one tier higher (barrel 1 -> barrel 2, +1 merge). T2 is +2 tiers (+3 merges), T3 is +3 tiers (+7 merges), etc. <br />
+
+The amount of merges follows the formula: (2^tier)-1. The Merge Heatmap tool can help you see how many merges your pattern contains. <br />
+
+This tool lets you see how long a pattern repeat should take, or (inverse) how many merges in an FB a certain length will give. <br />
+
+<br />
+Pattern tier: T<input id="patternCalcTier" placeholder="8" min="3" max="16" type="number" /><span id="patternCalcTierText"></span> (T3-T16) <br />
+Merges in FB Goal: <input id="patternCalcMergeGoal" placeholder="5000" type="number" /> <br />
+OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" type="number" />s <br />
+
+<br /><span class='toolResult'>Result: <span id="textPatternCalc"></span></span><br />
+<br /><span id="patternCalcTable"></span>
+
+`, "Merge Pattern Calc", "tools/mergePaceCalc.png",
+        ["textPatternCalc", "patternCalcTable", "patternCalcTier", "patternCalcTierText", "patternCalcMergeGoal", "patternCalcRepeatSecs"],
+        () => { },
+        () => {
+            let tier = ui.mergePatternCalc.patternCalcTier.value;
+            if (tier == "" || tier == undefined) return;
+            let tierMerges = Math.floor(Math.pow(2, tier) - 1);
+            ui.mergePatternCalc.patternCalcTierText.innerHTML = " = " + tierMerges + " merges. ";
+
+            let questionType = "";
+            let mergesGoal = ui.mergePatternCalc.patternCalcMergeGoal.value;
+            let repeatLength = ui.mergePatternCalc.patternCalcRepeatSecs.value;
+            if (mergesGoal !== "") {
+                questionType = "duration";
+                ui.mergePatternCalc.patternCalcRepeatSecs.value = "";
+            }
+            if (repeatLength !== "") {
+                questionType = "merges";
+                ui.mergePatternCalc.patternCalcMergeGoal.value = "";
+            }
+            if (questionType === "") return;
+            let extraValues = [];
+
+            if (questionType == "duration") {
+                // we know how many merges we want in the FB, how long can every repeat take?
+                let fit = mergesGoal / tierMerges; // how many repeats
+                let result = 600 / fit;
+
+                ui.mergePatternCalc.statusText.innerHTML = "" + result.toFixed(2) + "s for every repeat (" + fit.toFixed(2) + " pattern repeats)";
+
+                for (let x = Math.floor(result) - 3; x <= Math.floor(result) + 3; x++) {
+                    if (x > 0) extraValues.push([x, 600 / x, tierMerges * (600 / x)]);
+                }
+            }
+
+            if (questionType == "merges") {
+                // we know how long we need for the pattern, but how many merges is that?
+                let fit = 600 / repeatLength; // how many repeats
+                let result = tierMerges * fit;
+
+                ui.mergePatternCalc.statusText.innerHTML = "" + result.toFixed(0) + " merges in FB (" + fit.toFixed(2) + " pattern repeats)";
+
+                for (let x = Math.floor(repeatLength) - 3; x <= Math.floor(repeatLength) + 3; x++) {
+                    if (x > 0) extraValues.push([x, 600 / x, tierMerges * (600 / x)]);
+                }
+            }
+
+            // extra numbers table
+            let render = "<table align='center' style='border-spacing: 8px 4px;'>";
+            render += "<tr><th>Pattern time</th>";
+            for (let ev of extraValues) {
+                render += "<th>" + ev[0].toFixed(2) + "s" + "</th>";
+            }
+            render += "</tr><tr><td>Pattern repeats</td>";
+            for (let ev of extraValues) {
+                render += "<td>" + ev[1].toFixed(2) + "x" + "</td>";
+            }
+            render += "</tr><tr><td>Merges in FB</td>";
+            for (let ev of extraValues) {
+                render += "<td>" + ev[2].toFixed(0) + "</td>";
+            }
+            render += "</tr></table>";
+
+            ui.mergePatternCalc.patternCalcTable.innerHTML = render;
+        }
+    ),
+
 
 
     sco_prestigeGSCalc: new Tool(
@@ -343,7 +455,7 @@ const tools = {
             Collected Barrels (this prestige): <input id="SCOPGS_CollectedBarrels" placeholder="ex.: 14000 or 1.4e4" type="text" style="min-width: 33%;" /> <br />
             10 Stars or more?: <input id="SCOPGS_Stars" type="checkbox" /> <br />
 
-            <span id="textSCOPGS"></span>
+            <span class='toolResult'>Result: <span id="textSCOPGS"></span></span>
 `, "Prestige GS Calc", "tools/sco_prestigeGSCalc.png",
         ["textSCOPGS", "SCOPGS_Scrap", "SCOPGS_MoreGS", "SCOPGS_CollectedBarrels", "SCOPGS_Stars"],
         () => { },
@@ -365,7 +477,7 @@ const tools = {
             scrap = normalizeScientific(scrap);
             scrap = scrap.log10();
 
-            let GS = 25 * Math.max(0, scrap - 9)
+            let GS = 25 * Math.max(0, scrap - 8)
                 * Math.max(1, Math.max(0, scrap - 30) / 8)
                 * Math.max(1, Math.max(scrap - 100) / 15)
                 * (1 + ui.sco_prestigeGSCalc.SCOPGS_MoreGS.value * 0.05);
@@ -391,7 +503,7 @@ const tools = {
             <!--(Optional) Better Boost level: <input id="SCOSC_Better_Boost" placeholder="0 - 100" type="text" style="min-width: 33%;" /><br />-->
             <br />
 
-            <span id="textSCOSC"></span>
+            <span class='toolResult'>Result: <span id="textSCOSC"></span></span>
 `, "Star Calc", "tools/sco_starCalc.png",
         ["textSCOSC", "SCOSC_StarsFrom", "SCOSC_StarsTo", "SCOSC_Scrapyard", "SCOSC_Better_Discount"/*, "SCOSC_Better_Boost"*/],
         () => { },
@@ -504,7 +616,7 @@ const tools = {
             Cheaper Scrapyard level: <input id="SCOSY_CheaperScrapyardLvl" placeholder="0 - 100" type="text" style="min-width: 33%;" /><br />
             <br />
 
-            <span id="textSCOSY"></span>
+            <span class='toolResult'>Result: <span id="textSCOSY"></span></span>
 `, "Scrapyard Calc", "tools/sco_scrapyardCalc.png",
         ["textSCOSY", "SCOSY_Scrapyard", "SCOSY_CheaperScrapyardLvl"],
         () => { },
@@ -540,7 +652,7 @@ const tools = {
             OR desired boost: x<input id="SCOSBC_DesiredBoost" placeholder="1 or more" type="text" style="min-width: 33%;" /><br />
             <br />
 
-            <span id="textSCOSBC"></span>
+            <span class='toolResult'>Result: <span id="textSCOSBC"></span></span>
 `, "Scrap Boost Calc", "tools/sco_scrapBoostCalc.png",
         ["textSCOSBC", "SCOSBC_Collected", "SCOSBC_DesiredBoost"],
         () => {
@@ -584,7 +696,7 @@ const tools = {
             Faster 2nd Dim Emblem upgrade?: <input id="SCOPGS_EmblemUpg" type="checkbox" /> <br />
             Auto merge?: <input id="SCOPGS_AutoMerge" type="checkbox" /> <br />
 
-            <span id="textFMFR2DIM"></span>
+            <span class='toolResult'>Result: <span id="textFMFR2DIM"></span></span>
 `, "Second Dimension Calc", "tools/fmfr_secondDimCalc.png",
         ["textFMFR2DIM", "FMFR2DIM_BB", "FMFR2DIM_DarkFrag", "SCOPGS_EmblemUpg", "SCOPGS_AutoMerge"],
         () => { },
@@ -678,7 +790,7 @@ const tools = {
             Fairy Pin level: <input id="FMFR_FDC_PinLevel" type="text" /> <br />
             More Dust level: <input id="FMFR_FDC_DustLevel" type="text" /> <br />
 
-            <span id="textFMFRFDC"></span>
+            <span class='toolResult'>Result: <span id="textFMFRFDC"></span></span>
 `, "Fairy Dust Calc", "tools/fmfr_fairyDustCalc.png",
         ["textFMFRFDC", "FMFR_FDC_Beams", "FMFR_FDC_Aerobeams", "FMFR_FDC_AngelBeams", "FMFR_FDC_ReBeams", "FMFR_FDC_GlitchBeams",
             "FMFR_FDC_Bricks", "FMFR_FDC_PlasticBags", "FMFR_FDC_Screws", "FMFR_FDC_Quests", "FMFR_FDC_MergeTokens",
@@ -739,7 +851,7 @@ const tools = {
             More Dust level: <input id="FMFR_ADC_DustLevel" type="text" /> <br />
             More Alien Dust level: <input id="FMFR_ADC_BoostLevel" type="text" /> <br />
 
-            <span id="textFMFRADC"></span>
+            <span class='toolResult'>Result: <span id="textFMFRADC"></span></span>
 `, "Alien Dust Calc", "tools/fmfr_alienDustCalc.png",
         ["textFMFRADC", "FMFR_ADC_LegendaryScrap", "FMFR_ADC_SteelMagnets", "FMFR_ADC_BlueBricks", "FMFR_ADC_Buckets", "FMFR_ADC_FishingNets",
             "FMFR_ADC_AutoUpgraders", "FMFR_ADC_AutoCollectors",
@@ -795,7 +907,7 @@ const tools = {
             Fairy Pin level: <input id="FMFR_SDC_PinLevel" type="text" /> <br />
             More Dust level: <input id="FMFR_SDC_DustLevel" type="text" /> <br />
 
-            <span id="textFMFRSDC"></span>
+            <span class='toolResult'>Result: <span id="textFMFRSDC"></span></span>
 `, "Star Dust Calc", "tools/fmfr_starDustCalc.png",
         ["textFMFRSDC", "FMFR_SDC_GoldenScrap", "FMFR_SDC_Magnitov", "FMFR_SDC_Fragments", "FMFR_SDC_DarkScrap", "FMFR_SDC_MergeMastery", "FMFR_SDC_Tires", 
             "FMFR_SDC_PinLevel", "FMFR_SDC_DustLevel"],
@@ -829,7 +941,7 @@ const tools = {
             <textarea id="FMFR_IMPORT" rows="6" cols="80"></textarea>
             <br />
 
-            <span id="textFMFRIMPORT"></span>
+            <span class='toolResult'>Result: <span id="textFMFRIMPORT"></span></span>
 `, "Import", "tools/fmfr_import.png",
         ["textFMFRIMPORT", "FMFR_IMPORT"],
         () => {
@@ -845,7 +957,7 @@ const tools = {
 calcname: new Tool(
         `
 
-`,
+`, "", "tools/fmfr_import.png",
         [],
         () => { },
         () => { }
@@ -931,7 +1043,7 @@ function calculateMoreScrap() {
     }
     let result = ((1 / (2 * a)) * -1) + Math.sqrt(Math.pow(moreGSLevel, 2) + (moreGSLevel / 0.03) + (1 / (4 * Math.pow(a, 2))));
 
-    ui.moreScrapCalc.statusText.innerHTML = "a: " + a.toFixed(6) + ". <b>Your More Scrap (Book upgrade) should be level " + Math.floor(result) + "!</b>";
+    ui.moreScrapCalc.statusText.innerHTML = "a: " + a.toFixed(6) + ". <b>Your More Scrap (Book upgrade) should be level " + Math.floor(result) + "</b>";
 }
 
 /* --------------------------------
@@ -956,7 +1068,7 @@ function calculateTokenCosts() {
 
     if (ad1 == "none" || ad2 == "none") {
         // one of the two ads is not selected
-        ui.tokenCostCalc.statusText.innerHTML = "(Select the two ads you want to combine!)";
+        ui.tokenCostCalc.statusText.innerHTML = "(Select the two ads you want to combine)";
     }
     else if (ad1 == ad2) {
         // you want x100 barrels huh?!
@@ -975,7 +1087,7 @@ function calculateTokenCosts() {
         else {
             // how many times to combine
             costs *= ui.tokenCostCalc.tokenCostAmountOfAds.value;
-            ui.tokenCostCalc.statusText.innerHTML = costs + " Token" + (costs > 1 ? "s" : "");
+            ui.tokenCostCalc.statusText.innerHTML = costs + " Token" + (costs != 1 ? "s" : "");
         }
     }
 }
@@ -995,10 +1107,20 @@ function calculateBarrelProduction() {
         return false;
     }
 
+    // sc2fmfr only: upgrade that makes tiers stronger, lower exponent in 2nd dimension
+    let strongerExponent = ui.barrelProductionCalc.bpcStrongerBarrelTiers.value;
+    if (strongerExponent != undefined && strongerExponent !== "" && selected[1] == "sc2fmfr") {
+        strongerExponent = 3 + (0.01 * parseInt(strongerExponent));
+    }
+    else strongerExponent = 3; // default
+    if (ui.barrelProductionCalc.bpcSecondDimension.checked === true && selected[1] == "sc2fmfr") strongerExponent = 1.1; // second dimension is only 1.1^
+
+    // let's finish up the calculations
     let barrelnr = ui.barrelProductionCalc.bpcBarrelNr.value;
+    console.log(barrelnr);
 
     // 3 ^ barrel x base
-    let result = new Decimal(3).pow(barrelnr - 1).mul(baseProd);
+    let result = new Decimal(strongerExponent).pow(barrelnr - 1).mul(baseProd);
     result = result.mantissa.toString().substr(0, 5) + "e" + result.exponent.toString();
 
     if (barrelnr == "" || barrelnr < 1) ui.barrelProductionCalc.statusText.innerHTML = "That is not a real barrel!";
@@ -1110,6 +1232,7 @@ function importFMFRSave() {
     }
     catch (e) {
         alert("Something went wrong while trying to parse the save");
+        ui.fmfr_import.statusText.innerHTML = "Something went wrong (length: " + len + ")";
         return false;
     }
 

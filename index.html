@@ -27,69 +27,114 @@
         <hr />
 
         <span id="abcd"></span>
-        
+
         <br /><hr /><br />
 
         <!-- INFO / CONTACT / LINKS / PATCH NOTES -->
         <div class="theContainer">
             <div class="box miniBox">
                 <h3>Info</h3>
-                CombCalc (collection of various Scrap calcs and tools) made by Schrottii / Balnoom <br />
-                &copy; 2024 - 2026
-                <br /> <br />
-                First released on 2024-05-13 <br />
-                Current version: <span id="currentVersion"></span>
+                <hr />
 
+                CombCalc (collection of various Scrap calcs and tools) made by Schrottii / Balnoom <br />
+                &copy; 2024 - 2026 <br />
                 <br />
-                <button onclick="clearTool('all')">Clear all inputs</button>
+
+                First released on 2024-05-13 <br />
+                Current version: <span id="currentVersion"></span><br />
                 <br />
-                <span id="updatingData"></span>
-                
-                <br /> <br />
-                <a href="TOS.md">Terms of Service</a> <br />
-                <a href="LICENSE.md">License</a> <br />
-                <a href="PRIVACY.md">Privacy Policy</a>
+
+                Legal info:
+                <ul>
+                    <li><a href="TOS.md">Terms of Service</a></li>
+                    <li><a href="LICENSE.md">License</a></li>
+                    <li><a href="PRIVACY.md">Privacy Policy</a></li>
+                </ul>
+                <br />
+
+                Other Scrap content / wiki:
+                <ul>
+                    <li><a href="https://schrottii.github.io/barrelnames/">Play Barrel Name Mixer</a></li>
+                    <li><a href="https://schrottii.github.io/sc2fmfr/">Play SC2FMFR</a></li>
+                    <li><a href="https://schrottii.github.io/sc2-records/">View SC2 Records</a></li>
+                    <li><a href="https://official-scrap-2.fandom.com/wiki/Global_Challenges">Wiki: Global Challenges</a></li>
+                    <li><a href="https://official-scrap-2.fandom.com/wiki/Combine_Tokens">Wiki: Combine Tokens</a></li>
+                </ul>
             </div>
+
             <div class="box miniBox">
                 <h3>Contact</h3>
-                <a href="https://schrottii.github.io/">My website & other games</a>
-                <br /> <br />
-                Discord: <br />
-                username: schrottii <br />
-                <a href="https://discord.gg/CbBeJXKUrk">Server for my games and other projects</a> <br />
-                <a href="https://discord.gg/HPDxES9">Main Scrap server</a> <br />
+                <hr />
+
+                <a href="https://schrottii.github.io/">My website & other games</a><br />
                 <br />
-                <a href="mailto:balnoom@yahoo.com">E-mail: balnoom@yahoo.com</a>
-                <br /> <br />
+                <a href="mailto:balnoom@yahoo.com">E-mail: balnoom@yahoo.com</a><br />
+                <br />
+
+                Discord:
+                <ul>
+                    <li>username: schrottii</li>
+                    <li><a href="https://discord.gg/CbBeJXKUrk">Server for my games and other projects</a></li>
+                    <li><a href="https://discord.gg/HPDxES9">Main Scrap server</a></li>
+                </ul>
+                <br />
+
                 Donate: <br />
                 <a href='https://ko-fi.com/Y8Y2XMZX1' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
             </div>
+
             <div class="box miniBox">
-                <h3>Other Scrap content / wiki</h3>
-                <a href="https://schrottii.github.io/barrelnames/">Play Barrel Name Mixer</a> <br /> <br />
-                <a href="https://schrottii.github.io/sc2fmfr/">Play SC2FMFR</a> <br /> <br />
-                <a href="https://schrottii.github.io/sc2-records/">View SC2 Records</a> <br /> <br />
-                <a href="https://official-scrap-2.fandom.com/wiki/Global_Challenges">Wiki: Global Challenges</a> <br /> <br />
-                <a href="https://official-scrap-2.fandom.com/wiki/Combine_Tokens">Wiki: Combine Tokens</a>
+                <h3>Settings</h3>
+                <hr />
+
+                Hard reset:<br />
+                <button onclick="clearTool('all')">Clear all inputs</button>
+                <br /><br />
+
+                Flashy result text:<br />
+                <button onclick="toggleFlashyResultText()" id="setting-FlashyResultText"></button>
+                <br /><br />
+
+                Full width boxes:<br />
+                <button onclick="toggleFullWidthBoxes()" id="setting-FullWidthBoxes"></button>
+                <br /><br />
+
+                Perform unnecessary updating:<br />
+                <button onclick="toggleUnnecessaryUpdates()" id="setting-UnnecessaryUpdates"></button>
+                <br /><br />
+
+                Tracker for optimized updating: <br />
+                <span id="updatingData"></span>
+                <br /><br />
             </div>
+
             <div class="box miniBox" style="text-align: left;">
-                <div style=" max-height: 420px; overflow-y: scroll; background-color: rgb(20, 20, 60)">
+                <h3>Latest patch notes</h3>
+                <hr />
+
+                <div style=" max-height: 420px; overflow-y: scroll; background-color: rgb(20, 20, 60); padding: 4px;">
                     <span id="patchNotes"></span>
                 </div>
-                <a href="PATCH_NOTES.md">All patch notes</a>
+                <div style="text-align: center; margin-left: auto; margin-right: auto;"><a href="PATCH_NOTES.md">All patch notes</a></div>
             </div>
 
             <br />
 
         </div>
+
+        <audio id="wggjAudio" type="audio/ogg" preload="auto"></audio>
+        <canvas style="display: none; width: 100%; height: 100%; z-index: 10; margin-left: 0px; position: fixed; left: 0; top: 0;" id="wggjCanvas" class="wggjCanvasFake"></canvas>
     </div>
 
     <!-- LOAD SCRIPTS -->
     <script src="code/lib/breakinfinity.js"></script>
+    <script src="code/lib/wggj.js"></script>
 
     <script src="code/toolClass.js"></script>
     <script src="code/categoryClass.js"></script>
     <script src="code/calcs.js"></script>
+
+    <script src="code/scenes/merging.js"></script>
 
     <script src="code/main.js"></script>
 </body>

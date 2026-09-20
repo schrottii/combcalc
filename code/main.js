@@ -15,57 +15,62 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 const FPS = 15;
 
-var currentVersion = "v1.7.1";
-var currentVersionDate = "(2026-08-01)";
+var currentVersion = "v1.8";
+var currentVersionDate = "(2026-09-20)";
 var patchNotes = `
-v1.7.1:
--> Performance:
-- Optimized the rendering of calc results like crazy
-- This decreases the amount of render updates by >95% (depends on how the user acts, can be above 99%)
-- Amount of performed render updates, omitted updates (that would've usually been performed) and their percentage are shown in the Info section
-- Fixes the issue of random inputs being swallowed
+v1.8:
+-> Merge Heatmap:
+- Massive new tool that simulates merging from SC2 from the ground up, to track merges and then show optimal pos for Position Upgrades
+- Includes the 20 barrels field (with the first 20 barrels of the game), merging & converting
+- Results can show: Merges to, Merges from, Converts
+- Top displays the amount of merges and converts (instead of Scrap and Magnets)
 
--> Design:
-- Added hover effect for the new Clear buttons
-- Combine Gain Calc: changed colors of the left-right split (from weird greens to dark blues)
+- Some extra tools to help you are included:
+- Reset tracking (a hard reset that sets things like merges to 0)
+- Clear all pos (sets all barrels to barrel 1, tracking is kept)
+- Undo last step (reverts one merge, one convert, or one auto merge session)
+- Fullscreen (makes it take up the entire screen like the web version of FMFR)
+- Auto merge (simulated SC2's auto merge, can do 1 to 100000 merges at once, is included in tracking)
+
+-> Merge Pattern Calc:
+- New tool that explains patterns and tiers, and lets you figure out two things:
+- How fast each repeat of the pattern has to be, to get a certain merge goal
+- How many merges the FB will have, if every repeat takes a certain duration
+- Additional milestones (up to 3s faster and 3s slower, so 7 numbers) will be shown in a table at the bottom
+
+-> Barrel Production Calc:
+- This tool is not only found under SC2 but also FR, because it works for both, however FR can have more factors. These can now be considered, with new options only visible when viewing it from the FR category.
+- Stronger Barrel Tiers level (0 - 200, increases the 3^)
+- Second Dimension toggle (1.1^ instead of 3^)
+
+-> Subcategories:
+- New Scrap 2 subcategory: Merging
+- The only subcategories of Scrap Collector and SC2FMFR now say "(All)" to avoid confusion
+
+-> Tool design:
+- Result lines now blink yellow and have a slightly darker background
+- Result lines now say Result: for easier finding and consistency
+- Hover effect lingers for longer
+- Images on the left are a bit smaller
+
+-> Bottom boxes:
+- Changed design a bit
+- Moved Other Scrap content / wiki box into Info
+- Turned legal links and Discord info into lists
+- Added Latest patch notes headline
+- Added dedicated box for Settings
+
+-> Settings:
+- Moved hard reset and tracker for optimized render updates (which is now more clear) here
+- Added Setting to disable the new Result text flashing effect
+- Added Setting to make tool boxes always wide (not expanding when hovered)
+- Added Setting to perform all UI updates, even when unnecessary (see: v1.7.1)
 
 -> Other:
-- Token Cost Calc: moved image to the right
-- More Scrap Calc: moved formula explanation to the right
-
-v1.7:
--> Saving:
-- Inputs into the tools and calcs are now saved (every 3s)
-- They get cached and later loaded directly into the tools when revisiting CombCalc
-- Added buttons to quickly clear the inputs to most tools (top right)
-- Added a button to clear ALL inputs of ALL tools to the Info section
-
--> Merge Pace Calc:
-- Added ability to set a ratio, and the merges of the alt. speed
-- This can be used for something like: 2:1 - 2 FBs, 1 am+fb
-- Active Speed and Alt. Speed (if using ratio) are now shown (these are for active playing, so not including breaks)
-- Seconds and Minutes are now shown
-- Design and text changes
-
--> Other tools:
-- SC2FMFR import: improved stability for lategame saves
-- Renamed Abstract <-> Scientific Converter to Abstract-Scientific Converter
-
--> Design:
-- Slightly changed hover effect for tools
-- Changed positioning of tool images
-- Increased size of checkboxes
-- Increased size for categories and subcategories
-- Limited patch notes height (scrollable)
-- Various mobile improvements
-
--> Other:
-- Removed old ToS and inserted new ToS, Balnoom License & Privacy Policy (note: not tailored to CombCalc, so it may be called a "game" or discuss contents that do not exist here)
-- Contact: added E-mail (with mailto)
-- Other Scrap content: Added link to SC2 Records
-- Changed patch_notes.txt to PATCH_NOTES.md
-- Added link to all patch notes
-- Fixed very weird auto scrolling bug
+- Added WGGJ v1.7 for the Merge Heatmap
+- Improved initialization of tool texts
+- Import tool: when something goes wrong, the text now gets updated & shows the save length
+- Removed some exclamation marks so nobody thinks it could be an unexpected factorial
 `;
 
 function updatePatchNotes() {
@@ -93,6 +98,9 @@ var ui = {
 
 var saveData = {
     userInputs: {
+
+    },
+    settings: {
 
     }
 }
@@ -161,6 +169,66 @@ function saveLoadBackup() {
     saveLoad(ssave);
 }
 
+function applyFlashyResultText() {
+    // flashy results
+    let newValue = getSetting("flashyResultText") === true ? "none" : "";
+    let elementsArray = document.getElementsByClassName("toolResult");
+    for (let em of elementsArray) {
+        em.style.animation = newValue;
+    }
+
+    // full width boxes
+    newValue = getSetting("fullWidthBoxes");
+    elementsArray = document.getElementsByClassName("boxSize");
+    for (let em of elementsArray) {
+        em.style["margin-left"] = newValue ? "1%" : "";
+        em.style["margin-right"] = newValue ? "1%" : "";
+        em.style["max-width"] = newValue ? "98%" : "";
+    }
+}
+
+function changeSetting(name, newValue = "toggle", defaultValue = "") {
+    if (saveData.settings == undefined) saveData.settings = {};
+    if (saveData.settings[name] == undefined) saveData.settings[name] = defaultValue;
+
+    if (newValue != "toggle") {
+        saveData.settings[name] = newValue;
+    }
+    else {
+        // it's a toggle setting
+        if (saveData.settings[name] === true) saveData.settings[name] = false;
+        else if (saveData.settings[name] === false) saveData.settings[name] = true;
+    }
+}
+
+function getSetting(name) {
+    if (saveData.settings == undefined || saveData.settings[name] == undefined) return false;
+    return saveData.settings[name];
+}
+
+function reloadSettings() {
+    document.getElementById("setting-FlashyResultText").innerText = getSetting("flashyResultText") ? "Click to enable effects" : "Click to disable effects";
+    document.getElementById("setting-FullWidthBoxes").innerText = getSetting("fullWidthBoxes") ? "Click to make boxes expendable again" : "Click to make boxes permanently wide";
+    document.getElementById("setting-UnnecessaryUpdates").innerText = getSetting("unnecessaryUpdates") ? "Click to improve performance" : "Click to start force updating UI";
+
+    applyFlashyResultText();
+}
+
+function toggleFlashyResultText() {
+    changeSetting("flashyResultText", "toggle", true);
+    reloadSettings();
+}
+
+function toggleUnnecessaryUpdates() {
+    changeSetting("unnecessaryUpdates", "toggle", false);
+    reloadSettings();
+}
+
+function toggleFullWidthBoxes() {
+    changeSetting("fullWidthBoxes", "toggle", false);
+    reloadSettings();
+}
+
 
 // LOOP
 function loop() {
@@ -168,7 +236,7 @@ function loop() {
 
     updateTools();
 
-    document.getElementById("updatingData").innerHTML = necessaryUIUpdates + ", " + unnecessaryUIUpdates + " (" + (unnecessaryUIUpdates / (necessaryUIUpdates + unnecessaryUIUpdates) * 100).toFixed(1)  + "%)";
+    document.getElementById("updatingData").innerHTML = necessaryUIUpdates + " updated, " + unnecessaryUIUpdates + " skipped (" + (unnecessaryUIUpdates / (necessaryUIUpdates + unnecessaryUIUpdates) * 100).toFixed(1)  + "% saved)";
 }
 
 function init() {
@@ -176,6 +244,8 @@ function init() {
 
     ui.bottom.header.innerHTML = "CombCalc " + currentVersion;
     updatePatchNotes();
+
+    reloadSettings();
 
     renderGames();
     renderCategories();
@@ -185,3 +255,66 @@ function init() {
 }
 
 init();
+
+// wggj
+images = {
+    "barrel_1": "barrels/barrel_1.png",
+    "empty": "barrels/empty.png",
+    "barrels": "barrels/barrels.png",
+
+    "merges": "merges.png",
+    "converts": "converts.png",
+    "reset": "reset.png",
+    "clearfield": "clearfield.png",
+    "undo": "undo.png",
+    "results": "results.png",
+
+    "mergefrompos": "mergefrompos.png",
+    "mergetopos": "mergetopos.png",
+    "convertpos": "convertpos.png",
+}
+
+var wggjIsStarted = false;
+function resizeWGGJ() {
+    wggj.canvas.pcWidthMulti = 0.45 / innerWidth * innerHeight;
+    wggj.canvas.pcHeightMulti = 0.8;
+    wggj.canvas.mobileWidthMulti = 0.45 / innerWidth * innerHeight;
+    wggj.canvas.mobileHeightMulti = 0.8;
+}
+
+function startupWGGJ(name, targetCanvas = "wggjCanvas") {
+    console.log("reassigning context");
+
+    //document.getElementsByClassName("wggjCanvasFake").outerHTML = "";
+    wggjCanvas = document.getElementById(targetCanvas);
+    wggjCTX = wggjCanvas.getContext("2d");
+
+    wggjCanvas.style.display = "";
+
+    wggjCanvas.addEventListener("pointerdown", wggjEventsOnClick);
+    wggjCanvas.addEventListener("pointerup", wggjEventsOnPointerUp);
+    wggjCanvas.addEventListener("pointerleave", wggjEventsOnPointerUp);
+    wggjCanvas.addEventListener("pointermove", wggjEventsOnPointerMove);
+
+    //if (wggj.config.gameName != "") {
+    //wggj.config.gameName = name;
+    wggj.config.gameName = "CombCalc";
+    wggj.config.font = "OpenSansBold";
+    //wggj.config.startScene = "merging";
+    wggj.config.imageBasePath = "images/scenes/";
+    wggj.debug.scene = true;
+
+    resizeWGGJ();
+
+    if (wggjIsStarted == false) {
+        wggjLoadImages();
+        //wggjLoadAudio();
+        wggjLoop();
+        wggjIsStarted = true;
+    }
+
+    if (wggj.canvas.currentScene != name) loadScene(name);
+    setTimeout(() => {
+        if (objects["startTheGame"] != undefined) objects["startTheGame"].power = false;
+    }, 200);
+}

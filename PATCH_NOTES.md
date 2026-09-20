@@ -16,6 +16,7 @@ format: yyyy-mm-dd
 - v1.6
 - v1.7
 - v1.7.1
+- v1.8
 
 
 
@@ -185,3 +186,59 @@ format: yyyy-mm-dd
 -> Other:
 - Token Cost Calc: moved image to the right
 - More Scrap Calc: moved formula explanation to the right
+
+
+
+## v1.8 2026-9-20
+-> Merge Heatmap:
+- Massive new tool that simulates merging from SC2 from the ground up, to track merges and then show optimal pos for Position Upgrades
+- Includes the 20 barrels field (with the first 20 barrels of the game), merging & converting
+- Results can show: Merges to, Merges from, Converts
+- Top displays the amount of merges and converts (instead of Scrap and Magnets)
+
+- Some extra tools to help you are included:
+- Reset tracking (a hard reset that sets things like merges to 0)
+- Clear all pos (sets all barrels to barrel 1, tracking is kept)
+- Undo last step (reverts one merge, one convert, or one auto merge session)
+- Fullscreen (makes it take up the entire screen like the web version of FMFR)
+- Auto merge (simulates SC2's auto merge, can do 1 to 100000 merges at once, is included in tracking)
+
+-> Merge Pattern Calc:
+- New tool that explains patterns and tiers, and lets you figure out two things:
+- How fast each repeat of the pattern has to be, to get a certain merge goal
+- How many merges the FB will have, if every repeat takes a certain duration
+- Additional milestones (up to 3s faster and 3s slower, so 7 numbers) will be shown in a table at the bottom
+
+-> Barrel Production Calc:
+- This tool is not only found under SC2 but also FR, because it works for both, however FR can have more factors. These can now be considered, with new options only visible when viewing it from the FR category.
+- Stronger Barrel Tiers level (0 - 200, increases the 3^)
+- Second Dimension toggle (1.1^ instead of 3^)
+
+-> Subcategories:
+- New Scrap 2 subcategory: Merging
+- The only subcategories of Scrap Collector and SC2FMFR now say "(All)" to avoid confusion
+
+-> Tool design:
+- Result lines now blink yellow and have a slightly darker background
+- Result lines now say Result: for easier finding and consistency
+- Hover effect lingers for longer
+- Images on the left are a bit smaller
+
+-> Bottom boxes:
+- Changed design a bit
+- Moved Other Scrap content / wiki box into Info
+- Turned legal links and Discord info into lists
+- Added Latest patch notes headline
+- Added dedicated box for Settings
+
+-> Settings:
+- Moved hard reset and tracker for optimized render updates (which is now more clear) here
+- Added Setting to disable the new Result text flashing effect
+- Added Setting to make tool boxes always wide (not expanding when hovered)
+- Added Setting to perform all UI updates, even when unnecessary (see: v1.7.1)
+
+-> Other:
+- Added WGGJ v1.7 for the Merge Heatmap
+- Improved initialization of tool texts
+- Import tool: when something goes wrong, the text now gets updated & shows the save length
+- Removed some exclamation marks so nobody thinks it could be an unexpected factorial
