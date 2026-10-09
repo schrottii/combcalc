@@ -212,6 +212,11 @@ function automerge(amount = 1) {
     mergingUpdateBarrels();
 }
 
+function moveBarrelToMiddle() {
+    // this was the default in v1.8, now it is an optional setting if you want it back
+    return ui.mergeHeatmap.heatmapMiddleBarrel.checked || false;
+}
+
 scenes["merging"] = new Scene(
     () => {
         // Init
@@ -391,8 +396,22 @@ scenes["merging"] = new Scene(
 
                         // while dragging, I move with the mouse
                         if (merging.dragBarrel1 == objects[c].i) {
-                            objects[c].x = (wggj.mouse.x / wggj.canvas.w) - objects[c].w / 2;
-                            objects[c].y = (wggj.mouse.y / wggj.canvas.h) - objects[c].h / 2;
+                            if (!moveBarrelToMiddle()) {
+                                if (objects[c].moved == false) {
+                                    // initial setting of the offset compared to barrel middle
+                                    objects[c].mouseOffsetX = (wggj.mouse.x / wggj.canvas.w) - objects[c].x - (objects[c].w / 2);
+                                    objects[c].mouseOffsetY = (wggj.mouse.y / wggj.canvas.h) - objects[c].y - (objects[c].h / 2);
+                                    console.log(objects[c].mouseOffsetX);
+                                }
+
+                                objects[c].x = (wggj.mouse.x / wggj.canvas.w) - objects[c].w / 2 - objects[c].mouseOffsetX;
+                                objects[c].y = (wggj.mouse.y / wggj.canvas.h) - objects[c].h / 2 - objects[c].mouseOffsetY;
+                            }
+                            else {
+                                // old (jumps to middle of mouse)
+                                objects[c].x = (wggj.mouse.x / wggj.canvas.w) - objects[c].w / 2;
+                                objects[c].y = (wggj.mouse.y / wggj.canvas.h) - objects[c].h / 2;
+                            }
                             objects[c].moved = true;
                         }
                     },

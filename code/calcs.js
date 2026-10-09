@@ -19,7 +19,7 @@ const categories = {
         "mergePaceCalc", "mergeHeatmap", "mergePatternCalc"
     ]),
     misc: new Category("misc", "Other", "subcategories/sc2_misc.png", [
-        "achievementBoostCalc", "abstractScientificConverter",
+        "achievementBoostCalc", "abstractScientificConverter", "posupgCalc", "stormMasteryCalc"
     ]),
     sc2_all: new Category("sc2_all", "All", "games/scrap2.png", [
         "all", "Scrap 2"
@@ -38,7 +38,7 @@ const tools = {
     globalChallengeStatus: new Tool(
         `
         <span id="textGC"></span>
-`, "Global Challenge Status", "tools/globeIcon.png",
+`, "Global Challenge Status", "tools/globeIcon.png", "Global Challenges",
         ["textGC"],
         () => { },
         () => { calculateGlobalChallengeTime(); }
@@ -66,7 +66,7 @@ const tools = {
             </div>
 
             <span class='toolResult'>Result: You will earn <big><span id="textCGC"></span><img src='images/assets/combineToken.png' style='width: 32px' /></big></span>
-`, "Combine Gain Calc", "tools/combineToken.png",
+`, "Combine Gain Calc", "tools/combineToken.png", "Combine Tokens",
         ["textCGC", "combinesLeft", "combinesRight", "moreTokensLevel", "moreTokensLevel2",
             "progressGlobal", "progressYours", "progressGlobalText", "progressYoursText"],
         () => {
@@ -109,7 +109,7 @@ const tools = {
                 </i>
                 </div>
             </div>
-`, "More Scrap Calc", "tools/bookScrap.png",
+`, "More Scrap Calc", "tools/bookScrap.png", "Scrap (currency)",
         ["textMSC", "moreGSLevel", "moreScrapLevel", "highestScrapEver"],
         () => { },
         () => { calculateMoreScrap(); }
@@ -159,7 +159,7 @@ const tools = {
                 <img src="images/assets/Tokentable.png" style="height: 256px;" />
                 </div>
             </div>
-`, "Token Cost Calc", "tools/combineToken.png",
+`, "Token Cost Calc", "tools/combineToken.png", "Combine Tokens",
         ["textTCC", "selectedAd1", "selectedAd2", "tokenCostAmountOfAds", "tokenCostAmountOfTokens"],
         () => {
             // GO BOTHER WITH IT!
@@ -183,7 +183,7 @@ const tools = {
 
             <br />
             <span class='toolResult'>Result: <span id="textBPC"></span></span>
-`, "Barrel Production Calc", "tools/barrelProduction.png",
+`, "Barrel Production Calc", "tools/barrelProduction.png", "",
         ["textBPC", "bpcFirstProd", "bpcBarrelNr", "bpcStrongerBarrelTiers", "bpcStrongerBarrelTiersHide", "bpcSecondDimension"],
         () => {
             if (selected[1] == "sc2fmfr") ui.barrelProductionCalc.bpcStrongerBarrelTiersHide.style.display = "";
@@ -204,7 +204,7 @@ const tools = {
 
             <br />
             <span class='toolResult'>Result: <span id="textABC"></span></span>
-`, "Achievement Boost Calc", "tools/achievementBoost.png",
+`, "Achievement Boost Calc", "tools/achievementBoost.png", "Achievement Boosts",
         ["textABC", "abcStart", "abcGoal"],
         () => { },
         () => { calculateAchievementBoost(); }
@@ -220,7 +220,7 @@ const tools = {
             <input id="inputAbstract" placeholder="ex.: big or 4782 or 1e4782" type="text" onkeyup="calculateAbstract();" style="min-width: 33%;" /> <br />
 
             <span class='toolResult'>Result: <span id="textAbstract"></span></span>
-`, "Abstract-Scientific Converter", "tools/abstractCalc.png",
+`, "Abstract-Scientific Converter", "tools/abstractCalc.png", "Notations",
         ["textAbstract", "inputAbstract"],
         () => { },
         () => { }
@@ -247,7 +247,7 @@ const tools = {
 
             <span class='toolResult'>Result: <span id="textMPC"></span></span>
             <span id="mpcTable"></span>
-`, "Merge Pace Calc", "tools/mergePaceCalc.png",
+`, "Merge Pace Calc", "tools/mergePaceCalc.png", "",
         ["textMPC", "mpcTable", "mpcBreakTime", "mpcMerges", "mpcAdTrick", "mpcAdTokens", "mpcFastAds", "mpcRatio", "mpcMerges2"],
         () => { 
             mergePaceCalcTimes = {
@@ -346,15 +346,17 @@ const tools = {
     mergeHeatmap: new Tool(
         `
 <p style="max-width: 1200px; text-align: left; margin-left: auto; margin-right: auto;">
-This new complex tool lets you simulate merging and receive data that the game doesn't let you analyze: which positions your merges come from, go to & where the converts happen. This helps you figure out distributions for Position Upgrades. At the top, you can see your merges and converts, to keep track of how many your pattern contains. It comes with multiple tools: resetting the tracking (hard reset), clearing all barrels, undoing the last step (useful for accidental converts or bad merges), and even built-in high speed auto merge. If you are very good at speed merging, you may need to slow down here, as it does not feel exactly the same as in the original game. </p>
+This new complex tool lets you simulate merging and receive data that the game doesn't let you analyze: which positions your merges come from, go to & where the converts happen. This helps you figure out distributions for Position Upgrades. At the top, you can see your merges and converts, to keep track of how many your pattern contains. It comes with multiple tools: resetting the tracking (hard reset), clearing all barrels, undoing the last step (useful for accidental converts or bad merges), and even built-in high speed auto merge. If you are very good at speed merging, you may need to slow down here, as it does not feel exactly the same as in the original game.
+</p>
 <br />
 
 <button id="mergeHeatmap_startupButton" onclick="startupWGGJ('merging', 'wggjCanvasMergeHeatmap'); document.getElementById('mergeHeatmap_startupButton').style.display = 'none';" style="font-size: 60px;">Load heatmap</button>
 
 <canvas id="wggjCanvasMergeHeatmap" style="display: none;"></canvas>
+<br /> Move barrel to middle when merging?: <input id="heatmapMiddleBarrel" type="checkbox" />
 
-`, "Merge Heatmap", "tools/mergeHeatmap.png",
-        ["textMPC", "mergeHeatmap_startupButton"],
+`, "Merge Heatmap", "tools/mergeHeatmap.png", "",
+        ["textMPC", "mergeHeatmap_startupButton", "heatmapMiddleBarrel"],
         () => {
             
         },
@@ -377,7 +379,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
 <br /><span class='toolResult'>Result: <span id="textPatternCalc"></span></span><br />
 <br /><span id="patternCalcTable"></span>
 
-`, "Merge Pattern Calc", "tools/mergePaceCalc.png",
+`, "Merge Pattern Calc", "tools/mergePaceCalc.png", "",
         ["textPatternCalc", "patternCalcTable", "patternCalcTier", "patternCalcTierText", "patternCalcMergeGoal", "patternCalcRepeatSecs"],
         () => { },
         () => {
@@ -444,6 +446,143 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
         }
     ),
 
+    posupgCalc: new Tool(
+        `
+<p style="max-width: 1200px; text-align: left; margin-left: auto; margin-right: auto;">
+The ultimate calculator for Position Upgrades - with the right formulas for all five tabs. Enter your levels and the target levels (it's even possible to set all at once, or an entire row), switch between owned/targets using the buttons right above the positions. The combined costs and levels gained will be calculated and displayed at the top! Hover over a position to see its individual cost. Switch between tabs at the bottom.
+<br />Special thanks to cubruce and Baydırman for the tab1 formula past level 1000, and Mike9090 for suggesting.
+</p>
+<br />
+
+Barrels on Mastery 18 (for Tab 4): <input id="posupgCalc_M18" placeholder="990" type="number" /> <br />
+Barrels on Mastery 19 (for Tab 5): <input id="posupgCalc_M19" placeholder="990" type="number" /> <br />
+Barrels on Mastery 20 (for Tab 2): <input id="posupgCalc_M20" placeholder="990" type="number" /> <br />
+Barrels on Mastery 25 (for Tab 3): <input id="posupgCalc_M25" placeholder="990" type="number" /> <br />
+Achievement Boost level: <input id="posupgCalc_AchievementBoost" placeholder="100" type="number" /> <br />
+(Optional) Currency amount: <input id="posupgCalc_HowFar" type="number" /> <br />
+<br />
+
+<button id="posupgCalc_startupButton" onclick="startupWGGJ('posupging', 'wggjCanvasPosupgCalc'); document.getElementById('posupgCalc_startupButton').style.display = 'none';" style="font-size: 60px;">Load visual positions</button>
+
+<canvas id="wggjCanvasPosupgCalc" style="display: none;"></canvas>
+
+`, "Posupg Calc", "tools/posupgCalc.png", "Position Upgrades",
+        ["textPC", "posupgCalc_startupButton", "posupgCalc_M18", "posupgCalc_M19", "posupgCalc_M20", "posupgCalc_M25", "posupgCalc_AchievementBoost", "posupgCalc_HowFar"],
+        () => {
+        },
+        () => {
+            posupgCalcFactors.mastery18 = Math.floor(ui.posupgCalc.posupgCalc_M18.value / 10);
+            posupgCalcFactors.mastery19 = Math.floor(ui.posupgCalc.posupgCalc_M19.value / 10);
+            posupgCalcFactors.mastery20 = Math.floor(ui.posupgCalc.posupgCalc_M20.value / 10);
+            posupgCalcFactors.mastery25 = Math.floor(ui.posupgCalc.posupgCalc_M25.value / 10);
+            posupgCalcFactors.achievementBoost = ui.posupgCalc.posupgCalc_AchievementBoost.value !== "" ? Math.min(100, ui.posupgCalc.posupgCalc_AchievementBoost.value) : 0;
+
+            posupgCalcFactors.howFar = ui.posupgCalc.posupgCalc_HowFar.value;
+            if (isValid(posupgCalcFactors.howFar)) posupgsCalcCosts();
+        }
+    ),
+
+    stormMasteryCalc: new Tool(
+        `
+Calculate Upgrade costs: <br />
+<table align='center'>
+<tr><td>
+Start level: </td><td> <input id="smCalc_levelStart" placeholder="0" min=0 max=20 type="number" />
+</td></tr><tr><td>
+End level: </td><td> <input id="smCalc_levelEnd" placeholder="20" min=0 max=20 type="number" />
+</td></tr></table>
+
+<span class='toolResult'>Result: <span id="smCalcText"></span><img src='images/assets/storm_mastery_token.png' style='width: 32px' /></span><br />
+<br /><br />
+
+Find out how many you collected: <br />
+<table align='center'>
+<tr><td>
+Level: </td><td> <input id="smCalc_masteryLevel" placeholder="0" min=0 type="number" /><br />
+</td></tr><tr><td>
+Progress to next level: </td><td> <input id="smCalc_masteryProgress" placeholder="0" min=0 type="number" /><br />
+</td></tr><tr><td>
+Currency type: </td><td> <select name="masteryType" id="smCalc_masteryType">
+                    <option value="none">Select Storm type</option>
+                    <option value="magnets">Magnets (35x)</option>
+                    <option value="tires">Tires (40x)</option>
+                    <option value="gs">Golden Scrap (35x)</option>
+                    <option value="wrenches">Wrenches (100x)</option>
+                    <option value="beams">Steel Beams (20x)</option>
+                </select>
+</td></tr></table>
+
+<span class='toolResult'>Result: <span id="smCalcText2"></span></span><br />
+
+`, "Storm Mastery Calc", "tools/stormMasteryCalc.png", "Storm Mastery",
+        ["smCalcText", "smCalc_levelStart", "smCalc_levelEnd", "smCalcText2", "smCalc_masteryType", "smCalc_masteryLevel", "smCalc_masteryProgress"],
+        () => { },
+        () => {
+            // Calculate Upgrade costs
+            if (isValid(ui.stormMasteryCalc["smCalc_levelStart"].value) && isValid(ui.stormMasteryCalc["smCalc_levelEnd"].value)) {
+                let levelStart = parseInt(ui.stormMasteryCalc["smCalc_levelStart"].value);
+                let levelEnd = parseInt(ui.stormMasteryCalc["smCalc_levelEnd"].value);
+                if (levelEnd <= levelStart || isNaN(levelStart) || isNaN(levelEnd)) {
+                    ui.stormMasteryCalc.smCalcText.innerHTML = "";
+                    return;
+                }
+
+                let costs = [10, 20, 30, 40, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425];
+                let price = 0;
+
+                for (let i = levelStart; i < levelEnd; i++) {
+                    if (i < costs.length) price += costs[i];
+                }
+
+                ui.stormMasteryCalc.smCalcText.innerHTML = "" + price;// + " SM Tokens";
+            }
+
+            // Calculate amount collected
+            if (isValid(ui.stormMasteryCalc["smCalc_masteryLevel"].value) && isValid(ui.stormMasteryCalc["smCalc_masteryProgress"].value)) {
+                let masteryLevel = parseInt(ui.stormMasteryCalc["smCalc_masteryLevel"].value);
+                let masteryProgress = parseInt(ui.stormMasteryCalc["smCalc_masteryProgress"].value);
+                let masteryType = ui.stormMasteryCalc["smCalc_masteryType"].value;
+                let itemsPerStorm = 35;
+
+                switch (masteryType) {
+                    case "magnets":
+                        itemsPerStorm = 35;
+                        break;
+                    case "tires":
+                        itemsPerStorm = 40;
+                        break;
+                    case "gs":
+                        itemsPerStorm = 35;
+                        break;
+                    case "wrenches":
+                        itemsPerStorm = 100;
+                        break;
+                    case "beams":
+                        itemsPerStorm = 20;
+                        break;
+                    default:
+                        itemsPerStorm = 35;
+                        break;
+                }
+
+                let totalItems = 0;
+                for (let i = 0; i < masteryLevel; i++) {
+                    totalItems += 100 + (10 * i);
+                }
+                totalItems += masteryProgress;
+
+                let totalStorms = Math.floor(totalItems / itemsPerStorm);
+                let stormTime = Math.floor(totalStorms / (60 / 25)); // every 5 mins 20% chance so 25 mins
+
+                let render = "You have collected this item " + totalItems + " times <sup>(Since unlocking Storm Mastery)</sup><br />That is ~" + totalStorms + " storms; " + stormTime + " hours.";
+                if (masteryType == "tires") render += "<br />Note: this assumes every Tire Storm was worth 20";
+
+                ui.stormMasteryCalc.smCalcText2.innerHTML = render;
+            }
+            else ui.stormMasteryCalc.smCalcText2.innerHTML = "";
+        }
+    ),
+
 
 
     sco_prestigeGSCalc: new Tool(
@@ -456,7 +595,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
             10 Stars or more?: <input id="SCOPGS_Stars" type="checkbox" /> <br />
 
             <span class='toolResult'>Result: <span id="textSCOPGS"></span></span>
-`, "Prestige GS Calc", "tools/sco_prestigeGSCalc.png",
+`, "Prestige GS Calc", "tools/sco_prestigeGSCalc.png", "",
         ["textSCOPGS", "SCOPGS_Scrap", "SCOPGS_MoreGS", "SCOPGS_CollectedBarrels", "SCOPGS_Stars"],
         () => { },
         () => {
@@ -504,7 +643,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
             <br />
 
             <span class='toolResult'>Result: <span id="textSCOSC"></span></span>
-`, "Star Calc", "tools/sco_starCalc.png",
+`, "Star Calc", "tools/sco_starCalc.png", "",
         ["textSCOSC", "SCOSC_StarsFrom", "SCOSC_StarsTo", "SCOSC_Scrapyard", "SCOSC_Better_Discount"/*, "SCOSC_Better_Boost"*/],
         () => { },
         () => {
@@ -617,7 +756,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
             <br />
 
             <span class='toolResult'>Result: <span id="textSCOSY"></span></span>
-`, "Scrapyard Calc", "tools/sco_scrapyardCalc.png",
+`, "Scrapyard Calc", "tools/sco_scrapyardCalc.png", "",
         ["textSCOSY", "SCOSY_Scrapyard", "SCOSY_CheaperScrapyardLvl"],
         () => { },
         () => {
@@ -653,7 +792,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
             <br />
 
             <span class='toolResult'>Result: <span id="textSCOSBC"></span></span>
-`, "Scrap Boost Calc", "tools/sco_scrapBoostCalc.png",
+`, "Scrap Boost Calc", "tools/sco_scrapBoostCalc.png", "",
         ["textSCOSBC", "SCOSBC_Collected", "SCOSBC_DesiredBoost"],
         () => {
             ui.sco_ScrapBoostCalc.SCOSBC_Collected.oninput = () => { ui.sco_ScrapBoostCalc.SCOSBC_DesiredBoost.value = "" }
@@ -697,7 +836,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
             Auto merge?: <input id="SCOPGS_AutoMerge" type="checkbox" /> <br />
 
             <span class='toolResult'>Result: <span id="textFMFR2DIM"></span></span>
-`, "Second Dimension Calc", "tools/fmfr_secondDimCalc.png",
+`, "Second Dimension Calc", "tools/fmfr_secondDimCalc.png", "",
         ["textFMFR2DIM", "FMFR2DIM_BB", "FMFR2DIM_DarkFrag", "SCOPGS_EmblemUpg", "SCOPGS_AutoMerge"],
         () => { },
         () => {
@@ -791,7 +930,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
             More Dust level: <input id="FMFR_FDC_DustLevel" type="text" /> <br />
 
             <span class='toolResult'>Result: <span id="textFMFRFDC"></span></span>
-`, "Fairy Dust Calc", "tools/fmfr_fairyDustCalc.png",
+`, "Fairy Dust Calc", "tools/fmfr_fairyDustCalc.png", "",
         ["textFMFRFDC", "FMFR_FDC_Beams", "FMFR_FDC_Aerobeams", "FMFR_FDC_AngelBeams", "FMFR_FDC_ReBeams", "FMFR_FDC_GlitchBeams",
             "FMFR_FDC_Bricks", "FMFR_FDC_PlasticBags", "FMFR_FDC_Screws", "FMFR_FDC_Quests", "FMFR_FDC_MergeTokens",
             "FMFR_FDC_PinLevel", "FMFR_FDC_DustLevel"],
@@ -852,7 +991,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
             More Alien Dust level: <input id="FMFR_ADC_BoostLevel" type="text" /> <br />
 
             <span class='toolResult'>Result: <span id="textFMFRADC"></span></span>
-`, "Alien Dust Calc", "tools/fmfr_alienDustCalc.png",
+`, "Alien Dust Calc", "tools/fmfr_alienDustCalc.png", "",
         ["textFMFRADC", "FMFR_ADC_LegendaryScrap", "FMFR_ADC_SteelMagnets", "FMFR_ADC_BlueBricks", "FMFR_ADC_Buckets", "FMFR_ADC_FishingNets",
             "FMFR_ADC_AutoUpgraders", "FMFR_ADC_AutoCollectors",
             "FMFR_ADC_Venus", "FMFR_ADC_Neptune", "FMFR_ADC_Uranus", "FMFR_ADC_Posus", "FMFR_ADC_Mythus", "FMFR_ADC_Sun",
@@ -908,7 +1047,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
             More Dust level: <input id="FMFR_SDC_DustLevel" type="text" /> <br />
 
             <span class='toolResult'>Result: <span id="textFMFRSDC"></span></span>
-`, "Star Dust Calc", "tools/fmfr_starDustCalc.png",
+`, "Star Dust Calc", "tools/fmfr_starDustCalc.png", "",
         ["textFMFRSDC", "FMFR_SDC_GoldenScrap", "FMFR_SDC_Magnitov", "FMFR_SDC_Fragments", "FMFR_SDC_DarkScrap", "FMFR_SDC_MergeMastery", "FMFR_SDC_Tires", 
             "FMFR_SDC_PinLevel", "FMFR_SDC_DustLevel"],
         () => { },
@@ -942,7 +1081,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
             <br />
 
             <span class='toolResult'>Result: <span id="textFMFRIMPORT"></span></span>
-`, "Import", "tools/fmfr_import.png",
+`, "Import", "tools/fmfr_import.png", "",
         ["textFMFRIMPORT", "FMFR_IMPORT"],
         () => {
             ui.fmfr_import.FMFR_IMPORT.onblur = () => { importFMFRSave(); };
@@ -957,7 +1096,7 @@ OR Length of one repeat: <input id="patternCalcRepeatSecs" placeholder="29.7" ty
 calcname: new Tool(
         `
 
-`, "", "tools/fmfr_import.png",
+`, "", "tools/fmfr_import.png", "",
         [],
         () => { },
         () => { }

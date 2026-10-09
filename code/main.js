@@ -1,4 +1,4 @@
-// copyright don't steal blablabla
+﻿// copyright don't steal blablabla
 
 // Reset is at 24:00 (summer, +2) / / 23:00 (winter, +1)
 // consider our zone
@@ -15,62 +15,54 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 const FPS = 15;
 
-var currentVersion = "v1.8";
-var currentVersionDate = "(2026-09-20)";
+var currentVersion = "v1.9";
+var currentVersionDate = "(2026-10-09)";
 var patchNotes = `
-v1.8:
+-> Posupg Calc:
+- Massive new tool (Other subcategory)
+- Re-uses the heatmap's UI system, calculates costs of Position Upgrades
+- Levels of the 4 Mastery Boosts and the Achievement Boost that reduce costs can be set
+- Switch between tabs at the bottom, all 5 are available, with all 20 positions each
+
+- Use the two buttons right above the positions to toggle between: setting currently owned levels, setting target levels
+- Click on a position to set its level
+- Use the Set all button in the top right to set levels for all 20 positions
+- Use the (admittedly small) buttons on the left to set levels for all 4 positions in that row
+- Owned level and target level are displayed on the positions (highlighted depending on current mode)
+- Target level is +1 by default, set it to 0 to have +1 again
+- When setting the target level for a single position, you can type it in the +100 format to base it off the owned level (it's inserted once, so when the owned level changes, this stays the same)
+
+- The combined costs and amount of levels are displayed at the top
+- Hover over a position to only see the costs and levels for that one
+- Fullscreen option is available here as well
+- You can enter how much of the currency you have and then it calculates the levels possible with that amount (even distribution), this does not overwrite your set levels/targets
+- Automatically saves your levels & more! (Every time something gets calculated)
+- Tab 3 getting Mastery Tokens back is not considered
+- Special thanks to cubruce and Baydırman for the tab 1 cost formula past level 1000 (which was not listed anywhere, the other website & wiki both had it wrong)
+- Special thanks to Mike9090 for suggesting this idea that definitely did not escalate
+
+-> Storm Mastery Calc:
+- New tool (Other subcategory)
+- Enter start and end level to see how much a SM upgrade costs
+- Enter level, progress and type of mastery (such as Wrench Storms) to see an approximation of how many items, storms & hours that is
+
 -> Merge Heatmap:
-- Massive new tool that simulates merging from SC2 from the ground up, to track merges and then show optimal pos for Position Upgrades
-- Includes the 20 barrels field (with the first 20 barrels of the game), merging & converting
-- Results can show: Merges to, Merges from, Converts
-- Top displays the amount of merges and converts (instead of Scrap and Magnets)
+- Merging no longer moves the barrel to the middle of the mouse, to be closer to SC2 than Fanmade
+- Added setting at the bottom of the tool, if you wish to revert this change
 
-- Some extra tools to help you are included:
-- Reset tracking (a hard reset that sets things like merges to 0)
-- Clear all pos (sets all barrels to barrel 1, tracking is kept)
-- Undo last step (reverts one merge, one convert, or one auto merge session)
-- Fullscreen (makes it take up the entire screen like the web version of FMFR)
-- Auto merge (simulated SC2's auto merge, can do 1 to 100000 merges at once, is included in tracking)
+-> Wiki:
+- Added buttons leading to a relevant wiki article to a lot of tools, next to the Clear button
+- Other Scrap content: replaced links to Global Challenge and Combine Tokens with a link to a list of all articles, because CombCalc has branched out a lot more by now
 
--> Merge Pattern Calc:
-- New tool that explains patterns and tiers, and lets you figure out two things:
-- How fast each repeat of the pattern has to be, to get a certain merge goal
-- How many merges the FB will have, if every repeat takes a certain duration
-- Additional milestones (up to 3s faster and 3s slower, so 7 numbers) will be shown in a table at the bottom
+-> Share:
+- Added buttons for sharing to all tools
+- Click it to copy an URL for CombCalc that directly jumps to this tool when opened
+- Useful to share a tool without the other person having to search for it
 
--> Barrel Production Calc:
-- This tool is not only found under SC2 but also FR, because it works for both, however FR can have more factors. These can now be considered, with new options only visible when viewing it from the FR category.
-- Stronger Barrel Tiers level (0 - 200, increases the 3^)
-- Second Dimension toggle (1.1^ instead of 3^)
-
--> Subcategories:
-- New Scrap 2 subcategory: Merging
-- The only subcategories of Scrap Collector and SC2FMFR now say "(All)" to avoid confusion
-
--> Tool design:
-- Result lines now blink yellow and have a slightly darker background
-- Result lines now say Result: for easier finding and consistency
-- Hover effect lingers for longer
-- Images on the left are a bit smaller
-
--> Bottom boxes:
-- Changed design a bit
-- Moved Other Scrap content / wiki box into Info
-- Turned legal links and Discord info into lists
-- Added Latest patch notes headline
-- Added dedicated box for Settings
-
--> Settings:
-- Moved hard reset and tracker for optimized render updates (which is now more clear) here
-- Added Setting to disable the new Result text flashing effect
-- Added Setting to make tool boxes always wide (not expanding when hovered)
-- Added Setting to perform all UI updates, even when unnecessary (see: v1.7.1)
-
--> Other:
-- Added WGGJ v1.7 for the Merge Heatmap
-- Improved initialization of tool texts
-- Import tool: when something goes wrong, the text now gets updated & shows the save length
-- Removed some exclamation marks so nobody thinks it could be an unexpected factorial
+-> PWA:
+- Added PWA support, meaning CombCalc can basically be "installed" on PC and mobile
+- It works when offline, and auto updates when online
+- It doesn't have the browser-own extra bars and buttons at the top/bottom
 `;
 
 function updatePatchNotes() {
@@ -229,6 +221,18 @@ function toggleFullWidthBoxes() {
     reloadSettings();
 }
 
+// share
+var shareLocation = window.location.hash;
+if (shareLocation.substr(0, 1) == "#") shareLocation = shareLocation.substr(1);
+
+if (shareLocation !== "" && tools[shareLocation] != undefined) {
+    for (let cat in categories) {
+        if (categories[cat].contents.includes(shareLocation)) {
+            clickCategory(cat);
+            document.getElementById(shareLocation).scrollIntoView();
+        }
+    }
+}
 
 // LOOP
 function loop() {
@@ -272,6 +276,15 @@ images = {
     "mergefrompos": "mergefrompos.png",
     "mergetopos": "mergetopos.png",
     "convertpos": "convertpos.png",
+
+    "levels": "levels.png",
+    "posx4": "posx4.png",
+
+    "tab1": "tabs/tab1.png",
+    "tab2": "tabs/tab2.png",
+    "tab3": "tabs/tab3.png",
+    "tab4": "tabs/tab4.png",
+    "tab5": "tabs/tab5.png",
 }
 
 var wggjIsStarted = false;

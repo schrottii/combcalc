@@ -1,4 +1,4 @@
-format: yyyy-mm-dd
+﻿format: yyyy-mm-dd
 
 # List of Updates
 ## 2024
@@ -242,3 +242,52 @@ format: yyyy-mm-dd
 - Improved initialization of tool texts
 - Import tool: when something goes wrong, the text now gets updated & shows the save length
 - Removed some exclamation marks so nobody thinks it could be an unexpected factorial
+
+
+
+### v1.9 2026-10-09
+-> Posupg Calc:
+- Massive new tool (Other subcategory)
+- Re-uses the heatmap's UI system, calculates costs of Position Upgrades
+- Levels of the 4 Mastery Boosts and the Achievement Boost that reduce costs can be set
+- Switch between tabs at the bottom, all 5 are available, with all 20 positions each
+
+- Use the two buttons right above the positions to toggle between: setting currently owned levels, setting target levels
+- Click on a position to set its level
+- Use the Set all button in the top right to set levels for all 20 positions
+- Use the (admittedly small) buttons on the left to set levels for all 4 positions in that row
+- Owned level and target level are displayed on the positions (highlighted depending on current mode)
+- Target level is +1 by default, set it to 0 to have +1 again
+- When setting the target level for a single position, you can type it in the +100 format to base it off the owned level (it's inserted once, so when the owned level changes, this stays the same)
+
+- The combined costs and amount of levels are displayed at the top
+- Hover over a position to only see the costs and levels for that one
+- Fullscreen option is available here as well
+- You can enter how much of the currency you have and then it calculates the levels possible with that amount (even distribution), this does not overwrite your set levels/targets
+- Automatically saves your levels & more! (Every time something gets calculated)
+- Tab 3 getting Mastery Tokens back is not considered
+- Special thanks to cubruce and Baydırman for the tab 1 cost formula past level 1000 (which was not listed anywhere, the other website & wiki both had it wrong)
+- Special thanks to Mike9090 for suggesting this idea that definitely did not escalate
+
+-> Storm Mastery Calc:
+- New tool (Other subcategory)
+- Enter start and end level to see how much a SM upgrade costs
+- Enter level, progress and type of mastery (such as Wrench Storms) to see an approximation of how many items, storms & hours that is
+
+-> Merge Heatmap:
+- Merging no longer moves the barrel to the middle of the mouse, to be closer to SC2 than Fanmade
+- Added setting at the bottom of the tool, if you wish to revert this change
+
+-> Wiki:
+- Added buttons leading to a relevant wiki article to a lot of tools, next to the Clear button
+- Other Scrap content: replaced links to Global Challenge and Combine Tokens with a link to a list of all articles, because CombCalc has branched out a lot more by now
+
+-> Share:
+- Added buttons for sharing to all tools
+- Click it to copy an URL for CombCalc that directly jumps to this tool when opened
+- Useful to share a tool without the other person having to search for it
+
+-> PWA:
+- Added PWA support, meaning CombCalc can basically be "installed" on PC and mobile
+- It works when offline, and auto updates when online
+- It doesn't have the browser-own extra bars and buttons at the top/bottom

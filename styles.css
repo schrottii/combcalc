@@ -129,6 +129,7 @@ canvas:hover {
     float: right;
     min-height: 40px;
     min-width: 80px;
+    margin-right: 8px;
 }
 
 .boxButton:hover {
@@ -158,7 +159,9 @@ canvas:hover {
     }
 
     .boxButton {
+        min-width: 40px;
         max-width: 60px;
+        margin-right: 1px;
     }
 }
 

@@ -1,0 +1,21 @@
+{
+  "name": "CombCalc",
+  "short_name": "CombCalc",
+  "theme_color": "#9A98FF",
+  "background_color": "#597EFF",
+  "icons": [
+    {
+      "src": "images/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "start_url": "index.html"
+}

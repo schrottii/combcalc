@@ -2,10 +2,11 @@ var necessaryUIUpdates = 1;
 var unnecessaryUIUpdates = 0;
 
 class Tool {
-    constructor(html, displayName, iconImage, ui, init, updater) {
+    constructor(html, displayName, iconImage, wikiArticle, ui, init, updater) {
         this.html = html;
         this.displayName = displayName;
         this.iconImage = iconImage;
+        this.wikiArticle = wikiArticle;
         this.ui = ui;
         this.init = init;
         this.updater = updater;
@@ -17,12 +18,14 @@ class Tool {
     generateHTML() {
         return `
         <img src="images/${this.iconImage}" class="boxImg" />
-        <div class="box boxSize">
-        <h3 style="width: 100%; background-color: #18005b; margin-top: 0px;">
-        ${this.displayName}` +
-        (this.ui.length > 1 ? `<button class="boxButton" onclick="clearTool('${this.displayName}')">Clear</button>` : "")
-        + `</h3>`
-        + this.html + "</div>";
+        <div class="box boxSize" id="${this.displayName}">
+        <h3 style="width: 100%; background-color: #18005b; margin-top: 0px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;">
+        <span style="grid-column: 2;"> ${this.displayName}</span> <span style="display: flex; grid-column: 3; justify-self: end;">`
+            + `<button class="boxButton" onclick="shareTool('${this.displayName}')">Share</button>`
+            + (this.ui.length > 1 ? `<button class="boxButton" onclick="clearTool('${this.displayName}')">Clear</button>` : "")
+            + (this.wikiArticle !== "" ? `<button class="boxButton" onclick="window.open('` + "https://official-scrap-2.fandom.com/wiki/" + this.wikiArticle.replaceAll(" ", "_") + `');">Wiki</button>` : "")
+            + "</span></h3>"
+            + this.html + "</div>";
     }
 
     render() {
@@ -42,6 +45,10 @@ class Tool {
     initUI() {
         if (saveData.userInputs[this.toolname] == undefined) saveData.userInputs[this.toolname] = {};
         if (ui[this.toolname] == undefined) return false;
+
+        if (document.getElementById(this.displayName) && this.toolname !== "") {
+            document.getElementById(this.displayName).id = this.toolname;
+        }
 
         for (let uie of this.ui) {
             if (uie.substr(0, 4) !== "text") {
@@ -137,6 +144,20 @@ function clearTool(displayName) {
         if (tools[tool].displayName == displayName || displayName === "all") {
             tools[tool].clear();
             if (displayName !== "all") break;
+        }
+    }
+}
+
+function shareTool(displayName) {
+    for (let tool in tools) {
+        if (tools[tool].displayName == displayName) {
+            let url = window.location.toString();
+            if (url.includes("#")) url = url.split("#")[0]; // if you already got here via share, don't keep that bit
+            url = url + "#" + tools[tool].toolname;
+
+            navigator.clipboard.writeText(url);
+            alert("Copied link to this tool to clipboard:\n" + url);
+            break;
         }
     }
 }
