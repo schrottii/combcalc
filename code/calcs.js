@@ -575,7 +575,7 @@ Currency type: </td><td> <select name="masteryType" id="smCalc_masteryType">
                 let stormTime = Math.floor(totalStorms / (60 / 25)); // every 5 mins 20% chance so 25 mins
 
                 let render = "You have collected this item " + totalItems + " times <sup>(Since unlocking Storm Mastery)</sup><br />That is ~" + totalStorms + " storms; " + stormTime + " hours.";
-                if (masteryType == "tires") render += "<br />Note: this assumes every Tire Storm was worth 20";
+                if (masteryType == "tires") render += "<br />Note: this assumes every Tire Storm was worth 40";
 
                 ui.stormMasteryCalc.smCalcText2.innerHTML = render;
             }
