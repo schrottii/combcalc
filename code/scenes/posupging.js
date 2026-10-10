@@ -85,11 +85,11 @@ function calcPosupgCost(tab, startLevel, endLevel = -1) {
             for (let l = startLevel; l < endLevel; l++) {
                 if (l <= 400) price += Math.pow(10, 9) * l;
                 else if (l <= 500) price += 1.05 * Math.pow(10, 9) * l;
-                else if (l <= 1000) price += 1.05 * 1.2 * Math.ceil((l - 500) / 100) * Math.pow(10, 9) * l;
+                else if (l <= 1001) price += 1.05 * Math.pow(1.2, Math.ceil((l - 500) / 100)) * Math.pow(10, 9) * l;
                 //else price += 1.05 * Math.pow(Math.min(2, 1.2 + 0.1 * Math.floor((l - 1000) / 100)), Math.ceil((l - 500) / 100)) * Math.pow(10, 9) * l;
                 else price += Math.pow(10, 9) * l * 1.05 * Math.pow(1.2, 6)
-                    * (factorial(13 + Math.max(0, Math.ceil((Math.min(1700, l) - 1100) / 100)))
-                        / (factorial(12) * Math.pow(10, 1 + Math.ceil((Math.min(1700, l) - 1100) / 100))))
+                    * (factorial(12 + Math.max(0, Math.ceil((Math.min(1800, l) - 1100) / 100)))
+                        / (factorial(12) * Math.pow(10, 1 + Math.ceil((Math.min(1800, l) - 1100) / 100))))
                     * Math.pow(2, Math.max(0, Math.floor((l - 1700) / 100)));
             }
 
@@ -109,7 +109,8 @@ function calcPosupgCost(tab, startLevel, endLevel = -1) {
         case 3:
             for (let l = startLevel; l < endLevel; l++) {
                 if (l <= 500) price += l;
-                else price += l * Math.pow(2, (l - 500) / 100);
+                //else price += l * Math.pow(2, (l - 500) / 100);
+                else price += Math.floor(l * Math.floor(Math.pow(1.007, l - 1 - 500) * 100) / 100);
             }
 
             price = price * calcPosupgReduction("achievementBoost", posupgCalcFactors.achievementBoost) * calcPosupgReduction("m25", posupgCalcFactors.mastery25);
@@ -117,7 +118,7 @@ function calcPosupgCost(tab, startLevel, endLevel = -1) {
 
         case 4:
             for (let l = startLevel; l < endLevel; l++) {
-                price += 2.5 * Math.pow(10, 6) * Math.pow(1.15, l - 1) * l;
+                price += 2.5 * Math.pow(10, 6) * Math.pow(1.15, l - 1) * (l - 1);
             }
 
             price = price * calcPosupgReduction("achievementBoost", posupgCalcFactors.achievementBoost) * calcPosupgReduction("m18", posupgCalcFactors.mastery18);
@@ -432,10 +433,6 @@ scenes["posupging"] = new Scene(
             objects["posx4" + i].i = i;
         }
 
-        // start up
-        objects["bottom_btn_tab" + (posupgSelectedTab)].color = "#137204";
-        objects["counter_img"].image = "tab" + posupgSelectedTab;
-
         // load backup :-)
         if (saveData.posupgCalc != undefined) {
             if (saveData.posupgCalc.levels != undefined) posupgLevels = saveData.posupgCalc.levels;
@@ -443,6 +440,10 @@ scenes["posupging"] = new Scene(
             if (saveData.posupgCalc.selectedTab != undefined) posupgSelectedTab = saveData.posupgCalc.selectedTab;
             if (saveData.posupgCalc.finishedCalc != undefined) posupgFinishedCalculation = saveData.posupgCalc.finishedCalc;
         }
+
+        // start up
+        objects["bottom_btn_tab" + (posupgSelectedTab)].color = "#137204";
+        objects["counter_img"].image = "tab" + posupgSelectedTab;
 
         tools.posupgCalc.updater(); // reload values for the reductions (when they came from cache)
         posupgsCalcCosts();
