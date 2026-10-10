@@ -90,7 +90,7 @@ function calcPosupgCost(tab, startLevel, endLevel = -1) {
                 else price += Math.pow(10, 9) * l * 1.05 * Math.pow(1.2, 6)
                     * (factorial(12 + Math.max(0, Math.ceil((Math.min(1800, l) - 1100) / 100)))
                         / (factorial(12) * Math.pow(10, 1 + Math.ceil((Math.min(1800, l) - 1100) / 100))))
-                    * Math.pow(2, Math.max(0, Math.floor((l - 1700) / 100)));
+                    * Math.pow(2, Math.max(0, Math.floor((l - 1701) / 100)));
             }
 
             price = price * calcPosupgReduction("achievementBoost", posupgCalcFactors.achievementBoost);
