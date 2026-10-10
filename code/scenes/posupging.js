@@ -87,7 +87,7 @@ function calcPosupgCost(tab, startLevel, endLevel = -1) {
                 else if (l <= 500) price += 1.05 * Math.pow(10, 9) * l;
                 else if (l <= 1001) price += 1.05 * Math.pow(1.2, Math.ceil((l - 500) / 100)) * Math.pow(10, 9) * l;
                 //else price += 1.05 * Math.pow(Math.min(2, 1.2 + 0.1 * Math.floor((l - 1000) / 100)), Math.ceil((l - 500) / 100)) * Math.pow(10, 9) * l;
-                else price += Math.pow(10, 9) * l * 1.05 * Math.pow(1.2, 6)
+                else price += Math.pow(10, 10) * l * 1.05 * Math.pow(1.2, 6)
                     * (factorial(12 + Math.max(0, Math.ceil((Math.min(1800, l) - 1100) / 100)))
                         / (factorial(12) * Math.pow(10, 1 + Math.ceil((Math.min(1800, l) - 1100) / 100))))
                     * Math.pow(2, Math.max(0, Math.floor((l - 1701) / 100)));
